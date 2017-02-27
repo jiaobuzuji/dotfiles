@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# -----------------------------------------------
+# Author : Jiaobuzuji@163.com
+# Source : https://github.com/Valloric/dotfiles/
+# -----------------------------------------------
+
 git config --global user.name "Jiaobuzuji"
 git config --global github.user jiaobuzuji
 
