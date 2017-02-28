@@ -72,7 +72,7 @@ function DebInstall()
 }
 
 echo -e "\n\nDeb install ...\n"
-deb_list=$(git config --get-all download.url)
+deb_list=$(git config --get-all deb.url)
 if [[ $deb_list != "" ]]; then
     mkdir -p ${DED_DIR}
 fi
