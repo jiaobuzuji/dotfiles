@@ -78,7 +78,10 @@ if [[ $deb_list != "" ]]; then
 fi
 for i in ${deb_list}; do
     if [[ $i != "" ]]; then
-        DebInstall $i
+        read -n1 -p "download the '${i}' package ? (y/N) " ans
+        if [[ $ans =~ [Yy] ]]; then
+            DebInstall $i
+        fi
     fi
 done
 
