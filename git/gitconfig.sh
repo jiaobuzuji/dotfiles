@@ -16,6 +16,12 @@ then
 fi
 
 # -----------------------------------------------------------------
+# Using proxy to connect github.com when you are in China!
+# Double check your Socks HOST and PORT
+git config --global http.http://github.com.proxy http://127.0.0.1:1080
+git config --global https.https://github.com.proxy https://127.0.0.1:1080
+
+# -----------------------------------------------------------------
 git config --global alias.st status
 git config --global alias.co checkout
 git config --global alias.ci commit
@@ -33,7 +39,7 @@ git config --global alias.sub submodule
 # 
 # git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 # 
-# git config --global color.ui true
+git config --global color.ui true
 # 
 # git config --global diff.tool kdiff3
 # git config --global difftool.prompt false

@@ -27,35 +27,37 @@ INSTALLALL="sudo apt-get install ${NOPROMPT}"
 
 # pre-install
 export GIT_CONFIG
-${INSTALLALL} automake autoconf curl wget git checkinstall ctags cscope
-
-ARCH=$(git config --get-all info.arch)
-if [[ ${ARCH} == "x64" ]]; then
-    echo -e "\n\nAdding i386 packages support ...\n"
-    sudo dpkg --add-architecture i386
-fi
-
-ppa_list=$(git config --get-all repo.ppa)
-echo -e "\n\nadding ppa ...\n"
-for i in ${ppa_list}; do
-    if [[ $i != "" ]]; then
-        sudo add-apt-repository -y $i || echo -e "apt-add-repository failed : $i\n"
-        sleep 1
-    fi
-done
 
 read -n1 -p "update source? (y/N) " ans
 if [[ $ans =~ [Yy] ]]; then
+    sudo apt-get update
+    ${INSTALLALL} automake autoconf curl wget git checkinstall ctags cscope
+
+    ARCH=$(git config --get-all info.arch)
+    if [[ ${ARCH} == "x64" ]]; then
+        echo -e "\n\nAdding i386 packages support ...\n"
+        sudo dpkg --add-architecture i386
+    fi
+
+    ppa_list=$(git config --get-all repo.ppa)
+    echo -e "\n\nadding ppa ...\n"
+    for i in ${ppa_list}; do
+        if [[ $i != "" ]]; then
+            sudo add-apt-repository -y $i || echo -e "apt-add-repository failed : $i\n"
+            sleep 1
+        fi
+    done
+
     sudo apt-get update
     # sudo apt-get upgrade
 fi
 
 
 # install apt
-echo -e "\n\nApt install ...\n"
 apt_list=$(git config --get-all apt.packages)
 for i in ${apt_list}; do
     if [[ $i != "" ]]; then
+	echo -e "\n\nApt '$i' will install ...\n"
         ${INSTALLALL} $i || echo -e "apt-get install failed : $i\n"
     fi
 done
