@@ -18,8 +18,12 @@ fi
 # -----------------------------------------------------------------
 # Using proxy to connect github.com when you are in China!
 # Double check your Socks HOST and PORT
-git config --global http.http://github.com.proxy http://127.0.0.1:1080
-git config --global https.https://github.com.proxy https://127.0.0.1:1080
+# enable proxy
+# git config --global http.http://github.com.proxy http://127.0.0.1:1080
+# git config --global https.https://github.com.proxy https://127.0.0.1:1080
+# disable proxy
+# git config --global -unset http.proxy
+# git config --global -unset https.proxy
 
 # -----------------------------------------------------------------
 git config --global alias.st status

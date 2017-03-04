@@ -96,10 +96,10 @@ done
 # # Remove default tools
 # # sudo apt-get remove vim-tiny vim-common vim-gui-common vim-nox vim-runtime vim gvim
 # 
-# # -----------------------------------------------
-# # Remove cache
-# echo -e "\nAll done!!Clean ...\n"
-# sudo apt-get autoremove
-# sudo apt-get autoclean
-# sudo apt-get clean
+# -----------------------------------------------
+# Remove cache
+echo -e "\nAll done!!Clean ...\n"
+sudo apt-get autoremove -y
+sudo apt-get autoclean
+sudo apt-get clean
 
