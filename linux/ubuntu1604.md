@@ -10,10 +10,13 @@
 3, sudo reboot
 
 # rc.local
-由于ubuntu的 /bin/sh 直接link到 dash （注意！不是bash）。所以在 rc.local中，要注意脚本语法的兼容性。
+由于ubuntu的 /bin/sh 直接link到 dash （注意！不是bash）
+1,所以在 rc.local中，要注意脚本语法的兼容性。
 例如，dash是没有 'source' 这命令的。
 例如：usr/bin/mystar >& /dev/null &         # dash报错，bash和csh不会报错
 /usr/bin/mystar > /dev/null 2>&1     # dash兼容
 
 /bin/sh -e
 　　就是这个 -e ，只要任何一条命令出错，脚本就会停止执行。
+2,将 /bin/sh 直接软链接回 /bin/bash
+  ln -sf /bin/bash /bin/sh
