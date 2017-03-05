@@ -20,3 +20,12 @@
 　　就是这个 -e ，只要任何一条命令出错，脚本就会停止执行。
 2,将 /bin/sh 直接软链接回 /bin/bash
   ln -sf /bin/bash /bin/sh
+
+# libtiff.so.3
+  由于EDA工具使用了比较旧的工具库，所以需要从 /usr/lib/x86_64.../libtiff.so.5 软链接过去
+
+# libmng.so.1
+  由于EDA工具使用了比较旧的工具库，所以需要从 /usr/lib/x86_64.../libmng.so.2 软链接过去
+
+# 安装 gcc 4.4
+  Synopsys 的 EDA 工具，是采用 ReadHat 4 编译而来的，而且运行其工具时，也经常要使用到相对比较老版本的 gcc 4.4。所以要安装 gcc 4.4
