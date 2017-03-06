@@ -27,5 +27,15 @@
 # libmng.so.1
   由于EDA工具使用了比较旧的工具库，所以需要从 /usr/lib/x86_64.../libmng.so.2 软链接过去
 
+# libXi.so.6
+  由于 incisiv 是采用了 32bit的 libXi.so.6, 而目前的 ubuntu 一般都是64 bit的啦。所以有点问题：
+  Ubuntu 13.10 以及 以後的發行版 64 bit 都是 multiarch意思是 如果你要從 Ubuntu 13.10 套件庫 安裝任何 32 bit 套件直接安裝 32 bit 套件就可以不必事先額外安裝任何套件
+
+```
+  sudo dpkg --add-architecture i386
+  sudo apt update
+  sudo apt install libxi6:i386
+```
+
 # 安装 gcc 4.4
   Synopsys 的 EDA 工具，是采用 ReadHat 4 编译而来的，而且运行其工具时，也经常要使用到相对比较老版本的 gcc 4.4。所以要安装 gcc 4.4
