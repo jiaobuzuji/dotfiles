@@ -38,4 +38,27 @@
 ```
 
 # 安装 gcc 4.4
-  Synopsys 的 EDA 工具，是采用 ReadHat 4 编译而来的，而且运行其工具时，也经常要使用到相对比较老版本的 gcc 4.4。所以要安装 gcc 4.4
+  Synopsys 的 EDA 工具，有些是采用 ReadHat 4 编译而来的，而且运行其工具时，也经常要使用到相对比较老版本的 gcc 4.4。所以要安装 gcc 4.4
+  例如：VCS，此时的可以采用 cadence 的 IES 来暂时代替。
+
+# beyond compare 4
+  做好备份工作
+cd /usr/lib64/beyondcompare
+cp BCompare BCompare.bak
+
+  采用 sed 进行破解
+```
+sed -i "s/keexjEP3t4Mue23hrnuPtY4TdcsqNiJL-5174TsUdLmJSIXKfG2NGPwBL6vnRPddT7tH29qpkneX63DO9ECSPE9rzY1zhThHERg8lHM9IBFT+rVuiY823aQJuqzxCKIE1bcDqM4wgW01FH6oCBP1G4ub01xmb4BGSUG6ZrjxWHJyNLyIlGvOhoY2HAYzEtzYGwxFZn2JZ66o4RONkXjX0DF9EzsdUef3UAS+JQ+fCYReLawdjEe6tXCv88GKaaPKWxCeaUL9PejICQgRQOLGOZtZQkLgAelrOtehxz5ANOOqCaJgy2mJLQVLM5SJ9Dli909c5ybvEhVmIC0dc9dWH+/N9KmiLVlKMU7RJqnE+WXEEPI1SgglmfmLc1yVH7dqBb9ehOoKG9UE+HAE1YvH1XX2XVGeEqYUY-Tsk7YBTz0WpSpoYyPgx6Iki5KLtQ5G-aKP9eysnkuOAkrvHU8bLbGtZteGwJarev03PhfCioJL4OSqsmQGEvDbHFEbNl1qJtdwEriR+VNZts9vNNLk7UGfeNwIiqpxjk4Mn09nmSd8FhM4ifvcaIbNCRoMPGl6KU12iseSe+w+1kFsLhX+OhQM8WXcWV10cGqBzQE9OqOLUcg9n0krrR3KrohstS9smTwEx9olyLYppvC0p5i7dAx2deWvM1ZxKNs0BvcXGukR+/g" BCompare
+```
+  禁止bcompare联网查 license
+add "127.0.0.1 scootersoftware.com" to /etc/hosts
+
+  再上网找 license
+license:
+3VBz7pP0AZAbbQAFMVJp3VrZUPEVdJlv4OC9baY5mDS-Xah45ux44fRLN
+4fnBq46aUftmLNsYiwyayebJk2rMfSstmAgavsqoQfFLyHTOY94ozKYF1
+-ODbBigieKGqgGpNMOLFdtdB08FZy7P252sh1X4UbUoH8xWIlz6D0dfPM
+FaC7vXnDP4-Ck1A6K0CaCSVbcrWoWTmlPqKvRVu9wlNvV1KGr3C+GVf2e
+dawekH3EbiE2Nkxz5fDaoQetwPEVU+GDdOF1zhrytrdICBnTQkkSE5UvJ
+DGGx38l6PQ13BoaBW2hSHy5xxk4M8cfIcLTM7fOGfBBY5mRhe5aLoZQCU
+
