@@ -1,3 +1,7 @@
+# firefox 安装 adobe flash
+download flash.tar.gz file
+
+
 # 修改网卡名称
 升级或者新安装了 ubuntu 16.04 之后,你会发现16.04 已经通过udev和systemd 管理的网卡命名.你ifconfig 下会发现eth0 变成了enp4s0f1 wlan0变成了wlp3s0.
 

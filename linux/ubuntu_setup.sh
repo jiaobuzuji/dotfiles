@@ -17,11 +17,14 @@ else
     ln -s $(pwd)/profile ${HOME}/.profile
 fi
 
+# # set the separator to \n
+OLD_IFS="$IFS"
 
 # -----------------------------------------------
 # install something
 GIT_CONFIG="./ubuntu.ini"
 DED_DIR="${HOME}/Downloads/debs/"
+SRC_DIR="${HOME}/Downloads/buildsrc"
 # NOPROMPT=-y # uncomment to disable PROMPT during installation
 INSTALLALL="sudo apt-get install ${NOPROMPT}"
 
@@ -57,7 +60,7 @@ fi
 apt_list=$(git config --get-all apt.packages)
 for i in ${apt_list}; do
     if [[ $i != "" ]]; then
-	echo -e "\n\nApt '$i' will install ...\n"
+        echo -e "\n\nApt '$i' will install ...\n"
         ${INSTALLALL} $i || echo -e "apt-get install failed : $i\n"
     fi
 done
@@ -65,12 +68,16 @@ done
 # install deb package
 function DebInstall()
 {
+    IFS=","
+    # for i in $1
     local filename="${DED_DIR}/tmp$(date +%Y%m%d%H%M%S).deb"
         wget -c $1 -O ${filename}  || echo -e "Wget $1 failed\n"
         sudo dpkg -i ${filename} || ( sudo apt-get -f install --fix-missing -y; sudo dpkg -i ${filename}  \
             || echo -e "dpkg install ${filename}  form $1 failed\n")
+    IFS=$'\x0A'
 }
 
+IFS=$'\x0A'
 echo -e "\n\nDeb install ...\n"
 deb_list=$(git config --get-all deb.url)
 if [[ $deb_list != "" ]]; then
@@ -85,17 +92,67 @@ for i in ${deb_list}; do
     fi
 done
 
-# # SOURCEDIR="${HOME}/Downloads/buildsrc"
-# # mkdir -p ${SOURCEDIR}
+# Build Source
+function child_shell_execute()
+{
+    local tmp="echo ${mypasswd} |sudo -S "
+    bash -c "$(echo $1 | sed "s/\<sudo\>/${tmp}/g")"
+}
 
-# # Build
-# # git clone --depth=1 https://github.com/ggreer/the_silver_searcher.git ${SOURCEDIR} && ${INSTALLALL} automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev && 
-# #./build.sh && sudo make install
-# 
+function BuildSrc()
+{
+    IFS=","
+    local -i count=0
+    local proj_str=""
+    for i in $1; do
+        case ${count} in
+            0 )
+                IFS=${OLD_IFS}
+                proj_dir=${SRC_DIR}/$(basename $i .git)
+                if [[ ! -d ${proj_dir}  ]]; then
+                    git clone --depth=1 $i ${proj_dir}/ || echo -e "git clone $i failed\n"
+                else
+                    echo -e "\n\nUpdating $(basename $i .git)'s source code ...\n"
+                    cd  ${proj_dir}
+                    git checkout -- .
+                    git pull || echo -e "Update source $(basename $i .git) failed\n"
+                fi
+                ;;
+            1 )
+                ${INSTALLALL} $i
+                ;;
+            2 )
+                child_shell_execute "cd ${proj_dir} && $i"
+                ;;
+            *)
+                echo -e "Wrong ini format in build section\n"
+                ;;
+        esac
+        let "count+=1"
+    done
+    cd ${ROOT_DIR}
+    IFS=$'\x0A'
+}
+
+IFS=$'\x0A'
+echo -e "\n\nInstall software from source ...\n"
+src_list=$(git config --get-all build.gitsrc)
+if [[ $src_list != "" ]]; then
+    mkdir -p ${SRC_DIR}
+fi
+for i in ${src_list}; do
+    if [[ $i != "" ]]; then
+        read -n1 -p "Install Source: '${i}' ? (y/N) " ans
+        if [[ $ans =~ [Yy] ]]; then
+            BuildSrc $i
+        fi
+    fi
+done
+
 # # -----------------------------------------------
 # # Remove default tools
 # # sudo apt-get remove vim-tiny vim-common vim-gui-common vim-nox vim-runtime vim gvim
-# 
+#
 # -----------------------------------------------
 # Remove cache
 echo -e "\nAll done!!Clean ...\n"
