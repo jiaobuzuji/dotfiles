@@ -1,0 +1,26 @@
+[user]
+	name = Jiaobuzuji
+	email = Jiaobuzuji@163.com
+[github]
+	user = jiaobuzuji
+[core]
+	editor = vim
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[alias]
+	st = status
+	co = checkout
+	ci = commit
+	h = help
+	sub = submodule
+	br = branch
+	mt = mergetool
+	d = difftool
+	dst = diff --staged
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	c1 = clone --depth=1
+[web]
+	browser = xdg-open
