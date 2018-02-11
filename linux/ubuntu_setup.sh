@@ -149,6 +149,8 @@ for i in ${src_list}; do
     fi
 done
 
+sudo snap install rg
+
 # # -----------------------------------------------
 # # Remove default tools
 # # sudo apt-get remove vim-tiny vim-common vim-gui-common vim-nox vim-runtime vim gvim
