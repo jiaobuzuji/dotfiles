@@ -5,35 +5,49 @@
 # Reference : https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
 # -----------------------------------------------
 
-# sudo make uninstall
-make clean
-make distclean
+sudo apt install libncurses5-dev libgnome2-dev libgnomeui-dev \
+    libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
+    libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
+    python3-dev ruby-dev lua5.1 lua5.1-dev libperl-dev git
 
+sudo make uninstall
+sudo make clean
+sudo make distclean
+sudo apt remove vim vim-runtime gvim
+
+# --enable-pythoninterp=dynamic
+# --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu
 #  --enable-luainterp=dynamic
-#  --enable-python3interp=dynamic
-#  --with-python3-config-dir=/usr/lib/python3.5/config
 #  --enable-rubyinterp=dynamic 
 #  --with-x
 ./configure \
-  --prefix=/usr \
-  --enable-fail-if-missing \
-  --disable-darwin \
-  --enable-gui=gtk3 \
-  --enable-xim \
-  --enable-fontset \
-  --with-features=huge \
-  --enable-perlinterp=dynamic \
-  --enable-pythoninterp=dynamic \
-  --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu \
-  --enable-tclinterp=dynamic \
-  --enable-cscope \
-  --enable-multibyte \
-  --with-compiledby=jiaobuzuji@163.com && \
-make
+ --enable-fail-if-missing \
+ --disable-darwin \
+ --enable-gui=gtk3 \
+ --enable-xim \
+ --enable-fontset \
+ --with-features=huge \
+ --enable-perlinterp=dynamic \
+ --enable-python3interp=dynamic \
+ --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
+ --enable-tclinterp=dynamic \
+ --enable-cscope \
+ --enable-terminal \
+ --enable-autoservername \
+ --enable-multibyte \
+ --enable-fontset \
+ --prefix=/usr \
+ --with-compiledby=jiaobuzuji@163.com
+make VIMRUNTIMEDIR=/usr/share/vim/vim80
 # make test
-sudo make install
-# sudo checkinstall
+
+# official install flow
+# sudo make install
 # make uninstall
+
+# package for Debain linux
+sudo checkinstall
+# sudo dpkg -r vim.git # uninstall
 
 sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
 sudo update-alternatives --set editor /usr/bin/vim
