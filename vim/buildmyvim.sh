@@ -15,29 +15,29 @@ sudo make clean
 sudo make distclean
 sudo apt remove vim vim-runtime gvim
 
-# --enable-pythoninterp=dynamic
-# --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu
 #  --enable-luainterp=dynamic
 #  --enable-rubyinterp=dynamic 
 #  --with-x
 ./configure \
- --enable-fail-if-missing \
- --disable-darwin \
- --enable-gui=gtk3 \
- --enable-xim \
- --enable-fontset \
- --with-features=huge \
- --enable-perlinterp=dynamic \
- --enable-python3interp=dynamic \
- --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
- --enable-tclinterp=dynamic \
- --enable-cscope \
- --enable-terminal \
- --enable-autoservername \
- --enable-multibyte \
- --enable-fontset \
- --prefix=/usr \
- --with-compiledby=jiaobuzuji@163.com
+  --enable-fail-if-missing \
+  --disable-darwin \
+  --enable-gui=gtk3 \
+  --enable-xim \
+  --enable-fontset \
+  --with-features=huge \
+  --enable-perlinterp=dynamic \
+  --enable-pythoninterp=dynamic \
+  --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu \
+  --enable-python3interp=dynamic \
+  --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
+  --enable-tclinterp=dynamic \
+  --enable-cscope \
+  --enable-terminal \
+  --enable-autoservername \
+  --enable-multibyte \
+  --enable-fontset \
+  --prefix=/usr \
+  --with-compiledby=jiaobuzuji@163.com
 make VIMRUNTIMEDIR=/usr/share/vim/vim80
 # make test
 
