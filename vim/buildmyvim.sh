@@ -5,19 +5,21 @@
 # Reference : https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
 # -----------------------------------------------
 
-sudo apt install libncurses5-dev libgnome2-dev libgnomeui-dev \
-    libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
-    libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
-    python3-dev ruby-dev lua5.1 lua5.1-dev libperl-dev git
+# sudo apt install libncurses5-dev libgnome2-dev libgnomeui-dev \
+#     libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
+#     libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
+#     python3-dev ruby-dev lua5.1 lua5.1-dev libperl-dev git
 
-sudo make uninstall
-sudo make clean
-sudo make distclean
-sudo apt remove vim vim-runtime gvim
+# sudo make uninstall
+# sudo make clean
+# sudo make distclean
+# sudo apt remove vim vim-runtime gvim
 
-#  --enable-luainterp=dynamic
-#  --enable-rubyinterp=dynamic 
-#  --with-x
+# --enable-luainterp=dynamic
+# --enable-rubyinterp=dynamic
+# --enable-pythoninterp=dynamic
+# --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu
+# --with-x
 ./configure \
   --enable-fail-if-missing \
   --disable-darwin \
@@ -26,8 +28,6 @@ sudo apt remove vim vim-runtime gvim
   --enable-fontset \
   --with-features=huge \
   --enable-perlinterp=dynamic \
-  --enable-pythoninterp=dynamic \
-  --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu \
   --enable-python3interp=dynamic \
   --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
   --enable-tclinterp=dynamic \
