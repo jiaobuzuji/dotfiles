@@ -66,3 +66,10 @@ FaC7vXnDP4-Ck1A6K0CaCSVbcrWoWTmlPqKvRVu9wlNvV1KGr3C+GVf2e
 dawekH3EbiE2Nkxz5fDaoQetwPEVU+GDdOF1zhrytrdICBnTQkkSE5UvJ
 DGGx38l6PQ13BoaBW2hSHy5xxk4M8cfIcLTM7fOGfBBY5mRhe5aLoZQCU
 
+# perl 安装 modules
+出现了如下错误时，`Can't locate IO/File.pm in @INC`
+时，可以使用下面语句进行安装：
+```bash
+sudo perl -MCPAN -e shell
+install IO::File
+```
