@@ -10,10 +10,10 @@
 #     libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
 #     python3-dev ruby-dev lua5.1 lua5.1-dev libperl-dev git
 
-# sudo make uninstall
-# sudo make clean
-# sudo make distclean
-# sudo apt remove vim vim-runtime gvim
+sudo make uninstall
+sudo make clean
+sudo make distclean
+sudo apt remove vim vim-runtime gvim
 
 # --enable-luainterp=dynamic
 # --enable-rubyinterp=dynamic
@@ -23,7 +23,7 @@
 ./configure \
   --enable-fail-if-missing \
   --disable-darwin \
-  --enable-gui=gtk3 \
+  --enable-gui=auto \
   --enable-xim \
   --enable-fontset \
   --with-features=huge \
