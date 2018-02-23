@@ -71,5 +71,5 @@ DGGx38l6PQ13BoaBW2hSHy5xxk4M8cfIcLTM7fOGfBBY5mRhe5aLoZQCU
 时，可以使用下面语句进行安装：
 ```bash
 sudo perl -MCPAN -e shell
-install IO::File
+install IO::Tee
 ```
