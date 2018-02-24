@@ -20,6 +20,8 @@ sudo apt remove vim vim-runtime gvim
 # --enable-pythoninterp=dynamic
 # --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu
 # --with-x
+# CFLAGS="-g -DDEBUG -Wall -Wshadow -Wmissing-prototypes"
+
 ./configure \
   --enable-fail-if-missing \
   --disable-darwin \
@@ -35,7 +37,6 @@ sudo apt remove vim vim-runtime gvim
   --enable-terminal \
   --enable-autoservername \
   --enable-multibyte \
-  --enable-fontset \
   --prefix=/usr \
   --with-compiledby=jiaobuzuji@163.com
 make VIMRUNTIMEDIR=/usr/share/vim/vim80
