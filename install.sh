@@ -36,6 +36,22 @@ function lnif() {
     debug
 }
 
+function pkg_check()
+{
+  for i in $1
+  do
+    which $i > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+      ret='1'
+      error "Check package '$i' FAIL.Please install it manually!"
+    else
+      ret='0'
+      success "Check package '$i' successfully!"
+    fi
+  done
+}
+
+
 # SETUP FUNCTIONS {{{1
 function sync_repo() {
     local repo_path="$1"
@@ -55,12 +71,29 @@ function sync_repo() {
         ret="$?"
         success "Successfully updated $repo_name"
     fi
-
     debug
 }
 
 # MAIN() {{{1
-echo -e "\nOS Kernel is $OS\n"
+# Environment message
+msg "\nOS Kernel is `uname`"
+msg "`lsb_release -d`\n"
+
+# install packages
+linux_distributor=$(lsb_release -i | cut -f2)
+
+if [ $linux_distributor == "Ubuntu" ]; then
+  pkg_check "apt-get"
+  # source ubuntu
+elif [ $linux_distributor == "Centos" ]; then
+  pkg_check "yum"
+else
+  msg "Not support this distributor."
+  msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
+  exit 1
+fi
+
+# install vim
 # sync_repo       "$APP_PATH" \
 #                 "$REPO_URI" \
 #                 "$REPO_BRANCH" \
@@ -68,8 +101,8 @@ echo -e "\nOS Kernel is $OS\n"
 
 # lnif "$source_path/.vimrc.before"  "$target_path/.vimrc.before"
 
-msg             "\nThanks for installing ."
-msg             "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
+msg "\nThanks for installing ."
+msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
 
 
 # -----------------------------------------------
