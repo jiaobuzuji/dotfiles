@@ -84,7 +84,6 @@ msg "`lsb_release -d`\n"
 
 
 # Install packages {{{2
-
 linux_distributor=$(lsb_release -i | cut -f2)
 sync_repo  "$REPO_PATH" \
            "https://github.com/jiaobuzuji/dotfiles" \
@@ -114,8 +113,15 @@ sync_repo  "$REPO_PATH" \
            "master" \
            "oh-my-zsh.git"
 
+sync_repo  "$REPO_PATH" \
+           "https://github.com/tmux/tmux" \
+           "master" \
+           "tmux.git"
+
 # cd oh-my-zsh/tools && ./install.sh || ( echo "Error occured!exit.";exit 3 )
 # cd ${APP_PATH}
+
+# cd tmux && ./autogen.sh && ./configure && make && sudo make install || ( echo "Error occured!exit.";exit 3 )
 
 # Link {{{2
 mkdir -p ${HOME}/.ssh
