@@ -28,6 +28,7 @@ sudo apt remove vim vim-runtime gvim
   --enable-gui=auto \
   --enable-xim \
   --enable-fontset \
+  --enable-gpm \
   --with-features=huge \
   --enable-perlinterp=dynamic \
   --enable-python3interp=dynamic \
@@ -39,6 +40,7 @@ sudo apt remove vim vim-runtime gvim
   --enable-multibyte \
   --prefix=/usr \
   --with-compiledby=jiaobuzuji@163.com
+
 make VIMRUNTIMEDIR=/usr/share/vim/vim80
 # make test
 

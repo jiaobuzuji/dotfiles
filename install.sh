@@ -4,6 +4,7 @@
 # Author : Jiaobuzuji@163.com
 # Reference : https://github.com/tracyone/dotfiles/
 # Reference : https://github.com/spf13/spf13-vim/blob/3.0/bootstrap.sh
+# Abstract : bootstrap
 # -----------------------------------------------
 
 # BASIC SETUP TOOLS (functions) {{{1
@@ -43,10 +44,10 @@ function pkg_check()
     which $i > /dev/null 2>&1
     if [ $? -ne 0 ]; then
       ret='1'
-      error "Check package '$i' FAIL.Please install it manually!"
+      error "Check '$i' : Fail. Please install it manually!"
     else
       ret='0'
-      success "Check package '$i' successfully!"
+      success "Check '$i' : Success!"
     fi
   done
 }
@@ -59,51 +60,71 @@ function sync_repo() {
     local repo_branch="$3"
     local repo_name="$4"
 
-    msg "Trying to update $repo_name"
+    msg "Trying to clone or update '$repo_name' repository."
 
-    if [ ! -e "$repo_path" ]; then
-        mkdir -p "$repo_path"
-        git clone --depth=1 -b "$repo_branch" "$repo_uri" "$repo_path"
+    if [ ! -e "$repo_path$repo_name" ]; then
+        git clone --depth=1 -b "$repo_branch" "$repo_uri" "$repo_path$repo_name"
         ret="$?"
-        success "Successfully cloned $repo_name."
+        success "Successfully cloned '$repo_name'."
     else
-        cd "$repo_path" && git pull origin "$repo_branch"
+        cd "$repo_path$repo_name" && git pull origin "$repo_branch"
         ret="$?"
-        success "Successfully updated $repo_name"
+        success "Successfully updated '$repo_name'"
     fi
+    msg ""
     debug
 }
 
 # MAIN() {{{1
-# Environment message
-msg "\nOS Kernel is `uname`"
+# Environment {{{2
+msg "\nOS Kernel : `uname`"
 msg "`lsb_release -d`\n"
 
-# install packages
-linux_distributor=$(lsb_release -i | cut -f2)
+[ -z "$REPO_PATH" ] && REPO_PATH="$HOME/repos/"
 
-if [ $linux_distributor == "Ubuntu" ]; then
+
+# Install packages {{{2
+
+linux_distributor=$(lsb_release -i | cut -f2)
+sync_repo  "$REPO_PATH" \
+           "https://github.com/jiaobuzuji/dotfiles" \
+           "master" \
+           "dotfiles.git"
+
+if [ $linux_distributor == "Ubuntu" ]; then # source functions
   pkg_check "apt-get"
-  # source ubuntu
+  source "$REPO_PATH/dotfiles.git/ubuntu/funcs.sh"
 elif [ $linux_distributor == "Centos" ]; then
   pkg_check "yum"
+  source "$REPO_PATH/dotfiles.git/centos/funcs.sh"
 else
-  msg "Not support this distributor."
+  error "Not support this distributor."
   msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
   exit 1
 fi
+pkg_update
+pkg_install "zsh git autoconf automake curl wget"
 
-# install vim
-# sync_repo       "$APP_PATH" \
-#                 "$REPO_URI" \
-#                 "$REPO_BRANCH" \
-#                 "$app_name"
+msg ""
 
-# lnif "$source_path/.vimrc.before"  "$target_path/.vimrc.before"
+# Repositories {{{2
+# sync_repo (repo_path, repo_uri, repo_branch, repo_name)
+sync_repo  "$REPO_PATH" \
+           "https://github.com/robbyrussell/oh-my-zsh" \
+           "master" \
+           "oh-my-zsh.git"
 
+# cd oh-my-zsh/tools && ./install.sh || ( echo "Error occured!exit.";exit 3 )
+# cd ${APP_PATH}
+
+# Link {{{2
+mkdir -p ${HOME}/.ssh
+lnif "$REPO_PATH/oh-my-zsh.git"  "$HOME/.oh-my-zsh"
+lnif "$REPO_PATH/dotfiles.git/zsh/zshrc"  "$HOME/.zshrc"
+
+# Finish {{{2
 msg "\nThanks for installing ."
 msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
 
-
 # -----------------------------------------------
-# vim:fdm=marker
+# vim:fdm=marker fen
