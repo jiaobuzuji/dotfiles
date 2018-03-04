@@ -124,7 +124,7 @@ sync_repo  "$REPO_PATH" \
 # chsh -s /bin/zsh
 
 # Link {{{2
-mkdir -p ${HOME}/.ssh
+mkdir -p ${HOME}/{.ssh,.vnc}
 lnif "$REPO_PATH/oh-my-zsh.git"             "$HOME/.oh-my-zsh"
 lnif "$REPO_PATH/dotfiles.git/zsh/.zshrc"   "$HOME/.zshrc"
 lnif "$REPO_PATH/dotfiles.git/git/.gitconfig"   "$HOME/.gitconfig"
