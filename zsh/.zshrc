@@ -1,3 +1,9 @@
+# zsh configuration
+# Author:   jiaobuzuji,jiaobuzuji@163.com
+# Github:   https://github.com/jiaobuzuji
+#"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+# vim:fdm=marker fmr={,} fen
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -83,14 +89,25 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias mv="mv -i"
-alias rm="rm -i"
-alias cp="cp -i"
-alias l.="ls .* -d"
+alias mv='mv -i'
+alias rm='rm -i'
+alias cp='cp -i'
+alias l.='ls .* -d'
+alias gv='gvim'
+alias v='vim'
+alias vi='vim -u NONE'
 
 if [ -f ${HOME}/.zsh_aliases ]; then
     . ${HOME}/.zsh_aliases
 fi
+
+which tmux > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+  case $- in *i*)
+    [ -z "$TMUX" ] && exec $(TERM=xterm-256color tmux -2)
+  esac
+fi
+export TERM=xterm-256color
 
 # export MANPAGER="vim -c MANPAGER -"
 export NVM_DIR="$HOME/.nvm"

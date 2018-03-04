@@ -121,6 +121,7 @@ sync_repo  "$REPO_PATH" \
 
 # cd oh-my-zsh/tools && ./install.sh || ( echo "Error occured!exit.";exit 3 )
 # cd ${APP_PATH}
+# chsh -s /bin/zsh
 
 # Link {{{2
 mkdir -p ${HOME}/.ssh
