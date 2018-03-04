@@ -129,6 +129,7 @@ lnif "$REPO_PATH/oh-my-zsh.git"             "$HOME/.oh-my-zsh"
 lnif "$REPO_PATH/dotfiles.git/zsh/.zshrc"   "$HOME/.zshrc"
 lnif "$REPO_PATH/dotfiles.git/git/.gitconfig"   "$HOME/.gitconfig"
 lnif "$REPO_PATH/dotfiles.git/tmux/.tmux.conf"   "$HOME/.tmux.conf"
+# lnif "$REPO_PATH/dotfiles.git/ssh/ssh_config"   "$HOME/.ssh/config"
 
 # Finish {{{2
 msg "\nThanks for installing ."

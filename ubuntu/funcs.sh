@@ -54,6 +54,7 @@ function tmux_install()
   #   fi
   #   cd ${APP_PATH}
   # fi
+  # pkg_install "tmux" # install manual
 }
 
 # -----------------------------------------------
