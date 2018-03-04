@@ -42,6 +42,19 @@ function pkg_install()
   done
 }
 
+function tmux_install()
+{
+  pkg_install "libevent-dev libcurses-ocaml-dev"
+  # which tmux > /dev/null
+  # if [[ $? -ne 0 ]]; then
+  #   if [[ ! -d "./temp/tmux" ]]; then
+  #     cd temp
+  #     echo "get latest tmux from internet then build and install"
+  #     git clone https://github.com/tmux/tmux && cd tmux && ./autogen.sh && ./configure && make && sudo make install || ( echo "Error occured!exit.";exit 3 )
+  #   fi
+  #   cd ${APP_PATH}
+  # fi
+}
 
 # -----------------------------------------------
 # vim:fdm=marker

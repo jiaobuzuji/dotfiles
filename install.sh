@@ -117,16 +117,17 @@ sync_repo  "$REPO_PATH" \
            "https://github.com/tmux/tmux" \
            "master" \
            "tmux.git"
+# tmux_install()
 
 # cd oh-my-zsh/tools && ./install.sh || ( echo "Error occured!exit.";exit 3 )
 # cd ${APP_PATH}
 
-# cd tmux && ./autogen.sh && ./configure && make && sudo make install || ( echo "Error occured!exit.";exit 3 )
-
 # Link {{{2
 mkdir -p ${HOME}/.ssh
-lnif "$REPO_PATH/oh-my-zsh.git"  "$HOME/.oh-my-zsh"
-lnif "$REPO_PATH/dotfiles.git/zsh/zshrc"  "$HOME/.zshrc"
+lnif "$REPO_PATH/oh-my-zsh.git"             "$HOME/.oh-my-zsh"
+lnif "$REPO_PATH/dotfiles.git/zsh/.zshrc"   "$HOME/.zshrc"
+lnif "$REPO_PATH/dotfiles.git/git/.gitconfig"   "$HOME/.gitconfig"
+lnif "$REPO_PATH/dotfiles.git/tmux/.tmux.conf"   "$HOME/.tmux.conf"
 
 # Finish {{{2
 msg "\nThanks for installing ."
