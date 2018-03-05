@@ -24,3 +24,5 @@
 	c1 = clone --depth=1
 [web]
 	browser = xdg-open
+[color]
+	ui = true
