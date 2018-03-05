@@ -5,15 +5,16 @@
 # Reference : https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
 # -----------------------------------------------
 
-# sudo yum install libncurses5-dev libgnome2-dev libgnomeui-dev \
-#     libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
-#     libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
-#     python3-dev ruby-dev lua5.1 lua5.1-dev libperl-dev git
+# sudo yum install -y ruby ruby-devel lua lua-devel luajit \
+#     luajit-devel ctags git python python-devel \
+#     python3 python3-devel tcl-devel \
+#     perl perl-devel perl-ExtUtils-ParseXS \
+#     perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
+#     perl-ExtUtils-Embed
 
 sudo make uninstall
 sudo make clean
 sudo make distclean
-# sudo yum remove vim vim-runtime gvim
 
 # --enable-luainterp=dynamic
 # --enable-rubyinterp=dynamic
@@ -41,18 +42,14 @@ sudo make distclean
   --prefix=/usr \
   --with-compiledby=jiaobuzuji@163.com
 
-# make VIMRUNTIMEDIR=/usr/share/vim/vim80
+make VIMRUNTIMEDIR=/usr/share/vim/vim80
 # make test
 
 # official install flow
-# sudo make install
+sudo make install
 # make uninstall
 
-# package for Debain linux
-# sudo checkinstall
-# sudo dpkg -r vim.git # uninstall
-
-# sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
-# sudo update-alternatives --set editor /usr/bin/vim
-# sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
-# sudo update-alternatives --set vi /usr/bin/vim
+sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
+sudo update-alternatives --set editor /usr/bin/vim
+sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
+sudo update-alternatives --set vi /usr/bin/vim

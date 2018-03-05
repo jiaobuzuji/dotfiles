@@ -30,6 +30,7 @@ export GIT_CONFIG
 
 read -n1 -p "update source? (y/N) " ans
 if [[ $ans =~ [Yy] ]]; then
+    sudo yum clean all
     sudo yum update
     ${INSTALLALL} automake autoconf curl wget git checkinstall ctags cscope
 
