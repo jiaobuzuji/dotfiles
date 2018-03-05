@@ -93,7 +93,7 @@ sync_repo  "$REPO_PATH" \
 if [ $linux_distributor == "Ubuntu" ]; then # source functions
   pkg_check "apt-get"
   source "$REPO_PATH/dotfiles.git/ubuntu/funcs.sh"
-elif [ $linux_distributor == "Centos" ]; then
+elif [ $linux_distributor == "CentOS" ]; then
   pkg_check "yum"
   source "$REPO_PATH/dotfiles.git/centos/funcs.sh"
 else
