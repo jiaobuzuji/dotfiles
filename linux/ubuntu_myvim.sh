@@ -41,18 +41,20 @@ sudo apt remove vim vim-runtime gvim
   --prefix=/usr \
   --with-compiledby=jiaobuzuji@163.com
 
-make VIMRUNTIMEDIR=/usr/share/vim/vim80
-# make test
+if [ $? -eq 0]; then
+  make VIMRUNTIMEDIR=/usr/share/vim/vim80
+  # make test
 
-# official install flow
-# sudo make install
-# make uninstall
+  # official install flow
+  # sudo make install
+  # make uninstall
 
-# package for Debain linux
-sudo checkinstall
-# sudo dpkg -r vim.git # uninstall
+  # package for Debain linux
+  sudo checkinstall
+  # sudo dpkg -r vim.git # uninstall
 
-sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
-sudo update-alternatives --set editor /usr/bin/vim
-sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
-sudo update-alternatives --set vi /usr/bin/vim
+  sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
+  sudo update-alternatives --set editor /usr/bin/vim
+  sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
+  sudo update-alternatives --set vi /usr/bin/vim
+fi
