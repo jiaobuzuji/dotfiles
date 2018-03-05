@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Installation shell script for linux and MacOS
 # date:2016-10-12 16:08 
 
