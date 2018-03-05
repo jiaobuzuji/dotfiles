@@ -92,10 +92,10 @@ sync_repo  "$REPO_PATH" \
 
 if [ $linux_distributor == "Ubuntu" ]; then # source functions
   pkg_check "apt-get"
-  source "$REPO_PATH/dotfiles.git/ubuntu/funcs.sh"
+  source "$REPO_PATH/dotfiles.git/linux/ubuntu_func.sh"
 elif [ $linux_distributor == "CentOS" ]; then
   pkg_check "yum"
-  source "$REPO_PATH/dotfiles.git/centos/funcs.sh"
+  source "$REPO_PATH/dotfiles.git/linux/centos_func.sh"
 else
   error "Not support this distributor."
   msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
