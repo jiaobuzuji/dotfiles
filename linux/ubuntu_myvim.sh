@@ -41,7 +41,7 @@ sudo apt remove vim vim-runtime gvim
   --prefix=/usr \
   --with-compiledby=jiaobuzuji@163.com
 
-if [ $? -eq 0]; then
+if [ $? -eq 0 ]; then
   make VIMRUNTIMEDIR=/usr/share/vim/vim80
   # make test
 

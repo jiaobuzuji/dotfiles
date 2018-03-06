@@ -5,6 +5,8 @@
 # Reference : https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
 # -----------------------------------------------
 
+# TODO : You may install python34.i686 instead of python3, python34-devel.i686
+# instead of python3-devel
 # sudo yum install -y ruby ruby-devel lua lua-devel luajit \
 #     luajit-devel ctags git python python-devel \
 #     python3 python3-devel tcl-devel \
@@ -18,8 +20,8 @@ sudo make distclean
 
 # --enable-luainterp=dynamic
 # --enable-rubyinterp=dynamic
-# --enable-pythoninterp=dynamic
-# --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu
+  # --enable-python3interp=dynamic \
+  # --with-python3-config-dir=/usr/lib/python3.4/config-3.4m \
 # --with-x
 # CFLAGS="-g -DDEBUG -Wall -Wshadow -Wmissing-prototypes"
 
@@ -32,8 +34,8 @@ sudo make distclean
   --enable-gpm \
   --with-features=huge \
   --enable-perlinterp=dynamic \
-  --enable-python3interp=dynamic \
-  --with-python3-config-dir=/usr/lib64/python3.4/config-3.4m \
+  --enable-pythoninterp=dynamic \
+  --with-python-config-dir=/usr/lib/python2.6/config \
   --enable-tclinterp=dynamic \
   --enable-cscope \
   --enable-terminal \
@@ -42,7 +44,7 @@ sudo make distclean
   --prefix=/usr \
   --with-compiledby=jiaobuzuji@163.com
 
-if [ $? -eq 0]; then
+if [ $? -eq 0 ]; then
   make VIMRUNTIMEDIR=/usr/share/vim/vim80
   # make test
 
