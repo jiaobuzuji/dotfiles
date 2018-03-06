@@ -96,6 +96,7 @@ alias l.='ls .* -d'
 alias gv='gvim'
 alias v='vim'
 alias vi='vim -u NONE'
+alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-title'
 
 if [ -f ${HOME}/.zsh_aliases ]; then
     . ${HOME}/.zsh_aliases
