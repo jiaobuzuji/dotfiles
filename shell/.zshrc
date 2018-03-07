@@ -86,22 +86,23 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias mv='mv -i'
-alias rm='rm -i'
-alias cp='cp -i'
-alias l.='ls .* -d'
-alias gv='gvim'
-alias v='vim'
-alias vi='vim -u NONE'
-alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-title'
 
-if [ -f ${HOME}/.zsh_aliases ]; then
-    . ${HOME}/.zsh_aliases
-fi
+[ -z "$DOTFILES" ] && DOTFILES="$HOME/repos/dotfiles.git"
 
+# source shell configuration
+source "${DOTFILES}/shell/aliases"
+source "${DOTFILES}/shell/rc"
+[ -f "${HOME}/.shellrc" ] && source "${HOME}/.shellrc" # Custom rc files
+
+# TODO
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# added by travis gem
+[ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
+
+# setup tmux
 which tmux > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   case $- in *i*)
@@ -110,10 +111,3 @@ if [ $? -eq 0 ]; then
 fi
 export TERM=xterm-256color
 
-# export MANPAGER="vim -c MANPAGER -"
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# added by travis gem
-[ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
