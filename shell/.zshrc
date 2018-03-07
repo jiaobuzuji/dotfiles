@@ -2,7 +2,6 @@
 # Author:   jiaobuzuji,jiaobuzuji@163.com
 # Github:   https://github.com/jiaobuzuji
 #"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-# vim:fdm=marker fmr={,} fen
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -50,9 +49,6 @@ DISABLE_AUTO_UPDATE="true"
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -67,13 +63,6 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -90,7 +79,6 @@ source $ZSH/oh-my-zsh.sh
 [ -z "$DOTFILES" ] && DOTFILES="$HOME/repos/dotfiles.git"
 
 # source shell configuration
-source "${DOTFILES}/shell/aliases"
 source "${DOTFILES}/shell/rc"
 [ -f "${HOME}/.shellrc" ] && source "${HOME}/.shellrc" # Custom rc files
 
@@ -101,13 +89,4 @@ export NVM_DIR="$HOME/.nvm"
 
 # added by travis gem
 [ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
-
-# setup tmux
-which tmux > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-  case $- in *i*)
-    [ -z "$TMUX" ] && exec $(TERM=xterm-256color tmux -2)
-  esac
-fi
-export TERM=xterm-256color
 
