@@ -2,11 +2,12 @@
 # vim:fdm=marker fen
 
 # aliases {{{1
+alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
+
 alias mv='mv -i'
 alias rm='rm -i'
 alias cp='cp -i'
 alias l.='ls .* -d'
-alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-title'
 
 alias gv='gvim'
 alias v='vim'
