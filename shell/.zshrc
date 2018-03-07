@@ -76,8 +76,6 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 
-[ -z "$DOTFILES" ] && DOTFILES="$HOME/repos/dotfiles.git"
-
 # source shell configuration
 source "${DOTFILES}/shell/rc"
 [ -f "${HOME}/.shellrc" ] && source "${HOME}/.shellrc" # Custom rc files
