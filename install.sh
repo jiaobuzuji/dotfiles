@@ -63,7 +63,7 @@ function sync_repo() {
     msg "Trying to clone or update '$repo_name' repository."
 
     if [ ! -e "$repo_path$repo_name" ]; then
-        git clone --depth=1 -b "$repo_branch" "$repo_uri" "$repo_path$repo_name"
+        git clone --depth 1 -b "$repo_branch" "$repo_uri" "$repo_path$repo_name"
         ret="$?"
         success "Successfully cloned '$repo_name'."
     else
@@ -115,7 +115,7 @@ sync_repo  "$REPO_PATH" \
 
 sync_repo  "$REPO_PATH" \
            "https://github.com/tmux/tmux" \
-           "master" \
+           "2.6" \
            "tmux.git"
 # tmux_install()
 
@@ -125,11 +125,10 @@ sync_repo  "$REPO_PATH" \
 
 # Link {{{2
 mkdir -p ${HOME}/{.ssh,.vnc}
-lnif "$REPO_PATH/oh-my-zsh.git"             "$HOME/.oh-my-zsh"
 lnif "$REPO_PATH/dotfiles.git/shell/.zshrc"   "$HOME/.zshrc"
-lnif "$REPO_PATH/dotfiles.git/shell/profile"   "$HOME/.zprofile"
+lnif "$REPO_PATH/dotfiles.git/shell/.profile"   "$HOME/.zprofile"
 # lnif "$REPO_PATH/dotfiles.git/shell/.bashrc"   "$HOME/.bashrc"
-# lnif "$REPO_PATH/dotfiles.git/shell/profile"   "$HOME/.bash_profile"
+# lnif "$REPO_PATH/dotfiles.git/shell/.profile"   "$HOME/.bash_profile"
 lnif "$REPO_PATH/dotfiles.git/git/.gitconfig"   "$HOME/.gitconfig"
 lnif "$REPO_PATH/dotfiles.git/tmux/.tmux.conf"   "$HOME/.tmux.conf"
 # lnif "$REPO_PATH/dotfiles.git/ssh/ssh_config"   "$HOME/.ssh/config"
