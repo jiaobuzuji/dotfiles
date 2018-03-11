@@ -62,15 +62,15 @@ function sync_repo() {
 
     msg "Trying to clone or update '$repo_name' repository."
 
-    if [ ! -e "$repo_path$repo_name" ]; then
-        git clone --depth 1 -b "$repo_branch" "$repo_uri" "$repo_path$repo_name"
-        ret="$?"
-        success "Successfully cloned '$repo_name'."
-    else
-        cd "$repo_path$repo_name" && git pull origin "$repo_branch"
-        ret="$?"
-        success "Successfully updated '$repo_name'"
-    fi
+    # if [ ! -e "$repo_path$repo_name" ]; then
+    #     git clone --depth 1 -b "$repo_branch" "$repo_uri" "$repo_path$repo_name"
+    #     ret="$?"
+    #     success "Successfully cloned '$repo_name'."
+    # else
+    #     cd "$repo_path$repo_name" && git pull origin "$repo_branch"
+    #     ret="$?"
+    #     success "Successfully updated '$repo_name'"
+    # fi
     msg ""
     debug
 }
@@ -85,6 +85,7 @@ msg "`lsb_release -d`\n"
 
 # Install packages {{{2
 linux_distributor=$(lsb_release -i | cut -f2)
+mkdir -p ${HOME}/.shell
 sync_repo  "$REPO_PATH" \
            "https://github.com/jiaobuzuji/dotfiles" \
            "master" \
@@ -93,6 +94,7 @@ sync_repo  "$REPO_PATH" \
 if [ $linux_distributor == "Ubuntu" ]; then # source functions
   pkg_check "apt-get"
   source "$REPO_PATH/dotfiles.git/linux/ubuntu_func.sh"
+  echo -ne "alias which='which -a'" > "${HOME}/.shell/profile"
 elif [ $linux_distributor == "CentOS" ]; then
   pkg_check "yum"
   source "$REPO_PATH/dotfiles.git/linux/centos_func.sh"
@@ -101,8 +103,9 @@ else
   msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
   exit 1
 fi
-pkg_update
+pkg_update # Before update packages, You should change source.
 pkg_install "zsh git autoconf automake curl wget"
+[ -n "$ZSH_VERSION" ] && chsh -s /bin/zsh # chsh -s (`which zsh`), and restart shell
 
 msg ""
 
@@ -114,6 +117,13 @@ sync_repo  "$REPO_PATH" \
            "oh-my-zsh.git"
 
 sync_repo  "$REPO_PATH" \
+           "https://github.com/zsh-users/zsh/" \
+           "zsh-5.4" \
+           "zsh.git"
+pkg_install "yodl perl"
+./Util/preconfig
+
+sync_repo  "$REPO_PATH" \
            "https://github.com/tmux/tmux" \
            "2.6" \
            "tmux.git"
@@ -121,12 +131,13 @@ sync_repo  "$REPO_PATH" \
 
 # cd oh-my-zsh/tools && ./install.sh || ( echo "Error occured!exit.";exit 3 )
 # cd ${APP_PATH}
-# chsh -s /bin/zsh
 
 # Link {{{2
 mkdir -p ${HOME}/{.ssh,.vnc}
 lnif "$REPO_PATH/dotfiles.git/shell/.zshrc"   "$HOME/.zshrc"
-lnif "$REPO_PATH/dotfiles.git/shell/.profile"   "$HOME/.zprofile"
+lnif "$REPO_PATH/dotfiles.git/shell/.zlogin.zsh"   "$HOME/.zlogin"
+# lnif "$REPO_PATH/dotfiles.git/shell/.profile"   "$HOME/.zshenv"
+# lnif "$REPO_PATH/dotfiles.git/shell/.profile"   "$HOME/.zprofile"
 # lnif "$REPO_PATH/dotfiles.git/shell/.bashrc"   "$HOME/.bashrc"
 # lnif "$REPO_PATH/dotfiles.git/shell/.profile"   "$HOME/.bash_profile"
 lnif "$REPO_PATH/dotfiles.git/git/.gitconfig"   "$HOME/.gitconfig"
