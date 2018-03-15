@@ -82,55 +82,60 @@ msg "`lsb_release -d`\n"
 
 [ -z "$REPO_PATH" ] && REPO_PATH="$HOME/repos/"
 
-
 # Install packages {{{2
-linux_distributor=$(lsb_release -i | cut -f2)
+linux_distributor=$(lsb_release -si) # $(lsb_release -i | cut -f2)
 mkdir -p ${HOME}/.shell
-sync_repo  "$REPO_PATH" \
-           "https://github.com/jiaobuzuji/dotfiles" \
-           "master" \
-           "dotfiles.git"
-
 if [ $linux_distributor == "Ubuntu" ]; then # source functions
-  pkg_check "apt-get"
+  pkg_check "apt-get git"
+  sync_repo  "$REPO_PATH" \
+             "https://github.com/jiaobuzuji/dotfiles" \
+             "master" \
+             "dotfiles.git"
   source "$REPO_PATH/dotfiles.git/linux/ubuntu_func.sh"
   echo -ne "alias which='which -a'" > "${HOME}/.shell/profile"
 elif [ $linux_distributor == "CentOS" ]; then
-  pkg_check "yum"
+  pkg_check "yum git"
+  sync_repo  "$REPO_PATH" \
+             "https://github.com/jiaobuzuji/dotfiles" \
+             "master" \
+             "dotfiles.git"
   source "$REPO_PATH/dotfiles.git/linux/centos_func.sh"
+  pkg_install "epel-release"
 else
   error "Not support this distributor."
   msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
   exit 1
 fi
 pkg_update # Before update packages, You should change source.
-pkg_install "zsh git autoconf automake curl wget"
-[ -n "$ZSH_VERSION" ] && chsh -s /bin/zsh # chsh -s (`which zsh`), and restart shell
+pkg_install "autoconf automake curl wget"
+
+# pkg_install "zsh git"
+# [ -n "$ZSH_VERSION" ] && chsh -s $(which zsh) # chsh -s `which zsh` or chsh -s /bin/zsh, and restart shell
 
 msg ""
 
 # Repositories {{{2
 # sync_repo (repo_path, repo_uri, repo_branch, repo_name)
-sync_repo  "$REPO_PATH" \
-           "https://github.com/robbyrussell/oh-my-zsh" \
-           "master" \
-           "oh-my-zsh.git"
 
+# sync_repo  "$REPO_PATH" \
+#            "https://github.com/robbyrussell/oh-my-zsh" \
+#            "master" \
+#            "oh-my-zsh.git"
 sync_repo  "$REPO_PATH" \
            "https://github.com/zsh-users/zsh/" \
            "zsh-5.4" \
            "zsh.git"
-pkg_install "yodl perl"
-./Util/preconfig
+# pkg_install "texinfo texi2html yodl perl" # zsh-doc
+# ./Util/preconfig
+
+# cd oh-my-zsh/tools && ./install.sh || ( echo "Error occured!exit.";exit 3 )
+# cd ${APP_PATH}
 
 sync_repo  "$REPO_PATH" \
            "https://github.com/tmux/tmux" \
            "2.6" \
            "tmux.git"
 # tmux_install()
-
-# cd oh-my-zsh/tools && ./install.sh || ( echo "Error occured!exit.";exit 3 )
-# cd ${APP_PATH}
 
 # Link {{{2
 mkdir -p ${HOME}/{.ssh,.vnc}

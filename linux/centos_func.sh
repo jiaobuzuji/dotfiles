@@ -10,19 +10,20 @@
 # {
 # }
 
+function pkg_cleanall()
+{
+  sudo yum clean all
+  sudo yum cleanup
+}
+
 function pkg_update()
 {
   read -n1 -p "Update package source? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
+    pkg_cleanall
+    sudo yum makecache
     sudo yum update
   fi
-}
-
-function pkg_cleanall()
-{
-  # sudo yum autoremove -y
-  # sudo yum autoclean
-  sudo yum clean
 }
 
 function pkg_install()
@@ -55,6 +56,32 @@ function tmux_install()
   #   cd ${APP_PATH}
   # fi
   # pkg_install "tmux" # install manual
+}
+
+function git_install()
+{
+  # sync_repo  "$REPO_PATH" \
+  #            "https://github.com/git/git/" \
+  #            "v2.16.1" \
+  #            "git.git"
+  # sync_repo  "$REPO_PATH" \
+  #            "https://github.com/git/git/" \
+  #            "master" \
+  #            "git.git"
+  cur_dir=$(pwd)
+  mkdir -p "$REPO_PATH/git.release"
+  cd "$REPO_PATH/git.release"
+  wget -c "https://github.com/git/git/archive/v2.16.1.tar.gz"
+  tar -zxf "v2.16.1.tar.gz"
+  cd "v2.16.1"
+  pkg_install "asciidoc xmlto texinfo docbook2X" # CentOS
+  # pkg_install "wget curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker gcc"
+  # ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
+  # make prefix=/usr all doc info 
+  # if [ $? -eq 0 ]; then
+  # sudo make prefix=/usr install install-doc install-html install-info
+
+  cd "${cur_dir}"
 }
 
 # -----------------------------------------------

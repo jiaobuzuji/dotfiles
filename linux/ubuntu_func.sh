@@ -10,19 +10,20 @@
 # {
 # }
 
-function pkg_update()
-{
-  read -n1 -p "Update package source? (y/N) " ans
-  if [[ $ans =~ [Yy] ]]; then
-    sudo apt-get update
-  fi
-}
-
 function pkg_cleanall()
 {
   sudo apt-get autoremove -y
   sudo apt-get autoclean
   sudo apt-get clean
+}
+
+function pkg_update()
+{
+  read -n1 -p "Update package source? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    pkg_cleanall
+    sudo apt-get update
+  fi
 }
 
 function pkg_install()

@@ -13,6 +13,10 @@
 #     perl perl-devel perl-ExtUtils-ParseXS \
 #     perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
 #     perl-ExtUtils-Embed
+# yum install ncurses-devel mercurial python python-devel perl-devel ruby ruby-devel lua lua-devel
+# yum install libgnome-devel libgnomeui-devel gtk2-devel atk-devel libbonoboui-devel cairo-devel libX11-devel libXpm-devel libXt-devel
+# yum install epel-release
+# yum install python34 python34-deve
 
 sudo make uninstall
 sudo make clean
@@ -22,6 +26,7 @@ sudo make distclean
 # --enable-rubyinterp=dynamic
   # --enable-python3interp=dynamic \
   # --with-python3-config-dir=/usr/lib/python3.4/config-3.4m \
+  # --with-python-config-dir=/usr/lib/python2.6/config
 # --with-x
 # CFLAGS="-g -DDEBUG -Wall -Wshadow -Wmissing-prototypes"
 
@@ -35,7 +40,6 @@ sudo make distclean
   --with-features=huge \
   --enable-perlinterp=dynamic \
   --enable-pythoninterp=dynamic \
-  --with-python-config-dir=/usr/lib/python2.6/config \
   --enable-tclinterp=dynamic \
   --enable-cscope \
   --enable-terminal \
