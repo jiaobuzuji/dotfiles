@@ -62,15 +62,17 @@ function sync_repo() {
 
     msg "Trying to clone or update '$repo_name' repository."
 
-    # if [ ! -e "$repo_path$repo_name" ]; then
-    #     git clone --depth 1 -b "$repo_branch" "$repo_uri" "$repo_path$repo_name"
-    #     ret="$?"
-    #     success "Successfully cloned '$repo_name'."
-    # else
-    #     cd "$repo_path$repo_name" && git pull origin "$repo_branch"
-    #     ret="$?"
-    #     success "Successfully updated '$repo_name'"
-    # fi
+    if [ ! -e "$repo_path$repo_name" ]; then
+        # git clone --depth 1 -b "$repo_branch" "$repo_uri" "$repo_path$repo_name"
+        git clone "$repo_uri" "$repo_path$repo_name"
+        ret="$?"
+        success "Successfully cloned '$repo_name'."
+    elif [ $repo_branch == "release" ]; then
+        cd "$repo_path$repo_name" && git pull origin "$repo_branch"
+        ret="$?"
+        success "Successfully updated '$repo_name'"
+    fi
+# if [ $linux_distributor == "Ubuntu" ]; then # source functions
     msg ""
     debug
 }
@@ -116,25 +118,33 @@ msg ""
 
 # Repositories {{{2
 # sync_repo (repo_path, repo_uri, repo_branch, repo_name)
+sync_repo  "$REPO_PATH" \
+           "https://github.com/robbyrussell/oh-my-zsh" \
+           "master" \
+           "oh-my-zsh.git"
+# cd oh-my-zsh/tools && ./install.sh || ( echo "Error occured!exit.";exit 3 )
+# cd ${APP_PATH}
+sync_repo  "$REPO_PATH" \
+           "https://github.com/wting/autojump" \
+           "master" \
+           "autojump.git"
+# ./install.py # or sudo ./install.py -s # for all users
+# pkg_install "autojump-zsh" # CentOS
+# pkg_install "autojump"
 
-# sync_repo  "$REPO_PATH" \
-#            "https://github.com/robbyrussell/oh-my-zsh" \
-#            "master" \
-#            "oh-my-zsh.git"
 sync_repo  "$REPO_PATH" \
            "https://github.com/zsh-users/zsh/" \
-           "zsh-5.4" \
+           "release" \
            "zsh.git"
 # pkg_install "texinfo texi2html yodl perl" # zsh-doc
 # ./Util/preconfig
-
-# cd oh-my-zsh/tools && ./install.sh || ( echo "Error occured!exit.";exit 3 )
-# cd ${APP_PATH}
+# curl -L git.io/antigen > antigen.zsh
 
 sync_repo  "$REPO_PATH" \
            "https://github.com/tmux/tmux" \
-           "2.6" \
+           "release" \
            "tmux.git"
+pkg_install "xclip"
 # tmux_install()
 
 # Link {{{2
