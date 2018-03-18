@@ -80,16 +80,32 @@ function tools_tmux()
   fi
 }
 
-# function tools_vim()
-# {
-# }
-
 # function tools_rg_ag()
 # {
 # sudo snap install rg # Ubuntu
 # sudo apt install silversearcher-ag # Ubuntu
 
   # yum install the_silver_searcher
+# }
+
+
+# function tools_vim()
+# {
+# }
+
+# function tools_vim()
+  # if [ $linux_distributor == "CentOS" ]; then
+  # pkg_install "fontconfig mkfontscale" #
+  # fi
+  # sudo mkdir -p /usr/share/fonts/yahei
+  # sudo cp YaHei.Consolas.1.12.ttf /usr/share/fonts/yahei/
+  # 然后，改变权限：
+  # sudo chmod 644 /usr/share/fonts/yahei/YaHei.Consolas.1.12.ttf
+  # 安装：
+  # cd /usr/share/fonts/yahei/
+  # sudo mkfontscale
+  # sudo mkfontdir
+  # sudo fc-cache -fv
 # }
 
 

@@ -135,6 +135,7 @@ tools_zsh
 tools_tmux
 # tools_rg_ag
 # tools_vim
+# tools_fonts
 # exit 1 # DEBUG
 
 
