@@ -1,52 +1,17 @@
+# -----------------------------------------------------------------
+# Author : Jiaobuzuji@163.com
+# -----------------------------------------------------------------
 # vim:fdm=marker
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-umask 022
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
 
-# [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
-# [ -n "$ZSH_VERSION" ] && zcompile "$HOME/.zshrc"
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias l='ls -CF --color=auto'
+alias ls='ls -G --color=auto'
+alias ll='ls -alh --color=auto'
 
-# aliases {{{1
-alias mv='mv -i'
-alias rm='rm -i'
-alias cp='cp -i'
-alias l.='ls .* -d'
-
-alias gv='gvim'
-alias v='vim'
-alias vi='vim -u NONE' # pure vim
-alias gvi='gvim -u NONE'
-
-alias ssh='ssh -Y' # Enables trusted X11 forwarding
-
-alias path='echo -e ${PATH//:/\\n}' # Print each PATH entry on a separate line
-alias locate='locate -r'  #regular expression support
-
-
-# export {{{1
-export PATH="$HOME/.local/bin:$PATH"
-export EDITOR='vim'
-export SVN_EDITOR='vim'
-export TERM='xterm-256color'
-export MANPATH="/usr/local/man:$MANPATH"
-export MANPAGER="vim -c MANPAGER -"
-export LANG=en_US.UTF-8
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-# improved less option
-export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
-
-
-# misc {{{1
-# export NVM_DIR="$HOME/.nvm"  # Node.js  HEXO Blog (loading nvm will slow zsh down.)
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# which tmux > /dev/null 2>&1
-# if [ $? -eq 0 ]; then
-#   case $- in *i*) # interactive shell
-#     [ -z "$TMUX" ] && exec $(tmux -2)
-#   esac
-# fi

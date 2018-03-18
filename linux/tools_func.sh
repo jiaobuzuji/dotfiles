@@ -84,6 +84,14 @@ function tools_tmux()
 # {
 # }
 
+# function tools_rg_ag()
+# {
+# sudo snap install rg # Ubuntu
+# sudo apt install silversearcher-ag # Ubuntu
+
+  # yum install the_silver_searcher
+# }
+
 
 # -----------------------------------------------------------------
 # vim:fdm=marker

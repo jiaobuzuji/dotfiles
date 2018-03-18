@@ -38,6 +38,7 @@ alias vi='vim -u NONE' # pure vim
 alias gvi='gvim -u NONE'
 
 alias ssh='ssh -Y' # Enables trusted X11 forwarding
+# alias sshn='ssh -YN' # Just forwarding ports
 
 alias path='echo -e ${PATH//:/\\n}' # Print each PATH entry on a separate line
 alias locate='locate -r'  #regular expression support

@@ -133,7 +133,7 @@ msg ""
 tools_autojump
 tools_zsh
 tools_tmux
-# tools_rg
+# tools_rg_ag
 # tools_vim
 # exit 1 # DEBUG
 
@@ -156,4 +156,4 @@ msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
 
 
 # -----------------------------------------------------------------
-# vim:fdm=marker fen
+# vim:fdm=marker
