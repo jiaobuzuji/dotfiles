@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# -----------------------------------------------
+# -----------------------------------------------------------------
 # Author : Jiaobuzuji@163.com
 # Abstract : For installing dependencies, software, tools and etc.
 # Note : Before starting, you must choose a suitable software source(e.g. mirrors.ustc.edu.cn).
-# -----------------------------------------------
+# -----------------------------------------------------------------
 
-# -----------------------------------------------
+# -----------------------------------------------------------------
 # Config Bash
 if [[ ! -f inputrc ]]; then
     echo -e "Can not find 'bashrc' file.\n"
@@ -20,7 +20,7 @@ fi
 # # set the separator to \n
 OLD_IFS="$IFS"
 
-# -----------------------------------------------
+# -----------------------------------------------------------------
 # install something
 GIT_CONFIG="./ubuntu.ini"
 DED_DIR="${HOME}/Downloads/debs/"
@@ -151,11 +151,11 @@ done
 
 sudo snap install rg
 
-# # -----------------------------------------------
+# # ---------------------------------------------------------------
 # # Remove default tools
 # # sudo apt-get remove vim-tiny vim-common vim-gui-common vim-nox vim-runtime vim gvim
 #
-# -----------------------------------------------
+# -----------------------------------------------------------------
 # Remove cache
 echo -e "\nAll done!!Clean ...\n"
 sudo apt-get autoremove -y

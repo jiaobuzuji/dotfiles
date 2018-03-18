@@ -9,6 +9,19 @@
 # Path to your oh-my-zsh installation.
 export ZSH=${HOME}/repos/oh-my-zsh.git
 
+# for faster loading,we use zsh buildin command zcompile
+# to compile the .zshrc
+if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
+    zcompile ~/.zshrc
+fi
+
+
+# oh-my-zsh setting {{{1
+# -----------------------------------------------------------------
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
 # ZSH_THEME="robbyrussell"
 ZSH_THEME="mortalscumbag"
 
@@ -29,10 +42,10 @@ DISABLE_AUTO_UPDATE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -52,33 +65,96 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
+  osx autojump history-substring-search command-not-found sudo
+  git github git-flow svn web-search
 )
 
-source $ZSH/oh-my-zsh.sh
+zmodload zsh/terminfo
+source "$ZSH/oh-my-zsh.sh"
 
-# User configuration
-# [ -f "${HOME}/.shell/shellrc" ] && source "${HOME}/.shell/shellrc"
+[[ -s "/etc/profile.d/autojump.sh" ]] && source "/etc/profile.d/autojump.sh"
+autoload -U compinit promptinit
+compinit
 
-export NVM_DIR="$HOME/.nvm"  # Node.js  HEXO Blog (loading nvm will slow zsh down.)
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# keybinds {{{1
+# -----------------------------------------------------------------
+# emacs keybinds
+bindkey -e
+
+# History completion
+# autoload history-search-end
+# zle -N history-beginning-search-backward-end history-search-end
+# zle -N history-beginning-search-forward-end history-search-end
+# bindkey "^p" history-beginning-search-backward-end
+# bindkey "^n" history-beginning-search-forward-end
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+
+# Like bash
+bindkey "^u" backward-kill-line
+
+
+# aliases {{{1
+# -----------------------------------------------------------------
+# Global aliases {{{2
+alias -g A="| awk"
+alias -g G="| grep"
+alias -g GV="| grep -v"
+alias -g H="| head"
+alias -g L="| $PAGER"
+alias -g P=' --help | less'
+alias -g R="| ruby -e"
+alias -g S="| sed"
+alias -g T="| tail"
+alias -g V="| vim -R -"
+alias -g U=' --help | head'
+alias -g W="| wc"
+
+# Suffix aliases {{{2
+# you can type filename with following subffix and zsh will open it with default specifial command
+alias -s zip=zipinfo
+alias -s tgz=gzcat
+alias -s gz=gzcat
+alias -s tbz=bzcat
+alias -s bz2=bzcat
+alias -s java=vim
+alias -s c=vim
+alias -s h=vim
+alias -s C=vim
+alias -s cpp=vim
+alias -s txt=vim
+alias -s xml=vim
+alias -s html=firefox
+alias -s xhtml=firefox
+alias -s gif=display
+alias -s jpg=display
+alias -s jpeg=display
+alias -s png=display
+alias -s bmp=display
+alias -s mp3=amarok
+alias -s m4a=amarok
+alias -s ogg=amarok
+alias -s gz='tar -xzvf'
+alias -s xz='tar -xJvf'
+alias -s bz2='tar -xjvf'
+alias -s zip='unzip'
+# Other aliases {{{2
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+
+# User configuration {{{1
+# -----------------------------------------------------------------
+for file in $HOME/.myshell/{basic,extra}.sh; do
+	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
 
 # added by travis gem
 # [ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# setup tmux, please put it on $HOME/.shellrc {{{1
-# which tmux > /dev/null 2>&1
-# if [ $? -eq 0 ]; then
-#   case $- in *i*) # interactive shell ?
-#     [ -z "$TMUX" ] && exec $(tmux -2)
-#   esac
-# fi
 
 
+# -----------------------------------------------------------------
+# vim:fdm=marker

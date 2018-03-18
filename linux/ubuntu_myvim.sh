@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# -----------------------------------------------
+# -----------------------------------------------------------------
 # Author : Jiaobuzuji@163.com
 # Reference : https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
-# -----------------------------------------------
+# -----------------------------------------------------------------
 
 # sudo apt install libncurses5-dev libgnome2-dev libgnomeui-dev \
 #     libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \

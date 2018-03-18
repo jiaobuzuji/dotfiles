@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# -----------------------------------------------
+# -----------------------------------------------------------------
 # Author : Jiaobuzuji@163.com
 # Reference : https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
-# -----------------------------------------------
+# -----------------------------------------------------------------
 
 # TODO : You may install python34.i686 instead of python3, python34-devel.i686
 # instead of python3-devel
