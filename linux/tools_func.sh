@@ -80,13 +80,20 @@ function tools_tmux()
   fi
 }
 
-# function tools_rg_ag()
-# {
-# sudo snap install rg # Ubuntu
-# sudo apt install silversearcher-ag # Ubuntu
+function tools_rg_ag()
+{
+  which 'ag' > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    if [ $linux_distributor == "Ubuntu" ]; then
+      sudo apt install -y silversearcher-ag # Ubuntu
+    else
+      sudo yum install -y the_silver_searcher
+    fi
+  fi
 
-  # yum install the_silver_searcher
-# }
+  which 'rg' > /dev/null 2>&1
+  [ $? -ne 0 ] && [ $linux_distributor == "Ubuntu" ] && sudo snap install rg # Ubuntu
+}
 
 
 # function tools_vim()

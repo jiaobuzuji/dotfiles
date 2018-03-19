@@ -19,6 +19,7 @@
 # yum install epel-release
 # yum install python34 python34-deve
 
+# Before 'configure', you must distclean source.
 sudo make uninstall
 sudo make clean
 sudo make distclean
@@ -49,6 +50,7 @@ sudo make distclean
   --enable-multibyte \
   --prefix=/usr \
   --with-compiledby=jiaobuzuji@163.com
+# Go to 'src/auto/config.log' and check
 
 if [ $? -eq 0 ]; then
   make VIMRUNTIMEDIR=/usr/share/vim/vim80

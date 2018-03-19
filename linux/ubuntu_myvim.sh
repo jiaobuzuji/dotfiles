@@ -10,6 +10,7 @@
 #     libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
 #     python3-dev ruby-dev lua5.1 lua5.1-dev libperl-dev git
 
+# Before 'configure', you must distclean source.
 sudo make uninstall
 sudo make clean
 sudo make distclean
@@ -40,6 +41,7 @@ sudo apt remove vim vim-runtime gvim
   --enable-multibyte \
   --prefix=/usr \
   --with-compiledby=jiaobuzuji@163.com
+# Go to 'src/auto/config.log' and check
 
 if [ $? -eq 0 ]; then
   make VIMRUNTIMEDIR=/usr/share/vim/vim80
