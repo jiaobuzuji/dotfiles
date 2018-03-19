@@ -59,7 +59,7 @@ function tools_tmux()
   if [ $linux_distributor == "Ubuntu" ]; then
     pkg_install "libevent-dev libcurses-ocaml-dev"
   else
-    pkg_install "libevent2-devel" # TODO
+    pkg_install "libevent2-devel ncurses-devel"
   fi
   pkg_install "xclip"
 

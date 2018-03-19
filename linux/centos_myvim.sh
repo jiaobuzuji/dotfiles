@@ -12,15 +12,17 @@
 #     python3 python3-devel tcl-devel \
 #     perl perl-devel perl-ExtUtils-ParseXS \
 #     perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
-#     perl-ExtUtils-Embed
+#     perl-ExtUtils-Embed perl-YAML
 # yum install ncurses-devel mercurial python python-devel perl-devel ruby ruby-devel lua lua-devel
 # yum install libgnome-devel libgnomeui-devel gtk2-devel atk-devel libbonoboui-devel cairo-devel libX11-devel libXpm-devel libXt-devel
+# yum install libX11-devel ncurses-devel libXpm-devel libXt-devel libcxx
 # yum install epel-release
 # yum install python34 python34-deve
 
 sudo make uninstall
 sudo make clean
 sudo make distclean
+# yum remove vim
 
 # --enable-luainterp=dynamic
 # --enable-rubyinterp=dynamic
