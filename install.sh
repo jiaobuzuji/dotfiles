@@ -148,7 +148,7 @@ lnif "$REPO_PATH/dotfiles.git/shell/.zshrc"   "$HOME/.zshrc"
 # lnif "$REPO_PATH/dotfiles.git/shell/.bash_aliases"   "$HOME/.bash_aliases"
 lnif "$REPO_PATH/dotfiles.git/git/.gitconfig"   "$HOME/.gitconfig"
 lnif "$REPO_PATH/dotfiles.git/tmux/.tmux.conf"   "$HOME/.tmux.conf"
-# lnif "$REPO_PATH/dotfiles.git/ssh/ssh_config"   "$HOME/.ssh/config"
+# lnif "$REPO_PATH/dotfiles.git/ssh/config"   "$HOME/.ssh/config"
 
 
 # Finish {{{2
