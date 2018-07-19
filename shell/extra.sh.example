@@ -1,0 +1,31 @@
+# -----------------------------------------------------------------
+# Author : Jiaobuzuji@163.com
+# -----------------------------------------------------------------
+# vim:fdm=marker:ft=sh:
+
+
+# export {{{1
+export TOOLS='/opt'
+[ -f "${TOOLS}/rc.sh" ] && source "${TOOLS}/rc.sh"
+
+
+# aliases {{{1
+alias which='which -a'
+# alias vncviewer="vncviewer -passwd ${HOME}/.vnc/passwd -compresslevel 0 -quality 0 -bgr233"
+alias ssh='ssh -YN'
+
+alias rbb='rabbitvcs browser'
+alias rbl='rabbitvcs log'
+alias rbo='rabbitvcs commit'
+
+alias tarc='tar -Jcvhf "hello.tar.xz" --exclude-vcs --exclude-vcs-ignores'
+
+
+# misc {{{1
+if [ -x $(which tmux) ]; then
+  case $- in *i*) # interactive shell
+    [ -z "$TMUX" ] && exec $(tmux -2)
+    # [ -z "$TMUX" ] && $(tmux -2)
+  esac
+fi
+
