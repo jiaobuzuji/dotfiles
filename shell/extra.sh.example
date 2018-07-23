@@ -14,9 +14,15 @@ alias which='which -a'
 # alias vncviewer="vncviewer -passwd ${HOME}/.vnc/passwd -compresslevel 0 -quality 0 -bgr233"
 alias ssh='ssh -YN'
 
-alias rbb='rabbitvcs browser'
-alias rbl='rabbitvcs log'
-alias rbo='rabbitvcs commit'
+alias rbb="rabbitvcs browser &"
+alias rbl="rabbitvcs log &"
+# alias rbo="rabbitvcs update && rabbitvcs commit &"
+alias rbo="rabbitvcs commit &"
+alias rbu="rabbitvcs update &"
+alias rbs="rabbitvcs switch &"
+alias rbm="rabbitvcs merge &"
+
+alias nautilus='nautilus --no-desktop'
 
 alias tarc='tar -Jcvhf "hello.tar.xz" --exclude-vcs --exclude-vcs-ignores'
 
