@@ -73,6 +73,7 @@ zmodload zsh/terminfo
 source "$ZSH/oh-my-zsh.sh"
 
 [[ -s "/etc/profile.d/autojump.sh" ]] && source "/etc/profile.d/autojump.sh"
+# [[ -s "~/.autojump/etc/profile.d/autojump.sh" ]] && source "~/.autojump/etc/profile.d/autojump.sh"
 autoload -U compinit promptinit
 compinit
 
