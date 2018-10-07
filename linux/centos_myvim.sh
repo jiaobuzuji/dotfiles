@@ -42,7 +42,7 @@ sudo make distclean
   --enable-gpm \
   --with-features=huge \
   --enable-perlinterp=dynamic \
-  --enable-pythoninterp=dynamic \
+  --enable-python3interp=dynamic \
   --enable-tclinterp=dynamic \
   --enable-cscope \
   --enable-terminal \
