@@ -14,7 +14,7 @@
 sudo make uninstall
 sudo make clean
 sudo make distclean
-sudo apt remove vim vim-runtime gvim
+# sudo apt remove vim vim-runtime gvim
 
 # --enable-luainterp=dynamic
 # --enable-rubyinterp=dynamic

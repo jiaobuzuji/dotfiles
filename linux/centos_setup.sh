@@ -1,90 +1,140 @@
-#!/usr/bin/env bash
-
 # -----------------------------------------------------------------
 # Author : Jiaobuzuji@163.com
-# Abstract : For installing dependencies, software, tools and etc.
-# Note : Before starting, you must choose a suitable software source(e.g. mirrors.ustc.edu.cn).
+# Reference : https://github.com/tracyone/dotfiles/
+# Abstract : ubuntu bootstrap functions
 # -----------------------------------------------------------------
 
+# SETUP FUNCTIONS {{{1
 # -----------------------------------------------------------------
-# Config Bash
-if [[ ! -f inputrc ]]; then
-    echo -e "Can not find 'bashrc' file.\n"
-else
-    ln -s $(pwd)/inputrc ${HOME}/.inputrc
-    ln -s $(pwd)/bash_logout ${HOME}/.bash_logout
-    ln -s $(pwd)/bashrc ${HOME}/.bashrc
-    ln -s $(pwd)/profile ${HOME}/.profile
-fi
+function msg() { # {{{2
+    printf '%b\n' "$1" >&2
+}
 
-
-# -----------------------------------------------------------------
-# install something
-GIT_CONFIG="./centos.ini"
-DED_DIR="${HOME}/Downloads/rpms/"
-NOPROMPT=-y # uncomment to disable PROMPT during installation
-INSTALLALL="sudo yum install ${NOPROMPT}"
-
-# pre-install
-export GIT_CONFIG
-
-read -n1 -p "update source? (y/N) " ans
-if [[ $ans =~ [Yy] ]]; then
-    sudo yum clean all
-    sudo yum update
-    ${INSTALLALL} automake autoconf curl wget git checkinstall ctags cscope
-
-    sudo yum update
-    # sudo yum upgrade
-fi
-
-
-# install yum
-yum_list=$(git config --get-all yum.packages)
-echo -e "${yum_list}\n"
-for i in ${yum_list}; do
-    if [[ $i != "" ]]; then
-	echo -e "\n\nyum '$i' will install ...\n"
-        ${INSTALLALL} $i || echo -e "yum install failed : $i\n"
+function success() { # {{{2
+    if [ "$ret" -eq '0' ]; then
+        msg "\33[32m[✔]\33[0m ${1}${2}"
     fi
-done
+}
 
-# # install deb package
-# function DebInstall()
-# {
-#     local filename="${DED_DIR}/tmp$(date +%Y%m%d%H%M%S).deb"
-#         rpm -c $1 -O ${filename}  || echo -e "Wget $1 failed\n"
-#         sudo dpkg -i ${filename} || ( sudo yum -f install --fix-missing -y; sudo dpkg -i ${filename}  \
-#             || echo -e "dpkg install ${filename}  form $1 failed\n")
-# }
-# 
-# echo -e "\n\nrpm install ...\n"
-# deb_list=$(git config --get-all deb.url)
-# if [[ $deb_list != "" ]]; then
-#     mkdir -p ${DED_DIR}
-# fi
-# for i in ${deb_list}; do
-#     if [[ $i != "" ]]; then
-#         DebInstall $i
-#     fi
-# done
-# 
-# # SOURCEDIR="${HOME}/Downloads/buildsrc"
-# # mkdir -p ${SOURCEDIR}
+function centos_mirror() { # {{{2
+  sudo yum remove -y epel-release
+  sudo yum clean cache
+  sudo rm -rf /var/cache/yum
+  sudo mv /etc/yum.repo.d/CentOS-Base.repo /etc/yum.repo.d/CentOS-Base.repo.bak # backup
+  sudo curl -o /etc/yum.repo.d/CentOS-Base.repo -fsSL http://mirrors.aliyun.com/repo/Centos-7.repo # TODO CentOS 7
+  sudo curl -o /etc/yum.repo.d/epel-7.repo -fsSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
+}
 
-# # Build
-# # git clone --depth=1 https://github.com/ggreer/the_silver_searcher.git ${SOURCEDIR} && ${INSTALLALL} automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev && 
-# #./build.sh && sudo make install
-# 
-# # ---------------------------------------------------------------
-# # Remove default tools
-# # sudo yum remove vim-tiny vim-common vim-gui-common vim-nox vim-runtime vim gvim
-# 
-# # ---------------------------------------------------------------
-# # Remove cache
-# echo -e "\nAll done!!Clean ...\n"
-# sudo yum autoremove
-# sudo yum autoclean
-# sudo yum clean
+function pkg_update() { # {{{2
+  read -n1 -p "Update package source? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    sudo yum clean all
+    sudo yum makecache
+    sudo yum update
+  fi
+}
 
+function pkg_install() { # {{{2
+  for i in $1
+  do
+    which $i > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+      ret='1'
+      msg "Check '$i' : Fail. Try to install it automatically!"
 
+      sudo yum install $i -y || error "Installation of '$i' failure, please install it manually!"
+    else
+      ret='0'
+      success "Check '$i' : Success!"
+    fi
+  done
+}
+
+function pkg_group_basic() { # {{{2
+  # sudo yum groups install "Development Tools"
+  pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope zip libgcc libcxx"
+  pkg_install "redhat-lsb kernel-devel openssh-server im-chooser tree"
+  pkg_install "libcurl-devel zlib-devel"
+  pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel"
+
+  pkg_install "perl-devel"
+  pkg_install "tcl-devel"
+  # pkg_install "lua lua-devel luajit luajit-devel"
+  # pkg_install "ruby ruby-devel"
+  pkg_install "python36 python36-devel" # python3-pip" # TODO CentOS 7
+  sudo ln -sf /usr/bin/python3.6 /usr/bin/python3 # TODO CentOS 7
+
+  pkg_install "ibus ibus-table-chinese-wubi-jidian"
+  imsettings-switch ibus # current user
+}
+
+function pkg_gcc() { # {{{2
+  pkg_install "libmpc-devel mpfr-devel gmp-devel zlib-devel"
+  pkg_install "texinfo flex"
+  # mkdir -p "$HOME/repos/gcc" && cd "$HOME/repos/gcc"
+}
+
+function pkg_git() { # {{{2
+  # if [ -x "$(which git)" ];
+  which git > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    read -n1 -p "'git' has already in system. Do you want to reinstall it ? (y/N) " ans
+    [[ $ans =~ [Yy] ]] && sudo yum remove git -y || return 1
+  fi
+  current_pwd=`pwd`
+
+  mkdir -p "$HOME/repos/git" && cd "$HOME/repos/git"
+  if [[ ! -d "$HOME/repos/git/v2.19.1"  ]]; then # TODO 20181008
+    wget -c "https://github.com/git/git/archive/v2.19.1.tar.gz" && tar -zxf "v2.19.1.tar.gz"
+  fi
+  cd "git-2.19.1"
+
+  pkg_install "gcc gcc-c++ automake autoconf expat-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto texinfo docbook2X"
+  sudo ln -sf /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
+  sudo make uninstall
+  sudo make clean distclean
+  make prefix=/usr all doc info
+  if [ $? -eq 0 ]; then
+    sudo make prefix=/usr install install-doc install-html install-info
+  fi
+  cd $current_pwd
+}
+
+function pkg_vim() { # {{{2
+  which vim > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    read -n1 -p "'vim' has already in system. Do you want to reinstall it ? (y/N) " ans
+    [[ $ans =~ [Yy] ]] && sudo yum remove vim -y || return 1
+  fi
+  current_pwd=`pwd`
+
+  if [ ! -e "$HOME/repos/vim.git" ]; then
+      git clone --depth 1 "https://github.com/vim/vim" "$HOME/repos/vim.git" && \
+      cd "$HOME/repos/vim.git"
+  else
+      cd "$HOME/repos/vim.git" && git pull
+  fi
+
+  pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel"
+  pkg_install "perl perl-devel perl-ExtUtils-ParseXS \
+               perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
+               perl-ExtUtils-Embed perl-YAML"
+
+  wget -c "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_myvim.sh"
+
+  cd $current_pwd
+}
+
+# Install Packages {{{1
+# -----------------------------------------------------------------
+# centos_mirror
+pkg_group_basic
+# pkg_gcc
+pkg_git
+# pkg_vim
+
+# echo `pwd` # DEBUG
+echo "haha" # DEBUG
+
+# -----------------------------------------------------------------
+# vim:fdm=marker

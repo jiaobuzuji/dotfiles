@@ -81,52 +81,37 @@ function repo_sync() {
     debug
 }
 
-
 # MAIN() {{{1
 # -----------------------------------------------------------------
 # Environment {{{2
 msg "\nOS Kernel : `uname`"
-msg "`lsb_release -d`\n"
+# msg "`lsb_release -d`\n" # "lsb_release" is not bare command.
 
 [ -z "$REPO_PATH" ] && REPO_PATH="$HOME/repos"
 
-
 # Install basic packages {{{2
-linux_distributor=$(lsb_release -si) # $(lsb_release -i | cut -f2)
+# linux_distributor=$(lsb_release -si) # $(lsb_release -i | cut -f2)
+# linux_distributor=$(head -n1 /etc/issue | cut -f1 -d\ ) # Ubuntu, CentOS6(but not CenOS7), Debian
 
-# Ubuntu
-if [ $linux_distributor == "Ubuntu" ]; then
-  pkg_check "apt-get git"
-  repo_sync  "$REPO_PATH" \
-             "https://github.com/jiaobuzuji/dotfiles" \
-             "master" \
-             "dotfiles.git"
-  source "$REPO_PATH/dotfiles.git/linux/ubuntu_func.sh"
+if [ -e "/etc/centos-release" ]; then # CentOS
+  pkg_check "yum curl"
+  # bash -c "$(curl -fsSL )"
+  bash -c "$(cat ./linux/centos_setup.sh)" # debug
+  # source "$REPO_PATH/dotfiles.git/linux/centos_func.sh"
+else # Ubuntu
+  pkg_check "apt-get curl git"
+  # source "$REPO_PATH/dotfiles.git/linux/ubuntu_func.sh"
   # [ ! -f "${HOME}/.myshell/extra.sh" ] && echo -ne "alias which='which -a'" > "${HOME}/.myshell/extra.sh"
-
-# CentOS
-elif [ $linux_distributor == "CentOS" ]; then
-  pkg_check "yum git"
-  repo_sync  "$REPO_PATH" \
-             "https://github.com/jiaobuzuji/dotfiles" \
-             "master" \
-             "dotfiles.git"
-  source "$REPO_PATH/dotfiles.git/linux/centos_func.sh"
-  pkg_install "epel-release"
-  tools_git
-
-# Others
-else
-  error "Not support this distributor."
-  msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
-  exit 1
 fi
 
-pkg_update # Before update packages, You should change source.
-pkg_install "autoconf automake curl wget grep"
-source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
+# repo_sync  "$REPO_PATH" \
+#            "https://github.com/jiaobuzuji/dotfiles" \
+#            "master" \
+#            "dotfiles.git"
+
+# source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
 msg ""
-# exit 1 # DEBUG
+exit 1 # DEBUG
 
 
 # Awesome tools {{{2

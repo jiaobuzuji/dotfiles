@@ -5,8 +5,6 @@
 # Reference : https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
 # -----------------------------------------------------------------
 
-# TODO : You may install python34.i686 instead of python3, python34-devel.i686
-# instead of python3-devel
 # sudo yum install -y ruby ruby-devel lua lua-devel luajit \
 #     luajit-devel ctags git python python-devel \
 #     python3 python3-devel tcl-devel \
@@ -16,14 +14,12 @@
 # yum install ncurses-devel mercurial python python-devel perl-devel ruby ruby-devel lua lua-devel
 # yum install libgnome-devel libgnomeui-devel gtk2-devel atk-devel libbonoboui-devel cairo-devel libX11-devel libXpm-devel libXt-devel
 # yum install libX11-devel ncurses-devel libXpm-devel libXt-devel libcxx
-# yum install epel-release
 # yum install python34 python34-deve
 
 # Before 'configure', you must distclean source.
 sudo make uninstall
-sudo make clean
-sudo make distclean
-# yum remove vim
+sudo make clean distclean
+# sudo yum remove vim
 
 # --enable-luainterp=dynamic
 # --enable-rubyinterp=dynamic

@@ -33,7 +33,7 @@ function pkg_install()
       ret='1'
       msg "Check '$i' : Fail. Try to install it automatically!"
 
-      sudo apt-get install $1 --allow-unauthenticated -y --fix-missing || error "Installation of '$i' failure, please install it manually!"
+      sudo apt-get install $i --allow-unauthenticated -y --fix-missing || error "Installation of '$i' failure, please install it manually!"
     else
       ret='0'
       success "Check '$i' : Success!"
