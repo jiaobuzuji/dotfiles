@@ -2,7 +2,7 @@
 download flash.tar.gz file
 
 
-# 修改网卡名称
+# ~~修改网卡名称~~
 升级或者新安装了 ubuntu 16.04 之后,你会发现16.04 已经通过udev和systemd 管理的网卡命名.你ifconfig 下会发现eth0 变成了enp4s0f1 wlan0变成了wlp3s0.
 
 由于相对比较旧的EDA工具，都只是识别出eth0这块网卡，所以我们有必要将enp4s0f1修改回eth0.
@@ -28,6 +28,9 @@ download flash.tar.gz file
 # libtiff.so.3
   由于EDA工具使用了比较旧的工具库，所以需要从 /usr/lib/x86_64.../libtiff.so.5 软链接过去
 
+# libjpeg.so.62
+  可以直接使用 `sudo apt install libjpeg62-dev` ，但与 libtiff 冲突，所以此处使用了从 /usr/lib/x86_64.../libjpeg.so.8 软链接过去
+
 # libmng.so.1
   由于EDA工具使用了比较旧的工具库，所以需要从 /usr/lib/x86_64.../libmng.so.2 软链接过去
 
@@ -39,6 +42,14 @@ download flash.tar.gz file
   sudo dpkg --add-architecture i386
   sudo apt update
   sudo apt install libxi6:i386
+```
+
+# libpng12.so.0
+ubuntu18.04 已经不可以直接 `apt install libpng12` 了。所以只能通过 deb 来安装
+```
+wget -q -O libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb
+sudo dpkg -i libpng12.deb
+rm libpng12.deb
 ```
 
 # 安装 gcc 4.4
