@@ -81,6 +81,17 @@ function repo_sync() {
     debug
 }
 
+function gen_ssh_key() {
+  read -n1 -p "Generating a new SSH key? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    msg "Generating a new SSH key and adding it to the ssh-agent."
+    ssh-keygen -t rsa -b 4096 -C "jiaobuzuji@163.com"
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_rsa
+    # xclip -sel clip < ~/.ssh/id_rsa.pub # Copies the contents of the id_rsa.pub file to your clipboard
+  fi
+}
+
 # MAIN() {{{1
 # -----------------------------------------------------------------
 # Environment {{{2
@@ -96,30 +107,31 @@ msg "\nOS Kernel : `uname`"
 if [ -e "/etc/centos-release" ]; then # CentOS
   pkg_check "yum curl"
   # bash -c "$(curl -fsSL )"
-  bash -c "$(cat ./linux/centos_setup.sh)" # debug
-  # source "$REPO_PATH/dotfiles.git/linux/centos_func.sh"
+  # bash -c "$(cat ./linux/centos_setup.sh)" # TODO debug or local install
+
 else # Ubuntu
   pkg_check "apt-get curl git"
-  # source "$REPO_PATH/dotfiles.git/linux/ubuntu_func.sh"
   # [ ! -f "${HOME}/.myshell/extra.sh" ] && echo -ne "alias which='which -a'" > "${HOME}/.myshell/extra.sh"
 fi
 
-# repo_sync  "$REPO_PATH" \
-#            "https://github.com/jiaobuzuji/dotfiles" \
-#            "master" \
-#            "dotfiles.git"
+repo_sync  "$REPO_PATH" \
+           "https://github.com/jiaobuzuji/dotfiles" \
+           "master" \
+           "dotfiles.git"
 
-# source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
+source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
+gen_ssh_key
+
 msg ""
-exit 1 # DEBUG
+# exit 1 # DEBUG
 
 
 # Awesome tools {{{2
 tools_autojump
 tools_zsh
 tools_tmux
-# tools_rg_ag
-# tools_vim
+tools_rg_ag
+tools_vim
 # tools_fonts
 # exit 1 # DEBUG
 

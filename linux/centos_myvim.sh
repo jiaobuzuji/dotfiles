@@ -49,7 +49,8 @@ sudo make clean distclean
 # Go to 'src/auto/config.log' and check
 
 if [ $? -eq 0 ]; then
-  make VIMRUNTIMEDIR=/usr/share/vim/vim80
+  make
+  # make VIMRUNTIMEDIR=/usr/share/vim/vim80
   # make test
 
   # official install flow

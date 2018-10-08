@@ -4,8 +4,7 @@
 # Abstract : tools functions
 # -----------------------------------------------------------------
 
-function tools_autojump()
-{
+function tools_autojump() {
   # pkg_install "autojump autojump-zsh" # CentOS
   # pkg_install "autojump" # Ubuntu
 
@@ -19,10 +18,9 @@ function tools_autojump()
 }
 
 
-function tools_zsh()
-{
+function tools_zsh() {
   # pkg_install "zsh zsh-doc" # zsh
-  pkg_install "texinfo texi2html yodl perl" # zsh-doc dependencies
+  # pkg_install "texinfo texi2html yodl" # zsh-doc dependencies
 
   repo_sync  "$REPO_PATH" \
              "https://github.com/zsh-users/zsh/" \
@@ -53,15 +51,9 @@ function tools_zsh()
   # curl -L git.io/antigen > antigen.zsh
 }
 
-function tools_tmux()
-{
+function tools_tmux() {
   # pkg_install "tmux"
-  if [ $linux_distributor == "Ubuntu" ]; then
-    pkg_install "libevent-dev libcurses-ocaml-dev"
-  else
-    pkg_install "libevent2-devel ncurses-devel"
-  fi
-  pkg_install "xclip"
+  # pkg_install "libevent-dev libcurses-ocaml-dev" # Ubuntu
 
   repo_sync  "$REPO_PATH" \
     "https://github.com/tmux/tmux" \
@@ -80,27 +72,35 @@ function tools_tmux()
   fi
 }
 
-function tools_rg_ag()
-{
+function tools_rg_ag() {
   which 'ag' > /dev/null 2>&1
   if [ $? -ne 0 ]; then
-    if [ $linux_distributor == "Ubuntu" ]; then
-      sudo apt install -y silversearcher-ag # Ubuntu
-    else
+    if [ -e "/etc/centos-release" ]; then # CentOS
       sudo yum install -y the_silver_searcher
+    else
+      sudo apt install -y silversearcher-ag # Ubuntu
     fi
   fi
 
   which 'rg' > /dev/null 2>&1
-  [ $? -ne 0 ] && [ $linux_distributor == "Ubuntu" ] && sudo snap install rg # Ubuntu
+  [ $? -ne 0 ] && [ ! -e "/etc/centos-release" ] && sudo snap install rg # Ubuntu
 }
 
 
-# function tools_vim()
-# {
-# }
+function tools_vim() {
+  repo_sync  "$REPO_PATH" \
+             "https://github.com/jiaobuzuji/vimrc" \
+             "master" \
+             "vimrc.git"
+  lnif "$REPO_PATH/vimrc.git"   "$HOME/.vim"
 
-# function tools_vim()
+  curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+  gvim +PlugInstall
+}
+
+# function tools_fonts() {
   # if [ $linux_distributor == "CentOS" ]; then
   # pkg_install "fontconfig mkfontscale" #
   # fi

@@ -52,10 +52,12 @@ function pkg_install() { # {{{2
 
 function pkg_group_basic() { # {{{2
   # sudo yum groups install "Development Tools"
-  pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope zip libgcc libcxx"
-  pkg_install "redhat-lsb kernel-devel openssh-server im-chooser tree"
+  pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope libgcc libcxx"
+  pkg_install "redhat-lsb kernel-devel openssh-server im-chooser tree zip xclip"
+  pkg_install "texinfo texi2html" # zsh
   pkg_install "libcurl-devel zlib-devel"
-  pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel"
+  pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
+  pkg_install "libevent-devel" # tmux
 
   pkg_install "perl-devel"
   pkg_install "tcl-devel"
@@ -66,6 +68,7 @@ function pkg_group_basic() { # {{{2
 
   pkg_install "ibus ibus-table-chinese-wubi-jidian"
   imsettings-switch ibus # current user
+  sudo imsettings-switch ibus # root
 }
 
 function pkg_gcc() { # {{{2
@@ -104,7 +107,7 @@ function pkg_vim() { # {{{2
   which vim > /dev/null 2>&1
   if [ $? -eq 0 ]; then
     read -n1 -p "'vim' has already in system. Do you want to reinstall it ? (y/N) " ans
-    [[ $ans =~ [Yy] ]] && sudo yum remove vim -y || return 1
+    [[ $ans =~ [Yy] ]] && sudo yum remove vim-common vim-enhanced -y || return 1
   fi
   current_pwd=`pwd`
 
@@ -120,21 +123,23 @@ function pkg_vim() { # {{{2
                perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
                perl-ExtUtils-Embed perl-YAML"
 
-  wget -c "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_myvim.sh"
+  wget -c "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_myvim.sh" # TODO
+  source centos_myvim.sh
 
   cd $current_pwd
 }
 
 # Install Packages {{{1
 # -----------------------------------------------------------------
-# centos_mirror
+centos_mirror
+pkg_update
 pkg_group_basic
 # pkg_gcc
 pkg_git
-# pkg_vim
+pkg_vim
 
 # echo `pwd` # DEBUG
-echo "haha" # DEBUG
+# echo "haha" # DEBUG
 
 # -----------------------------------------------------------------
 # vim:fdm=marker
