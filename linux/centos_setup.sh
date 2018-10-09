@@ -56,7 +56,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "redhat-lsb kernel-devel openssh-server im-chooser tree zip xclip"
   pkg_install "texinfo texi2html" # zsh
   pkg_install "libcurl-devel zlib-devel"
-  pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
+  pkg_install "libgnome-devel libgnomeui-devel libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
   pkg_install "libevent-devel" # tmux
 
   pkg_install "perl-devel"
@@ -118,7 +118,7 @@ function pkg_vim() { # {{{2
       cd "$HOME/repos/vim.git" && git pull
   fi
 
-  pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel"
+  pkg_install "libgnome-devel libgnomeui-devel libX11-devel ncurses-devel libXpm-devel libXt-devel libattr-devel"
   pkg_install "perl perl-devel perl-ExtUtils-ParseXS \
                perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
                perl-ExtUtils-Embed perl-YAML"

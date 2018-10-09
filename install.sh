@@ -84,8 +84,9 @@ function repo_sync() {
 function gen_ssh_key() {
   read -n1 -p "Generating a new SSH key? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    msg "Generating a new SSH key and adding it to the ssh-agent."
+    msg "Generating a new SSH key."
     ssh-keygen -t rsa -b 4096 -C "jiaobuzuji@163.com"
+    msg "Adding it to the ssh-agent."
     eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/id_rsa
     # xclip -sel clip < ~/.ssh/id_rsa.pub # Copies the contents of the id_rsa.pub file to your clipboard
@@ -94,6 +95,7 @@ function gen_ssh_key() {
 
 # MAIN() {{{1
 # -----------------------------------------------------------------
+function main_func() {
 # Environment {{{2
 msg "\nOS Kernel : `uname`"
 # msg "`lsb_release -d`\n" # "lsb_release" is not bare command.
@@ -120,6 +122,7 @@ repo_sync  "$REPO_PATH" \
            "dotfiles.git"
 
 source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
+# source "./linux/tools_func.sh" # TODO debug
 gen_ssh_key
 
 msg ""
@@ -152,6 +155,9 @@ lnif "$REPO_PATH/dotfiles.git/tmux/.tmux.conf"   "$HOME/.tmux.conf"
 msg "\nThanks for installing ."
 msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
 
+}
+# Run Main {{{2
+main_func | tee install.log
 
 # -----------------------------------------------------------------
 # vim:fdm=marker

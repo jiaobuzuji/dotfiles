@@ -8,6 +8,8 @@ function tools_autojump() {
   # pkg_install "autojump autojump-zsh" # CentOS
   # pkg_install "autojump" # Ubuntu
 
+  sudo ./uninstall.py
+
   repo_sync  "$REPO_PATH" \
     "https://github.com/wting/autojump" \
     "master" \
@@ -21,6 +23,9 @@ function tools_autojump() {
 function tools_zsh() {
   # pkg_install "zsh zsh-doc" # zsh
   # pkg_install "texinfo texi2html yodl" # zsh-doc dependencies
+
+  sudo make uninstall
+  sudo make clean distclean
 
   repo_sync  "$REPO_PATH" \
              "https://github.com/zsh-users/zsh/" \
@@ -39,6 +44,7 @@ function tools_zsh() {
 
   if [ -z "$ZSH_VERSION" ]; then
     [ ! -z $(grep '/usr/bin/zsh' '/etc/shells') ] || sudo sed -i '$a\/usr/bin/zsh' '/etc/shells'
+    msg "Please enter CURRENT USER's password for changing shell."
     chsh -s /usr/bin/zsh # current user
     # chsh -s $(which zsh) or chsh -s `which zsh` or chsh -s /bin/zsh, and restart shell
   fi
@@ -54,6 +60,9 @@ function tools_zsh() {
 function tools_tmux() {
   # pkg_install "tmux"
   # pkg_install "libevent-dev libcurses-ocaml-dev" # Ubuntu
+
+  sudo make uninstall
+  sudo make clean distclean
 
   repo_sync  "$REPO_PATH" \
     "https://github.com/tmux/tmux" \
