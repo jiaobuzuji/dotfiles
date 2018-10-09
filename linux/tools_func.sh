@@ -37,9 +37,9 @@ function tools_zsh() {
     sudo make install
   fi
 
-  if [ -n "$ZSH_VERSION" ]; then
-    [ -x $(grep '/usr/bin/zsh' '/etc/shells') ] || sudo sed -i '$a\/usr/bin/zsh' '/etc/shells'
-    chsh -s /usr/bin/zsh
+  if [ -z "$ZSH_VERSION" ]; then
+    [ ! -z $(grep '/usr/bin/zsh' '/etc/shells') ] || sudo sed -i '$a\/usr/bin/zsh' '/etc/shells'
+    chsh -s /usr/bin/zsh # current user
     # chsh -s $(which zsh) or chsh -s `which zsh` or chsh -s /bin/zsh, and restart shell
   fi
 
