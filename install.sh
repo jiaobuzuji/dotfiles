@@ -33,7 +33,7 @@ function debug() {
 
 function lnif() {
     if [ -e "$1" ]; then
-        ln -sf "$1" "$2"
+        ln -sfT "$1" "$2"
     fi
     ret="$?"
     debug
@@ -60,25 +60,27 @@ function pkg_check()
 # -----------------------------------------------------------------
 # repo_sync (repo_path, repo_uri, repo_branch, repo_name)
 function repo_sync() {
-    local repo_path="$1"
-    local repo_uri="$2"
-    local repo_branch="$3"
-    local repo_name="$4"
+  local repo_path="$1"
+  local repo_uri="$2"
+  local repo_branch="$3"
+  local repo_name="$4"
+  local current_pwd=`pwd`
 
-    msg "Trying to clone or update '$repo_name' repository."
+  msg "Trying to clone or update '$repo_name' repository."
 
-    if [ ! -e "$repo_path/$repo_name" ]; then
-        git clone --depth 1 -b "$repo_branch" "$repo_uri" "$repo_path/$repo_name"
-        # git clone "$repo_uri" "$repo_path/$repo_name"
-        ret="$?"
-        success "Successfully cloned '$repo_name'."
-    else
-        cd "$repo_path/$repo_name" && git pull origin "$repo_branch"
-        ret="$?"
-        success "Successfully updated '$repo_name'"
-    fi
-    msg ""
-    debug
+  if [ ! -e "$repo_path/$repo_name" ]; then
+    git clone --depth 1 -b "$repo_branch" "$repo_uri" "$repo_path/$repo_name"
+    # git clone "$repo_uri" "$repo_path/$repo_name"
+    ret="$?"
+    success "Successfully cloned '$repo_name'."
+  else
+    cd "$repo_path/$repo_name" && git pull origin "$repo_branch"
+    ret="$?"
+    success "Successfully updated '$repo_name'"
+  fi
+  msg ""
+  cd $current_pwd
+  debug
 }
 
 function gen_ssh_key() {
@@ -109,20 +111,20 @@ msg "\nOS Kernel : `uname`"
 if [ -e "/etc/centos-release" ]; then # CentOS
   pkg_check "yum curl"
   # bash -c "$(curl -fsSL )"
-  # bash -c "$(cat ./linux/centos_setup.sh)" # TODO debug or local install
+  bash -c "$(cat ./linux/centos_setup.sh)" # TODO debug or local install
 
 else # Ubuntu
   pkg_check "apt-get curl git"
   # [ ! -f "${HOME}/.myshell/extra.sh" ] && echo -ne "alias which='which -a'" > "${HOME}/.myshell/extra.sh"
 fi
 
-repo_sync  "$REPO_PATH" \
-           "https://github.com/jiaobuzuji/dotfiles" \
-           "master" \
-           "dotfiles.git"
+# repo_sync  "$REPO_PATH" \
+#            "https://github.com/jiaobuzuji/dotfiles" \
+#            "master" \
+#            "dotfiles.git"
+# source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
 
-source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
-# source "./linux/tools_func.sh" # TODO debug
+source "./linux/tools_func.sh" # TODO debug
 gen_ssh_key
 
 msg ""

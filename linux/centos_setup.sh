@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # -----------------------------------------------------------------
 # Author : Jiaobuzuji@163.com
 # Reference : https://github.com/tracyone/dotfiles/
@@ -74,7 +76,9 @@ function pkg_group_basic() { # {{{2
 function pkg_gcc() { # {{{2
   pkg_install "libmpc-devel mpfr-devel gmp-devel zlib-devel"
   pkg_install "texinfo flex"
+  # local current_pwd=`pwd`
   # mkdir -p "$HOME/repos/gcc" && cd "$HOME/repos/gcc"
+  # cd $current_pwd
 }
 
 function pkg_git() { # {{{2
@@ -84,7 +88,7 @@ function pkg_git() { # {{{2
     read -n1 -p "'git' has already in system. Do you want to reinstall it ? (y/N) " ans
     [[ $ans =~ [Yy] ]] && sudo yum remove git -y || return 1
   fi
-  current_pwd=`pwd`
+  local current_pwd=`pwd`
 
   mkdir -p "$HOME/repos/git" && cd "$HOME/repos/git"
   if [[ ! -d "$HOME/repos/git/v2.19.1"  ]]; then # TODO 20181008
@@ -109,7 +113,7 @@ function pkg_vim() { # {{{2
     read -n1 -p "'vim' has already in system. Do you want to reinstall it ? (y/N) " ans
     [[ $ans =~ [Yy] ]] && sudo yum remove vim-common vim-enhanced -y || return 1
   fi
-  current_pwd=`pwd`
+  local current_pwd=`pwd`
 
   if [ ! -e "$HOME/repos/vim.git" ]; then
       git clone --depth 1 "https://github.com/vim/vim" "$HOME/repos/vim.git" && \

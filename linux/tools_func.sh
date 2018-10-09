@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # -----------------------------------------------------------------
 # Author : Jiaobuzuji@163.com
 # Reference : https://github.com/tracyone/dotfiles/
@@ -5,6 +7,8 @@
 # -----------------------------------------------------------------
 
 function tools_autojump() {
+  local current_pwd=`pwd`
+
   # pkg_install "autojump autojump-zsh" # CentOS
   # pkg_install "autojump" # Ubuntu
 
@@ -17,10 +21,12 @@ function tools_autojump() {
 
   # ./install.py  # for current user
   cd "$REPO_PATH/autojump.git" && sudo ./install.py -s # for all users
+  cd $current_pwd
 }
 
 
 function tools_zsh() {
+  local current_pwd=`pwd`
   # pkg_install "zsh zsh-doc" # zsh
   # pkg_install "texinfo texi2html yodl" # zsh-doc dependencies
 
@@ -55,9 +61,11 @@ function tools_zsh() {
     "oh-my-zsh.git"
   # cd oh-my-zsh/tools && ./install.sh || ( echo "Error occurred!exit.";exit 3 )
   # curl -L git.io/antigen > antigen.zsh
+  cd $current_pwd
 }
 
 function tools_tmux() {
+  local current_pwd=`pwd`
   # pkg_install "tmux"
   # pkg_install "libevent-dev libcurses-ocaml-dev" # Ubuntu
 
@@ -79,6 +87,7 @@ function tools_tmux() {
     # sudo checkinstall # package for Debain linux
     sudo make install
   fi
+  cd $current_pwd
 }
 
 function tools_rg_ag() {
@@ -101,6 +110,7 @@ function tools_vim() {
              "https://github.com/jiaobuzuji/vimrc" \
              "master" \
              "vimrc.git"
+
   lnif "$REPO_PATH/vimrc.git"   "$HOME/.vim"
 
   curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
@@ -110,6 +120,7 @@ function tools_vim() {
 }
 
 # function tools_fonts() {
+  # local current_pwd=`pwd`
   # if [ $linux_distributor == "CentOS" ]; then
   # pkg_install "fontconfig mkfontscale" #
   # fi
@@ -122,6 +133,7 @@ function tools_vim() {
   # sudo mkfontscale
   # sudo mkfontdir
   # sudo fc-cache -fv
+  # cd $current_pwd
 # }
 
 

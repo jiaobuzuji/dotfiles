@@ -1,3 +1,5 @@
+#! /usr/bin/env bash
+
 # if [ -n "$ZSH_VERSION" ]; then
 #   echo "zzzzzzzsh"
 # else
@@ -16,6 +18,20 @@
 # if [ -e "" ]; then
 # if [ ! -z ${zsh_list} ]; then
 # if [ ! -z ${ZSH_VERSION} ]; then
-if [ ! -z $(grep '/bin/zsh' '/etc/shells') ]; then
-  echo "zzzzzzzsh"
-fi
+# if [ ! -z $(grep '/bin/zsh' '/etc/shells') ]; then
+#   echo "zzzzzzzsh"
+# fi
+
+echo $HOME
+
+function func0 () {
+  cd ..
+}
+
+function func1 () {
+  func0
+  echo $HOME
+}
+
+func1
+
