@@ -58,7 +58,6 @@ function pkg_update() { # {{{2
     sudo rm -rf /var/cache/yum
     sudo yum makecache
     sudo yum -y update
-    sudo yum install -y epel-release
 
     sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
                    /etc/default/grub # Waiting time
@@ -105,7 +104,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "im-chooser gtk2-immodules gtk3-immodules gtk2-immodule-xim gtk3-immodule-xim" # input method
   pkg_install "ibus ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # input method
   imsettings-switch ibus # current user
-  sudo imsettings-switch ibus # root
+  # sudo imsettings-switch ibus # root
 }
 
 function pkg_gcc() { # {{{2
@@ -181,6 +180,7 @@ function pkg_clean() { # {{{2 TODO
 # If you are minimal CentOS, you must make internet work first.
 # Command `nmcli d` to display ethernet status.
 # Command `nmtui` to activate ethernet.
+sudo yum install -y epel-release
 
 # centos_mirror
 centos_xfce

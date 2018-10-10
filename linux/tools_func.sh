@@ -112,12 +112,12 @@ function tools_vim() {
   curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-  repo_sync  "${HOME}/.vim/bundle" \
-             "https://github.com/Valloric/YouCompleteMe/" \
-             "master" \
-             "YouCompleteMe"
+  # repo_sync  "${HOME}/.vim/bundle" \
+  #            "https://github.com/Valloric/YouCompleteMe/" \
+  #            "master" \
+  #            "YouCompleteMe"
 
-  cd  ${HOME}/.vim/bundle/YouCompleteMe
+  # cd  ${HOME}/.vim/bundle/YouCompleteMe
   # git submodule update --init --recursive && python3 ./install.py --clang-completer || return 1 # TODO
 
   vim +PlugInstall
