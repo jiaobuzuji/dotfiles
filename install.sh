@@ -64,7 +64,6 @@ function repo_sync() {
   local repo_uri="$2"
   local repo_branch="$3"
   local repo_name="$4"
-  local current_pwd=`pwd`
 
   msg "Trying to clone or update '$repo_name' repository."
 
@@ -79,7 +78,7 @@ function repo_sync() {
     success "Successfully updated '$repo_name'"
   fi
   msg ""
-  cd $current_pwd
+  cd $CURR_PATH
   debug
 }
 
@@ -92,41 +91,52 @@ function gen_ssh_key() {
     eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/id_rsa
     # xclip -sel clip < ~/.ssh/id_rsa.pub # Copies the contents of the id_rsa.pub file to your clipboard
+  else
+    printf '\n' >&2
   fi
 }
 
 # MAIN() {{{1
 # -----------------------------------------------------------------
-function main_func() {
 # Environment {{{2
-msg "\nOS Kernel : `uname`"
+function main_func() {
+
+msg "\nOS Kernel   : `uname`"
+msg   "Distributor : $(head -n1 /etc/issue | cut -f1 -d\ )" # Ubuntu, CentOS6(but not CenOS7), Debian
 # msg "`lsb_release -d`\n" # "lsb_release" is not bare command.
+# msg $(lsb_release -si) # $(lsb_release -i | cut -f2)
 
 [ -z "$REPO_PATH" ] && REPO_PATH="$HOME/repos"
+[ -z "$CURR_PATH" ] && CURR_PATH=$(pwd)
 
 # Install basic packages {{{2
-# linux_distributor=$(lsb_release -si) # $(lsb_release -i | cut -f2)
-# linux_distributor=$(head -n1 /etc/issue | cut -f1 -d\ ) # Ubuntu, CentOS6(but not CenOS7), Debian
-
 if [ -e "/etc/centos-release" ]; then # CentOS
   pkg_check "yum curl"
-  # bash -c "$(curl -fsSL )"
-  bash -c "$(cat ./linux/centos_setup.sh)" # TODO debug or local install
+
+  if [ $0 = "install.sh" ]; then
+    echo "Local install"
+    bash "${CURR_PATH}/linux/centos_setup.sh" # debug or local install
+  else
+    echo "URL install"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_setup.sh)"
+  fi
 
 else # Ubuntu
-  pkg_check "apt-get curl git"
+  pkg_check "apt-get curl"
   # [ ! -f "${HOME}/.myshell/extra.sh" ] && echo -ne "alias which='which -a'" > "${HOME}/.myshell/extra.sh"
 fi
 
-# repo_sync  "$REPO_PATH" \
-#            "https://github.com/jiaobuzuji/dotfiles" \
-#            "master" \
-#            "dotfiles.git"
-# source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
+repo_sync  "$REPO_PATH" \
+           "https://github.com/jiaobuzuji/dotfiles" \
+           "master" \
+           "dotfiles.git"
+if [ $0 = "install.sh" ]; then
+  source "${CURR_PATH}/linux/tools_func.sh"
+else
+  source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
+fi
 
-source "./linux/tools_func.sh" # TODO debug
 gen_ssh_key
-
 msg ""
 # exit 1 # DEBUG
 

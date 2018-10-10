@@ -19,20 +19,44 @@ function success() { # {{{2
 }
 
 function centos_mirror() { # {{{2
-  sudo yum remove -y epel-release
-  sudo yum clean cache
-  sudo rm -rf /var/cache/yum
-  sudo mv /etc/yum.repo.d/CentOS-Base.repo /etc/yum.repo.d/CentOS-Base.repo.bak # backup
-  sudo curl -o /etc/yum.repo.d/CentOS-Base.repo -fsSL http://mirrors.aliyun.com/repo/Centos-7.repo # TODO CentOS 7
-  sudo curl -o /etc/yum.repo.d/epel-7.repo -fsSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
+  read -n1 -p "Software Source ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    sudo yum remove -y epel-release
+    sudo yum clean all
+    sudo rm -rf /var/cache/yum
+    sudo mv /etc/yum.repo.d/CentOS-Base.repo /etc/yum.repo.d/CentOS-Base.repo.bak # backup
+    sudo curl -o /etc/yum.repo.d/CentOS-Base.repo -fsSL http://mirrors.aliyun.com/repo/Centos-7.repo # TODO CentOS 7
+    sudo curl -o /etc/yum.repo.d/epel-7.repo -fsSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
+    sudo yum makecache
+    sudo yum update
+  else
+    printf '\n' >&2
+  fi
+}
+
+function centos_xface() { # {{{2
+  read -n1 -p "Install xface ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    # sudo yum install -y epel-release
+    sudo yum groupinstall -y "X Window system"
+    sudo yum groupinstall -y xface
+    sudo systemctl isolate graphical.target
+    # systemctl set-default multi-user.target # command login
+    systemctl set-default graphical.target # ui login
+    # startxfce4
+  else
+    printf '\n' >&2
+  fi
 }
 
 function pkg_update() { # {{{2
-  read -n1 -p "Update package source? (y/N) " ans
+  read -n1 -p "Update system ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     sudo yum clean all
     sudo yum makecache
-    sudo yum update
+    sudo yum -y update
+  else
+    printf '\n' >&2
   fi
 }
 
@@ -43,22 +67,22 @@ function pkg_install() { # {{{2
     if [ $? -ne 0 ]; then
       ret='1'
       msg "Check '$i' : Fail. Try to install it automatically!"
-
       sudo yum install $i -y || error "Installation of '$i' failure, please install it manually!"
     else
-      ret='0'
-      success "Check '$i' : Success!"
+      ret='0' && success "Check '$i' : Success!"
     fi
   done
 }
 
 function pkg_group_basic() { # {{{2
   # sudo yum groups install "Development Tools"
-  pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope libgcc libcxx"
-  pkg_install "redhat-lsb kernel-devel openssh-server im-chooser tree zip xclip"
-  pkg_install "texinfo texi2html" # zsh
+  pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope clang libgcc libcxx"
+  pkg_install "redhat-lsb kernel-devel openssh-server firefox tree zip xclip"
   pkg_install "libcurl-devel zlib-devel"
-  pkg_install "libgnome-devel libgnomeui-devel libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
+  # pkg_install "libgnome-devel libgnomeui-devel" # gnome ui
+  pkg_install "gtk3-devel" # gtk2-devel"
+  pkg_install "texinfo texi2html" # zsh
+  pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
   pkg_install "libevent-devel" # tmux
 
   pkg_install "perl-devel"
@@ -68,7 +92,8 @@ function pkg_group_basic() { # {{{2
   pkg_install "python36 python36-devel" # python3-pip" # TODO CentOS 7
   sudo ln -sf /usr/bin/python3.6 /usr/bin/python3 # TODO CentOS 7
 
-  pkg_install "ibus ibus-table-chinese-wubi-jidian"
+  pkg_install "fontconfig mkfontscale mkfontdir" # font tools
+  pkg_install "im-chooser gtk3-immodule-xim ibus ibus-gtk3 ibus-table-chinese-wubi-jidian" # input method
   imsettings-switch ibus # current user
   sudo imsettings-switch ibus # root
 }
@@ -76,9 +101,8 @@ function pkg_group_basic() { # {{{2
 function pkg_gcc() { # {{{2
   pkg_install "libmpc-devel mpfr-devel gmp-devel zlib-devel"
   pkg_install "texinfo flex"
-  # local current_pwd=`pwd`
   # mkdir -p "$HOME/repos/gcc" && cd "$HOME/repos/gcc"
-  # cd $current_pwd
+  # cd $CURR_PATH
 }
 
 function pkg_git() { # {{{2
@@ -88,7 +112,6 @@ function pkg_git() { # {{{2
     read -n1 -p "'git' has already in system. Do you want to reinstall it ? (y/N) " ans
     [[ $ans =~ [Yy] ]] && sudo yum remove git -y || return 1
   fi
-  local current_pwd=`pwd`
 
   mkdir -p "$HOME/repos/git" && cd "$HOME/repos/git"
   if [[ ! -d "$HOME/repos/git/v2.19.1"  ]]; then # TODO 20181008
@@ -98,13 +121,13 @@ function pkg_git() { # {{{2
 
   pkg_install "gcc gcc-c++ automake autoconf expat-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto texinfo docbook2X"
   sudo ln -sf /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
-  sudo make uninstall
+  sudo make uninstall # uninstall
   sudo make clean distclean
   make prefix=/usr all doc info
   if [ $? -eq 0 ]; then
     sudo make prefix=/usr install install-doc install-html install-info
   fi
-  cd $current_pwd
+  cd $CURR_PATH
 }
 
 function pkg_vim() { # {{{2
@@ -113,7 +136,6 @@ function pkg_vim() { # {{{2
     read -n1 -p "'vim' has already in system. Do you want to reinstall it ? (y/N) " ans
     [[ $ans =~ [Yy] ]] && sudo yum remove vim-common vim-enhanced -y || return 1
   fi
-  local current_pwd=`pwd`
 
   if [ ! -e "$HOME/repos/vim.git" ]; then
       git clone --depth 1 "https://github.com/vim/vim" "$HOME/repos/vim.git" && \
@@ -122,7 +144,8 @@ function pkg_vim() { # {{{2
       cd "$HOME/repos/vim.git" && git pull
   fi
 
-  pkg_install "libgnome-devel libgnomeui-devel libX11-devel ncurses-devel libXpm-devel libXt-devel libattr-devel"
+  # pkg_install "libgnome-devel libgnomeui-devel"
+  pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel libattr-devel"
   pkg_install "perl perl-devel perl-ExtUtils-ParseXS \
                perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
                perl-ExtUtils-Embed perl-YAML"
@@ -130,19 +153,27 @@ function pkg_vim() { # {{{2
   wget -c "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_myvim.sh" # TODO
   source centos_myvim.sh
 
-  cd $current_pwd
+  cd $CURR_PATH
 }
+
+# Environment {{{1
+[ -z "$REPO_PATH" ] && REPO_PATH="$HOME/repos"
+[ -z "$CURR_PATH" ] && CURR_PATH=$(pwd)
 
 # Install Packages {{{1
 # -----------------------------------------------------------------
+# If you are minimal CentOS, you must make internet work first.
+# Command `nmcli d` to display ethernet status.
+# Command `nmtui` to activate ethernet.
+
 centos_mirror
-pkg_update
+centos_xface
+# pkg_update
 pkg_group_basic
 # pkg_gcc
 pkg_git
 pkg_vim
 
-# echo `pwd` # DEBUG
 # echo "haha" # DEBUG
 
 # -----------------------------------------------------------------

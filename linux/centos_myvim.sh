@@ -11,8 +11,8 @@
 #     perl perl-devel perl-ExtUtils-ParseXS \
 #     perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
 #     perl-ExtUtils-Embed perl-YAML
-# yum install ncurses-devel mercurial python python-devel perl-devel ruby ruby-devel lua lua-devel
-# yum install libgnome-devel libgnomeui-devel gtk2-devel atk-devel libbonoboui-devel cairo-devel libX11-devel libXpm-devel libXt-devel
+# yum install python python-devel perl-devel ruby ruby-devel lua lua-devel
+# yum install libgnome-devel libgnomeui-devel gtk2-devel atk-devel libbonoboui-devel cairo-devel
 # yum install libX11-devel ncurses-devel libXpm-devel libXt-devel libcxx
 # yum install python34 python34-deve
 

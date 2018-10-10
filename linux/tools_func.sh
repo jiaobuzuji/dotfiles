@@ -7,8 +7,6 @@
 # -----------------------------------------------------------------
 
 function tools_autojump() {
-  local current_pwd=`pwd`
-
   # pkg_install "autojump autojump-zsh" # CentOS
   # pkg_install "autojump" # Ubuntu
 
@@ -21,16 +19,15 @@ function tools_autojump() {
 
   # ./install.py  # for current user
   cd "$REPO_PATH/autojump.git" && sudo ./install.py -s # for all users
-  cd $current_pwd
+  cd $CURR_PATH
 }
 
 
 function tools_zsh() {
-  local current_pwd=`pwd`
   # pkg_install "zsh zsh-doc" # zsh
   # pkg_install "texinfo texi2html yodl" # zsh-doc dependencies
 
-  sudo make uninstall
+  sudo make uninstall # uninstall
   sudo make clean distclean
 
   repo_sync  "$REPO_PATH" \
@@ -61,15 +58,14 @@ function tools_zsh() {
     "oh-my-zsh.git"
   # cd oh-my-zsh/tools && ./install.sh || ( echo "Error occurred!exit.";exit 3 )
   # curl -L git.io/antigen > antigen.zsh
-  cd $current_pwd
+  cd $CURR_PATH
 }
 
 function tools_tmux() {
-  local current_pwd=`pwd`
   # pkg_install "tmux"
   # pkg_install "libevent-dev libcurses-ocaml-dev" # Ubuntu
 
-  sudo make uninstall
+  sudo make uninstall # uninstall
   sudo make clean distclean
 
   repo_sync  "$REPO_PATH" \
@@ -87,7 +83,7 @@ function tools_tmux() {
     # sudo checkinstall # package for Debain linux
     sudo make install
   fi
-  cd $current_pwd
+  cd $CURR_PATH
 }
 
 function tools_rg_ag() {
@@ -116,14 +112,19 @@ function tools_vim() {
   curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+  repo_sync  "${HOME}/.vim/bundle" \
+             "https://github.com/Valloric/YouCompleteMe/" \
+             "master" \
+             "YouCompleteMe"
+
+  cd  ${HOME}/.vim/bundle/YouCompleteMe
+  # git submodule update --init --recursive && python3 ./install.py --clang-completer || return 1 # TODO
+
   gvim +PlugInstall
+  cd $CURR_PATH
 }
 
 # function tools_fonts() {
-  # local current_pwd=`pwd`
-  # if [ $linux_distributor == "CentOS" ]; then
-  # pkg_install "fontconfig mkfontscale" #
-  # fi
   # sudo mkdir -p /usr/share/fonts/yahei
   # sudo cp YaHei.Consolas.1.12.ttf /usr/share/fonts/yahei/
   # 然后，改变权限：
@@ -133,7 +134,7 @@ function tools_vim() {
   # sudo mkfontscale
   # sudo mkfontdir
   # sudo fc-cache -fv
-  # cd $current_pwd
+  # cd $CURR_PATH
 # }
 
 

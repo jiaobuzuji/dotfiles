@@ -22,16 +22,20 @@
 #   echo "zzzzzzzsh"
 # fi
 
-echo $HOME
+# echo $HOME
+# function func0 () {
+#   cd ..
+# }
+# function func1 () {
+#   func0
+#   echo $HOME
+# }
+# func1
 
-function func0 () {
-  cd ..
-}
-
-function func1 () {
-  func0
-  echo $HOME
-}
-
-func1
-
+echo "$0"
+echo "$1"
+if [ $0 = "l" ]; then
+  echo "local install"
+else
+  echo "url install"
+fi
