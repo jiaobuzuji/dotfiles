@@ -29,6 +29,7 @@ function centos_mirror() { # {{{2
     sudo curl -o /etc/yum.repos.d/epel-7.repo -fsSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
     sudo yum makecache
     sudo yum update
+    sudo rm -f /tmp/yum_save_tx* # clean log
   else
     printf '\n' >&2
   fi
@@ -54,6 +55,7 @@ function pkg_update() { # {{{2
   if [[ $ans =~ [Yy] ]]; then
     sudo yum clean all
     sudo yum makecache
+    sudo yum install -y epel-release
     sudo yum -y update
   else
     printf '\n' >&2
@@ -166,9 +168,8 @@ function pkg_vim() { # {{{2
 # Command `nmcli d` to display ethernet status.
 # Command `nmtui` to activate ethernet.
 
-centos_mirror
-centos_xface
-# pkg_update
+# centos_mirror
+pkg_update
 pkg_group_basic
 # pkg_gcc
 pkg_git
