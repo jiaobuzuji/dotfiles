@@ -24,9 +24,9 @@ function centos_mirror() { # {{{2
     sudo yum remove -y epel-release
     sudo yum clean all
     sudo rm -rf /var/cache/yum
-    sudo mv /etc/yum.repo.d/CentOS-Base.repo /etc/yum.repo.d/CentOS-Base.repo.bak # backup
-    sudo curl -o /etc/yum.repo.d/CentOS-Base.repo -fsSL http://mirrors.aliyun.com/repo/Centos-7.repo # TODO CentOS 7
-    sudo curl -o /etc/yum.repo.d/epel-7.repo -fsSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
+    sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak # backup
+    sudo curl -o /etc/yum.repos.d/CentOS-Base.repo -fsSL http://mirrors.aliyun.com/repo/Centos-7.repo # TODO CentOS 7
+    sudo curl -o /etc/yum.repos.d/epel-7.repo -fsSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
     sudo yum makecache
     sudo yum update
   else
