@@ -39,11 +39,10 @@ function centos_xface() { # {{{2
   read -n1 -p "Install xface ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     # sudo yum install -y epel-release
-    sudo yum groupinstall -y "X Window system"
-    sudo yum groupinstall -y xface
+    sudo yum group install -y "X Window system" Xface
     sudo systemctl isolate graphical.target
     # systemctl set-default multi-user.target # command login
-    systemctl set-default graphical.target # ui login
+    sudo systemctl set-default graphical.target # ui login
     # startxfce4
   else
     printf '\n' >&2
@@ -54,9 +53,10 @@ function pkg_update() { # {{{2
   read -n1 -p "Update system ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     sudo yum clean all
+    sudo rm -rf /var/cache/yum
     sudo yum makecache
-    sudo yum install -y epel-release
     sudo yum -y update
+    sudo yum install -y epel-release
   else
     printf '\n' >&2
   fi
@@ -117,7 +117,7 @@ function pkg_git() { # {{{2
 
   mkdir -p "$HOME/repos/git" && cd "$HOME/repos/git"
   if [[ ! -d "$HOME/repos/git/v2.19.1"  ]]; then # TODO 20181008
-    wget -c "https://github.com/git/git/archive/v2.19.1.tar.gz" && tar -zxf "v2.19.1.tar.gz"
+    curl -OfSL "https://github.com/git/git/archive/v2.19.1.tar.gz" && tar -zxf "v2.19.1.tar.gz"
   fi
   cd "git-2.19.1"
 
@@ -152,7 +152,7 @@ function pkg_vim() { # {{{2
                perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
                perl-ExtUtils-Embed perl-YAML"
 
-  wget -c "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_myvim.sh" # TODO
+  curl -OfsSL "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_myvim.sh" # TODO
   source centos_myvim.sh
 
   cd $CURR_PATH
