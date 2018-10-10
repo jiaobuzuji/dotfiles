@@ -39,7 +39,7 @@ function centos_xface() { # {{{2
   read -n1 -p "Install xface ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     # sudo yum install -y epel-release
-    sudo yum group install -y "X Window system" Xface
+    sudo yum group install -y "X Window system" Xfce
     sudo systemctl isolate graphical.target
     # systemctl set-default multi-user.target # command login
     sudo systemctl set-default graphical.target # ui login
