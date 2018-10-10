@@ -35,15 +35,17 @@ function centos_mirror() { # {{{2
   fi
 }
 
-function centos_xface() { # {{{2
+function centos_xfce() { # {{{2
   read -n1 -p "Install xface ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     # sudo yum install -y epel-release
     sudo yum group install -y "X Window system" Xfce
-    sudo systemctl isolate graphical.target
-    # systemctl set-default multi-user.target # command login
+    # sudo systemctl set-default multi-user.target # command login
     sudo systemctl set-default graphical.target # ui login
-    # startxfce4
+    # sudo systemctl isolate graphical.target # start ui now
+    # startxface4 # or `init 5`
+    sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
+                   /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
   else
     printf '\n' >&2
   fi
@@ -57,6 +59,10 @@ function pkg_update() { # {{{2
     sudo yum makecache
     sudo yum -y update
     sudo yum install -y epel-release
+
+    sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
+                   /etc/default/grub # Waiting time
+    sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
   else
     printf '\n' >&2
   fi
@@ -79,10 +85,9 @@ function pkg_install() { # {{{2
 function pkg_group_basic() { # {{{2
   # sudo yum groups install "Development Tools"
   pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope clang libgcc libcxx"
-  pkg_install "redhat-lsb kernel-devel openssh-server firefox tree zip xclip"
+  pkg_install "redhat-lsb kernel-devel openssh-server firefox net-tools tree zip xclip"
   pkg_install "libcurl-devel zlib-devel"
-  # pkg_install "libgnome-devel libgnomeui-devel" # gnome ui
-  pkg_install "gtk3-devel" # gtk2-devel"
+  pkg_install "libgnome-devel libgnomeui-devel gtk3-devel gtk2-devel" # ui dependencies
   pkg_install "texinfo texi2html" # zsh
   pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
   pkg_install "libevent-devel" # tmux
@@ -95,7 +100,10 @@ function pkg_group_basic() { # {{{2
   sudo ln -sf /usr/bin/python3.6 /usr/bin/python3 # TODO CentOS 7
 
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
-  pkg_install "im-chooser gtk3-immodule-xim ibus ibus-gtk3 ibus-table-chinese-wubi-jidian" # input method
+  pkg_install "cjkuni-ukai-fonts " # fonts and font tools
+
+  pkg_install "im-chooser gtk2-immodules gtk3-immodules gtk2-immodule-xim gtk3-immodule-xim" # input method
+  pkg_install "ibus ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # input method
   imsettings-switch ibus # current user
   sudo imsettings-switch ibus # root
 }
@@ -146,7 +154,7 @@ function pkg_vim() { # {{{2
       cd "$HOME/repos/vim.git" && git pull
   fi
 
-  # pkg_install "libgnome-devel libgnomeui-devel"
+  pkg_install "libgnome-devel libgnomeui-devel"
   pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel libattr-devel"
   pkg_install "perl perl-devel perl-ExtUtils-ParseXS \
                perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
@@ -156,6 +164,12 @@ function pkg_vim() { # {{{2
   source centos_myvim.sh
 
   cd $CURR_PATH
+}
+
+function pkg_clean() { # {{{2 TODO
+  rpm -q kernel kernel-devel kernel-headers | \
+  egrep -v `uname -r` | \
+  xargs -n1 sudo yum remove -y
 }
 
 # Environment {{{1
@@ -169,11 +183,14 @@ function pkg_vim() { # {{{2
 # Command `nmtui` to activate ethernet.
 
 # centos_mirror
+centos_xfce
 pkg_update
 pkg_group_basic
 # pkg_gcc
 pkg_git
 pkg_vim
+
+# pkg_clean
 
 # echo "haha" # DEBUG
 

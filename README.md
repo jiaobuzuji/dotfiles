@@ -3,6 +3,6 @@
 
 ## url install
 ```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/install.sh)" | tee install.log
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/install.sh)"
 ```
 

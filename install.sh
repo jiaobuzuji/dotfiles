@@ -169,7 +169,7 @@ msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
 
 }
 # Run Main {{{2
-main_func
+main_func | tee install.log
 
 # -----------------------------------------------------------------
 # vim:fdm=marker
