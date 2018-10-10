@@ -32,10 +32,13 @@
 # }
 # func1
 
-echo "$0"
-echo "$1"
-if [ $0 = "l" ]; then
-  echo "local install"
-else
-  echo "url install"
-fi
+# echo "$0"
+# echo "$1"
+# if [ $0 = "l" ]; then
+#   echo "local install"
+# else
+#   echo "url install"
+# fi
+
+vim +PlugInstall
+echo "Finish vim plugin."

@@ -120,7 +120,7 @@ function tools_vim() {
   cd  ${HOME}/.vim/bundle/YouCompleteMe
   # git submodule update --init --recursive && python3 ./install.py --clang-completer || return 1 # TODO
 
-  gvim +PlugInstall
+  vim +PlugInstall
   cd $CURR_PATH
 }
 
