@@ -44,6 +44,8 @@ function centos_xfce() { # {{{2
     sudo systemctl set-default graphical.target # ui login
     # sudo systemctl isolate graphical.target # start ui now
     # startxface4 # or `init 5`
+    pkg_install "xfce4-about"
+
     sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                    /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
   else
@@ -58,6 +60,7 @@ function pkg_update() { # {{{2
     sudo rm -rf /var/cache/yum
     sudo yum makecache
     sudo yum -y update
+    sudo yum install -y epel-release
 
     sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
                    /etc/default/grub # Waiting time
@@ -82,7 +85,7 @@ function pkg_install() { # {{{2
 }
 
 function pkg_group_basic() { # {{{2
-  # sudo yum groups install "Development Tools"
+  # sudo yum groups install -y "Development Tools"
   pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope clang libgcc libcxx"
   pkg_install "redhat-lsb kernel-devel openssh-server firefox net-tools tree zip xclip"
   pkg_install "libcurl-devel zlib-devel"
@@ -91,6 +94,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
   pkg_install "libevent-devel" # tmux
 
+  pkg_install "java"
   pkg_install "perl-devel"
   pkg_install "tcl-devel"
   # pkg_install "lua lua-devel luajit luajit-devel"
@@ -103,7 +107,7 @@ function pkg_group_basic() { # {{{2
 
   pkg_install "im-chooser gtk2-immodules gtk3-immodules gtk2-immodule-xim gtk3-immodule-xim" # input method
   pkg_install "ibus ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # input method
-  imsettings-switch ibus # current user
+  # imsettings-switch ibus # current user
   # sudo imsettings-switch ibus # root
 }
 
@@ -180,15 +184,18 @@ function pkg_clean() { # {{{2 TODO
 # If you are minimal CentOS, you must make internet work first.
 # Command `nmcli d` to display ethernet status.
 # Command `nmtui` to activate ethernet.
-sudo yum install -y epel-release
 
 # centos_mirror
-centos_xfce
 pkg_update
 pkg_group_basic
-# pkg_gcc
-pkg_git
-pkg_vim
+centos_xfce
+if [ $0 = "x" ]; then
+  exit 1
+else
+  # pkg_gcc
+  pkg_git
+  pkg_vim
+fi
 
 # pkg_clean
 

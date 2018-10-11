@@ -118,7 +118,7 @@ if [ -e "/etc/centos-release" ]; then # CentOS
     bash "${CURR_PATH}/linux/centos_setup.sh" # debug or local install
   else
     echo "URL install"
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_setup.sh)"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_setup.sh)" $0
   fi
 
 else # Ubuntu
