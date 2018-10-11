@@ -61,10 +61,6 @@ function pkg_update() { # {{{2
     sudo yum makecache
     sudo yum -y update
     sudo yum install -y epel-release
-
-    sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
-                   /etc/default/grub # Waiting time
-    sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
   else
     printf '\n' >&2
   fi
@@ -185,10 +181,14 @@ function pkg_clean() { # {{{2 TODO
 # Command `nmcli d` to display ethernet status.
 # Command `nmtui` to activate ethernet.
 
-# centos_mirror
-pkg_update
+centos_mirror
+# pkg_update
+sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
+               /etc/default/grub # Waiting time
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
 pkg_group_basic
 centos_xfce
+
 if [ $0 = "x" ]; then
   exit 1
 else
