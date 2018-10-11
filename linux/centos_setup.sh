@@ -28,7 +28,7 @@ function centos_mirror() { # {{{2
     sudo curl -o /etc/yum.repos.d/CentOS-Base.repo -fsSL http://mirrors.aliyun.com/repo/Centos-7.repo # TODO CentOS 7
     sudo curl -o /etc/yum.repos.d/epel-7.repo -fsSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
     sudo yum makecache
-    sudo yum update
+    sudo yum -y update
     sudo rm -f /tmp/yum_save_tx* # clean log
   else
     printf '\n' >&2
