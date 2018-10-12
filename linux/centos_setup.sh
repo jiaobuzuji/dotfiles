@@ -84,6 +84,7 @@ function pkg_group_basic() { # {{{2
   # sudo yum groups install -y "Development Tools"
   pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope clang libgcc libcxx"
   pkg_install "redhat-lsb kernel-devel openssh-server firefox net-tools tree zip xclip"
+  pkg_install "bzip2 ntfs-3g ntfs-3g"
   pkg_install "libcurl-devel zlib-devel"
   pkg_install "libgnome-devel libgnomeui-devel gtk3-devel gtk2-devel" # ui dependencies
   pkg_install "texinfo texi2html" # zsh
