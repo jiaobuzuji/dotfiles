@@ -106,6 +106,8 @@ function pkg_group_basic() { # {{{2
   pkg_install "ibus ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # input method
   # imsettings-switch ibus # current user
   # sudo imsettings-switch ibus # root
+  
+  pkg_install "flash-plugin"
 }
 
 function pkg_gcc() { # {{{2
@@ -124,7 +126,7 @@ function pkg_git() { # {{{2
   fi
 
   mkdir -p "$HOME/repos/git" && cd "$HOME/repos/git"
-  if [[ ! -d "$HOME/repos/git/v2.19.1"  ]]; then # TODO 20181008
+  if [[ ! -d "$HOME/repos/git/git-2.19.1"  ]]; then # TODO 20181008
     curl -OfSL "https://github.com/git/git/archive/v2.19.1.tar.gz" && tar -zxf "v2.19.1.tar.gz"
   fi
   cd "git-2.19.1"
@@ -181,6 +183,8 @@ function pkg_clean() { # {{{2 TODO
 # If you are minimal CentOS, you must make internet work first.
 # Command `nmcli d` to display ethernet status.
 # Command `nmtui` to activate ethernet.
+
+sudo yum -y install http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm
 
 centos_mirror
 # pkg_update
