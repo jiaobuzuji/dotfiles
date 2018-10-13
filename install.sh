@@ -96,6 +96,12 @@ function gen_ssh_key() {
   fi
 }
 
+function my_copyright() {
+  msg "\nThanks for installing ."
+  msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
+}
+
+
 # MAIN() {{{1
 # -----------------------------------------------------------------
 # Environment {{{2
@@ -113,7 +119,7 @@ msg   "Distributor : $(head -n1 /etc/issue | cut -f1 -d\ )" # Ubuntu, CentOS6(bu
 if [ -e "/etc/centos-release" ]; then # CentOS
   pkg_check "yum curl"
 
-  if [ $0 = "install.sh" ]; then
+  if [ $0 = "./install.sh" ]; then
     echo "Local install"
     bash "${CURR_PATH}/linux/centos_setup.sh" # debug or local install
   else
@@ -126,13 +132,16 @@ else # Ubuntu
   # [ ! -f "${HOME}/.myshell/extra.sh" ] && echo -ne "alias which='which -a'" > "${HOME}/.myshell/extra.sh"
 fi
 
-repo_sync  "$REPO_PATH" \
-           "https://github.com/jiaobuzuji/dotfiles" \
-           "master" \
-           "dotfiles.git"
-if [ $0 = "install.sh" ]; then
+if [ $0 = "./install.sh" ]; then
   source "${CURR_PATH}/linux/tools_func.sh"
+elif [ $0 = "x" ]; then
+  my_copyright
+  exit 1
 else
+  repo_sync  "$REPO_PATH" \
+             "https://github.com/jiaobuzuji/dotfiles" \
+             "master" \
+             "dotfiles.git"
   source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
 fi
 
@@ -164,8 +173,7 @@ lnif "$REPO_PATH/dotfiles.git/tmux/.tmux.conf"   "$HOME/.tmux.conf"
 
 
 # Finish {{{2
-msg "\nThanks for installing ."
-msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
+my_copyright
 
 }
 # Run Main {{{2

@@ -53,6 +53,10 @@ function centos_xfce() { # {{{2
   fi
 }
 
+function pkg_addation() { # {{{2
+  sudo yum -y install http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm
+}
+
 function pkg_update() { # {{{2
   read -n1 -p "Update system ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
@@ -60,6 +64,7 @@ function pkg_update() { # {{{2
     sudo rm -rf /var/cache/yum
     sudo yum makecache
     sudo yum -y update
+    sudo rm -f /tmp/yum_save_tx* # clean log
     sudo yum install -y epel-release
   else
     printf '\n' >&2
@@ -169,9 +174,14 @@ function pkg_vim() { # {{{2
 }
 
 function pkg_clean() { # {{{2 TODO
-  rpm -q kernel kernel-devel kernel-headers | \
-  egrep -v `uname -r` | \
-  xargs -n1 sudo yum remove -y
+  read -n1 -p "Clean old kernel ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    rpm -q kernel kernel-devel kernel-headers | \
+    egrep -v `uname -r` | \
+    xargs -n1 sudo yum remove -y
+  else
+    printf '\n' >&2
+  fi
 }
 
 # Environment {{{1
@@ -184,8 +194,7 @@ function pkg_clean() { # {{{2 TODO
 # Command `nmcli d` to display ethernet status.
 # Command `nmtui` to activate ethernet.
 
-sudo yum -y install http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm
-
+pkg_addation
 centos_mirror
 # pkg_update
 sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
@@ -201,8 +210,7 @@ else
   pkg_git
   pkg_vim
 fi
-
-# pkg_clean
+pkg_clean
 
 # echo "haha" # DEBUG
 
