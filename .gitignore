@@ -1,3 +1,4 @@
 *.swp
 shell/extra.sh
 xfce.config/xfce4/desktop/
+xfce.config/ibus
