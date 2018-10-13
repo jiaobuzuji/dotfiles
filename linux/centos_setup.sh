@@ -111,7 +111,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "ibus ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # input method
   # imsettings-switch ibus # current user
   # sudo imsettings-switch ibus # root
-  
+
   pkg_install "flash-plugin"
 }
 
@@ -130,11 +130,12 @@ function pkg_git() { # {{{2
     [[ $ans =~ [Yy] ]] && sudo yum remove git -y || return 1
   fi
 
+  local git_version="2.19.1" # TODO 20181008
   mkdir -p "$HOME/repos/git" && cd "$HOME/repos/git"
-  if [[ ! -d "$HOME/repos/git/git-2.19.1"  ]]; then # TODO 20181008
-    curl -OfSL "https://github.com/git/git/archive/v2.19.1.tar.gz" && tar -zxf "v2.19.1.tar.gz"
+  if [[ ! -d "$HOME/repos/git/git-${git_version}"  ]]; then
+    curl -OfSL "https://github.com/git/git/archive/v${git_version}.tar.gz" && tar -zxf "v${git_version}.tar.gz"
   fi
-  cd "git-2.19.1"
+  cd "git-${git_version}"
 
   pkg_install "gcc gcc-c++ automake autoconf expat-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto texinfo docbook2X"
   sudo ln -sf /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
