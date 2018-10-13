@@ -26,10 +26,11 @@ function centos_mirror() { # {{{2
     sudo rm -rf /var/cache/yum
     sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak # backup
     sudo curl -o /etc/yum.repos.d/CentOS-Base.repo -fSL http://mirrors.aliyun.com/repo/Centos-7.repo # TODO CentOS 7
-    sudo curl -o /etc/yum.repos.d/epel-7.repo -fSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
+    # sudo curl -o /etc/yum.repos.d/epel-7.repo -fSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
     sudo yum makecache
     sudo yum -y update
     sudo rm -f /tmp/yum_save_tx* # clean log
+    sudo yum install -y epel-release
   else
     printf '\n' >&2
   fi
@@ -56,8 +57,11 @@ function centos_xfce() { # {{{2
 function pkg_addation() { # {{{2
   sudo yum install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
 
+  # sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm # epel-release TODO CentOS 7
+  sudo yum install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm # vlc TODO CentOS 7
+
   cd /etc/yum.repos.d/
-  sudo curl -OfSL http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo
+  sudo curl -OfSL http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo # vbox
 
   cd $CURR_PATH
 }
@@ -65,6 +69,7 @@ function pkg_addation() { # {{{2
 function pkg_update() { # {{{2
   read -n1 -p "Update system ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
+    sudo yum remove -y epel-release
     sudo yum clean all
     sudo rm -rf /var/cache/yum
     sudo yum makecache
@@ -94,8 +99,8 @@ function pkg_install() { # {{{2
 function pkg_group_basic() { # {{{2
   # sudo yum groups install -y "Development Tools"
   pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope clang libgcc libcxx"
-  pkg_install "redhat-lsb kernel-devel openssh-server firefox net-tools tree zip xclip"
-  pkg_install "bzip2 ntfs-3g ntfs-3g"
+  pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
+  pkg_install "firefox bzip2 ntfs-3g ntfs-3g tree zip xclip"
   pkg_install "libcurl-devel zlib-devel"
   pkg_install "libgnome-devel libgnomeui-devel gtk3-devel gtk2-devel" # ui dependencies
   pkg_install "texinfo texi2html" # zsh
@@ -117,8 +122,11 @@ function pkg_group_basic() { # {{{2
   pkg_install "ibus ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # input method
   # imsettings-switch ibus # current user
   # sudo imsettings-switch ibus # root
+  # ibus-setup # config ibus
 
   pkg_install "flash-plugin"
+  pkg_install "vlc"
+
 }
 
 function pkg_gcc() { # {{{2
@@ -200,8 +208,8 @@ function pkg_clean() { # {{{2 TODO
 # Command `nmtui` to activate ethernet.
 
 pkg_addation
-centos_mirror
-# pkg_update
+# centos_mirror
+pkg_update
 sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
                /etc/default/grub # Waiting time
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
