@@ -1,6 +1,12 @@
 *.swp
+install.log
+
 shell/extra.sh
+
+xfce.config/VirtualBox/
 xfce.config/xfce4/desktop/
 xfce.config/ibus/
 xfce.config/pulse/
+xfce.config/Thunar/
 xfce.config/Trolltech.conf
+xfce.config/vlc/vlc-qt-interface.conf

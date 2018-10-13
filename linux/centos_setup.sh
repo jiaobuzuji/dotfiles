@@ -54,7 +54,7 @@ function centos_xfce() { # {{{2
   fi
 }
 
-function pkg_addation() { # {{{2
+function pkg_addition() { # {{{2
   sudo yum install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
 
   # sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm # epel-release TODO CentOS 7
@@ -129,6 +129,15 @@ function pkg_group_basic() { # {{{2
 
 }
 
+function pkg_clean() { # {{{2 TODO
+  read -n1 -p "Clean old kernel ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    sudo yum remove -y $(rpm -q kernel kernel-devel kernel-headers | egrep -v `uname -r`)
+  else
+    printf '\n' >&2
+  fi
+}
+
 function pkg_gcc() { # {{{2
   pkg_install "libmpc-devel mpfr-devel gmp-devel zlib-devel"
   pkg_install "texinfo flex"
@@ -188,10 +197,16 @@ function pkg_vim() { # {{{2
   cd $CURR_PATH
 }
 
-function pkg_clean() { # {{{2 TODO
-  read -n1 -p "Clean old kernel ? (y/N) " ans
+function pkg_vbox() { # {{{2
+  read -n1 -p "Install VirtualBox ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    sudo yum remove -y $(rpm -q kernel kernel-devel kernel-headers | egrep -v `uname -r`)
+    local vbox_version="5.2.16" # TODO 20181008
+    pkg_install "VirtualBox"
+    # Install USB 3.0 Controler
+    mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
+    curl -fSLO "https://download.virtualbox.org/virtualbox/$vbox_version/Oracle_VM_VirtualBox_Extension_Pack-$vbox_version.vbox-extpack"
+    VBoxManage extpack install "Oracle_VM_VirtualBox_Extension_Pack-$vbox_version.vbox-extpack"
+    cd $CURR_PATH
   else
     printf '\n' >&2
   fi
@@ -207,7 +222,7 @@ function pkg_clean() { # {{{2 TODO
 # Command `nmcli d` to display ethernet status.
 # Command `nmtui` to activate ethernet.
 
-pkg_addation
+pkg_addition
 # centos_mirror
 pkg_update
 sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
@@ -223,6 +238,7 @@ else
   # pkg_gcc
   pkg_git
   pkg_vim
+  pkg_vbox
 fi
 pkg_clean
 
