@@ -25,8 +25,8 @@ function centos_mirror() { # {{{2
     sudo yum clean all
     sudo rm -rf /var/cache/yum
     sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak # backup
-    sudo curl -o /etc/yum.repos.d/CentOS-Base.repo -fsSL http://mirrors.aliyun.com/repo/Centos-7.repo # TODO CentOS 7
-    sudo curl -o /etc/yum.repos.d/epel-7.repo -fsSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
+    sudo curl -o /etc/yum.repos.d/CentOS-Base.repo -fSL http://mirrors.aliyun.com/repo/Centos-7.repo # TODO CentOS 7
+    sudo curl -o /etc/yum.repos.d/epel-7.repo -fSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
     sudo yum makecache
     sudo yum -y update
     sudo rm -f /tmp/yum_save_tx* # clean log
@@ -44,7 +44,7 @@ function centos_xfce() { # {{{2
     sudo systemctl set-default graphical.target # ui login
     # sudo systemctl isolate graphical.target # start ui now
     # startxface4 # or `init 5`
-    pkg_install "xfce4-about"
+    pkg_install "xfce4-about xarchiver xfce4-screenshooter"
 
     sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                    /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
@@ -54,7 +54,12 @@ function centos_xfce() { # {{{2
 }
 
 function pkg_addation() { # {{{2
-  sudo yum -y install http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm
+  sudo yum install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
+
+  cd /etc/yum.repos.d/
+  sudo curl -OfSL http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo
+
+  cd $CURR_PATH
 }
 
 function pkg_update() { # {{{2
@@ -72,17 +77,18 @@ function pkg_update() { # {{{2
 }
 
 function pkg_install() { # {{{2
-  for i in $1
-  do
-    which $i > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-      ret='1'
-      msg "Check '$i' : Fail. Try to install it automatically!"
-      sudo yum install $i -y || error "Installation of '$i' failure, please install it manually!"
-    else
-      ret='0' && success "Check '$i' : Success!"
-    fi
-  done
+  sudo yum install -y $1
+  # for i in $1
+  # do
+  #   which $i > /dev/null 2>&1
+  #   if [ $? -ne 0 ]; then
+  #     ret='1'
+  #     msg "Check '$i' : Fail. Try to install it automatically!"
+  #     sudo yum install $i -y || error "Installation of '$i' failure, please install it manually!"
+  #   else
+  #     ret='0' && success "Check '$i' : Success!"
+  #   fi
+  # done
 }
 
 function pkg_group_basic() { # {{{2
@@ -177,9 +183,7 @@ function pkg_vim() { # {{{2
 function pkg_clean() { # {{{2 TODO
   read -n1 -p "Clean old kernel ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    rpm -q kernel kernel-devel kernel-headers | \
-    egrep -v `uname -r` | \
-    xargs -n1 sudo yum remove -y
+    sudo yum remove -y $(rpm -q kernel kernel-devel kernel-headers | egrep -v `uname -r`)
   else
     printf '\n' >&2
   fi
@@ -205,6 +209,7 @@ pkg_group_basic
 centos_xfce
 
 if [ $0 = "x" ]; then
+  pkg_clean
   exit 1
 else
   # pkg_gcc

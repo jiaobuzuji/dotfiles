@@ -162,6 +162,7 @@ tools_vim
 
 # Create Links {{{2
 mkdir -p ${HOME}/{.ssh,.vnc}
+lnif "$REPO_PATH/dotfiles.git/xfce.config"   "$HOME/.config"
 lnif "$REPO_PATH/dotfiles.git/shell"   "$HOME/.myshell"
 lnif "$REPO_PATH/dotfiles.git/shell/.zshrc"   "$HOME/.zshrc"
 # lnif "$REPO_PATH/dotfiles.git/shell/.bashrc"   "$HOME/.bashrc"
