@@ -51,6 +51,12 @@ function centos_xfce() { # {{{2
 
     sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                    /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
+
+    # xfce4-session-settings
+    # Select Application Autostart
+    # SSH Key Agent (GNOME Keyring:SSH agent)
+    # Select Advanced
+    # Check Launch GNOME services on startup
   else
     printf '\n' >&2
   fi
