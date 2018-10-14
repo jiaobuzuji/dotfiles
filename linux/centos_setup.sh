@@ -45,7 +45,9 @@ function centos_xfce() { # {{{2
     sudo systemctl set-default graphical.target # ui login
     # sudo systemctl isolate graphical.target # start ui now
     # startxface4 # or `init 5`
+
     pkg_install "xfce4-about xarchiver xfce4-screenshooter xfce4-screenshooter-plugin"
+    pkg_install "xfce4-battery-plugin xfce4-mount-plugin"
 
     sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                    /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
