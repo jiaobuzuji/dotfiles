@@ -45,7 +45,7 @@ function centos_xfce() { # {{{2
     sudo systemctl set-default graphical.target # ui login
     # sudo systemctl isolate graphical.target # start ui now
     # startxface4 # or `init 5`
-    pkg_install "xfce4-about xarchiver xfce4-screenshooter"
+    pkg_install "xfce4-about xarchiver xfce4-screenshooter xfce4-screenshooter-plugin"
 
     sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                    /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
@@ -53,6 +53,31 @@ function centos_xfce() { # {{{2
     printf '\n' >&2
   fi
 }
+
+function centos_hostname() { # {{{2
+  echo "Modify \"hostname\" ? Please use method 2 ."
+  cat << ECHO_END
+  # method 1
+  # vi /etc/hosts
+
+  # method 2
+  # hostnamectl status [--static|--transient|--pretty]
+  # hostnamectl set-hostname MY_NAME
+  # cat /etc/machine-info
+
+  # method 3
+  # nmcli general hostname MY_NAME
+  # nmtui-hostname
+
+  # method 4
+  # vi /etc/sysconfig/network
+
+  # method 5 # temporary
+  # hostname MY_NAME
+ECHO_END
+
+}
+
 
 function pkg_addition() { # {{{2
   sudo yum install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
@@ -200,13 +225,23 @@ function pkg_vim() { # {{{2
 function pkg_vbox() { # {{{2
   read -n1 -p "Install VirtualBox ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    local vbox_version="5.2.16" # TODO 20181008
-    pkg_install "VirtualBox"
+    local vbox_version="5.2.18" # TODO 20181008
+    pkg_install "dkms VirtualBox-5.2" # NOTE!
     # Install USB 3.0 Controler
     mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
     curl -fSLO "https://download.virtualbox.org/virtualbox/$vbox_version/Oracle_VM_VirtualBox_Extension_Pack-$vbox_version.vbox-extpack"
     VBoxManage extpack install "Oracle_VM_VirtualBox_Extension_Pack-$vbox_version.vbox-extpack"
     cd $CURR_PATH
+  else
+    printf '\n' >&2
+  fi
+}
+
+function pkg_teamviewer() { # {{{2
+  read -n1 -p "Install TeamViewer ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    # sudo yum install -y https://download.teamviewer.com/download/linux/teamviewer-host.x86_64.rpm # teamviewer
+    sudo yum install -y https://download.teamviewer.com/download/linux/teamviewer.x86_64.rpm # teamviewer
   else
     printf '\n' >&2
   fi
@@ -230,6 +265,7 @@ sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
 pkg_group_basic
 centos_xfce
+centos_hostname
 
 if [ $0 = "x" ]; then
   pkg_clean
@@ -239,6 +275,7 @@ else
   pkg_git
   pkg_vim
   pkg_vbox
+  pkg_teamviewer
 fi
 pkg_clean
 

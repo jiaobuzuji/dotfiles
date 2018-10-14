@@ -32,8 +32,8 @@
 # }
 # func1
 
-echo "$0"
-echo "$1"
+# echo "$0"
+# echo "$1"
 # if [ $0 = "l" ]; then
 #   echo "local install"
 # else
@@ -42,4 +42,10 @@ echo "$1"
 
 # vim +PlugInstall
 # echo "Finish vim plugin."
+
+echo "Modify \"hostname\" ? Using method 2 ."
+cat << END_OF_ECHO
+method 1
+$ vi /etc/hosts
+END_OF_ECHO
 

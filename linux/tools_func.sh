@@ -108,6 +108,7 @@ function tools_vim() {
              "vimrc.git"
 
   lnif "$REPO_PATH/vimrc.git"   "$HOME/.vim"
+  mkdir -p "$HOME/.vim/undodir"
 
   curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
