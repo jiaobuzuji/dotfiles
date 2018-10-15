@@ -266,6 +266,9 @@ function pkg_wps() { # {{{2
     curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/${patch_version}/wps-office-${wps_version}.${patch_version}-1.x86_64.rpm
     sudo yum install -y wps-office-${wps_version}.${patch_version}-1.x86_64.rpm
     cd $CURR_PATH
+
+    # uninstall
+    # sudo yum remove wps-office
   else
     printf '\n' >&2
   fi
