@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------
 # Author : Jiaobuzuji@163.com
 # Reference : https://github.com/tracyone/dotfiles/
-# Abstract : ubuntu bootstrap functions
+# Abstract : bootstrap functions
 # -----------------------------------------------------------------
 
 # SETUP FUNCTIONS {{{1
