@@ -125,18 +125,19 @@ function tools_vim() {
   cd $CURR_PATH
 }
 
-# function tools_fonts() {
-  # sudo mkdir -p /usr/share/fonts/yahei
-  # sudo cp YaHei.Consolas.1.12.ttf /usr/share/fonts/yahei/
-  # 然后，改变权限：
-  # sudo chmod 644 /usr/share/fonts/yahei/YaHei.Consolas.1.12.ttf
-  # 安装：
-  # cd /usr/share/fonts/yahei/
-  # sudo mkfontscale
-  # sudo mkfontdir
-  # sudo fc-cache -fv
-  # cd $CURR_PATH
-# }
+function tools_fonts() {
+  repo_sync  "$REPO_PATH" \
+             "https://github.com/tracyone/program_font" \
+             "master" \
+             "program_font"
+
+  lnif "$REPO_PATH/program_font"   "/usr/share/fonts/program_font"
+  cd "/usr/share/fonts/program_font"
+  sudo mkfontscale
+  sudo mkfontdir
+  sudo fc-cache -fv
+  cd $CURR_PATH
+}
 
 
 # -----------------------------------------------------------------
