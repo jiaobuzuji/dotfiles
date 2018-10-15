@@ -133,7 +133,7 @@ function pkg_install() { # {{{2
 
 function pkg_group_basic() { # {{{2
   # sudo yum groups install -y "Development Tools"
-  pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope clang libgcc libcxx"
+  pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope clang csh libgcc libcxx"
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
   pkg_install "firefox bzip2 ntfs-3g ntfs-3g tree zip xclip"
   pkg_install "libcurl-devel zlib-devel"
