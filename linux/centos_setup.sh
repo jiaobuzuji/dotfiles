@@ -47,7 +47,9 @@ function centos_xfce() { # {{{2
     # startxface4 # or `init 5`
 
     pkg_install "xfce4-about xarchiver xfce4-screenshooter xfce4-screenshooter-plugin"
-    pkg_install "xfce4-battery-plugin xfce4-mount-plugin"
+    pkg_install "ristretto xfdashboard xfce4-battery-plugin xfce4-mount-plugin"
+    # pkg_install "system-config-language"
+    pkg_install "xfce4-taskmanager"
 
     sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                    /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
@@ -255,6 +257,20 @@ function pkg_teamviewer() { # {{{2
   fi
 }
 
+function pkg_wps() { # {{{2
+  read -n1 -p "Install TeamViewer ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    local wps_version="10.1.0" # TODO 20181008
+    local patch_version="6757" # TODO 20181008
+    mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
+    curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/${patch_version}/wps-office-${wps_version}.${patch_version}-1.x86_64.rpm
+    sudo yum install -y wps-office-${wps_version}.${patch_version}-1.x86_64.rpm
+    cd $CURR_PATH
+  else
+    printf '\n' >&2
+  fi
+}
+
 # Environment {{{1
 [ -z "$REPO_PATH" ] && REPO_PATH="$HOME/repos"
 [ -z "$CURR_PATH" ] && CURR_PATH=$(pwd)
@@ -283,6 +299,7 @@ else
   pkg_git
   pkg_vim
   pkg_vbox
+  pkg_wps
   pkg_teamviewer
 fi
 pkg_clean
