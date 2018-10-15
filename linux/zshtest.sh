@@ -43,9 +43,14 @@
 # vim +PlugInstall
 # echo "Finish vim plugin."
 
-echo "Modify \"hostname\" ? Using method 2 ."
-cat << END_OF_ECHO
-method 1
-$ vi /etc/hosts
-END_OF_ECHO
+# echo "Modify \"hostname\" ? Using method 2 ."
+# cat << END_OF_ECHO
+# method 1
+# $ vi /etc/hosts
+# END_OF_ECHO
+
+cat << ECHO_END
+env=~/.ssh/agent.env
+agent_load_env () { test -f "\$env" && . "\$env" >| /dev/null ; }
+ECHO_END
 

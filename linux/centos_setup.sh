@@ -191,6 +191,7 @@ function pkg_git() { # {{{2
   local git_version="2.19.1" # TODO 20181008
   mkdir -p "$HOME/repos/git" && cd "$HOME/repos/git"
   if [[ ! -d "$HOME/repos/git/git-${git_version}"  ]]; then
+    msg "Downloading git source!"
     curl -OfSL "https://github.com/git/git/archive/v${git_version}.tar.gz" && tar -zxf "v${git_version}.tar.gz"
   fi
   cd "git-${git_version}"
@@ -239,6 +240,7 @@ function pkg_vbox() { # {{{2
     pkg_install "dkms VirtualBox-5.2" # NOTE!
     # Install USB 3.0 Controler
     mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
+    msg "Downloading VBox Extension Pack !"
     curl -fSLO "https://download.virtualbox.org/virtualbox/$vbox_version/Oracle_VM_VirtualBox_Extension_Pack-$vbox_version.vbox-extpack"
     VBoxManage extpack install "Oracle_VM_VirtualBox_Extension_Pack-$vbox_version.vbox-extpack"
     cd $CURR_PATH
@@ -263,6 +265,7 @@ function pkg_wps() { # {{{2
     local wps_version="10.1.0" # TODO 20181008
     local patch_version="6757" # TODO 20181008
     mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
+    msg "Downloading WPS Office !"
     curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/${patch_version}/wps-office-${wps_version}.${patch_version}-1.x86_64.rpm
     sudo yum install -y wps-office-${wps_version}.${patch_version}-1.x86_64.rpm
     cd $CURR_PATH

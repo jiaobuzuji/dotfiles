@@ -87,9 +87,34 @@ function gen_ssh_key() {
   if [[ $ans =~ [Yy] ]]; then
     msg "Generating a new SSH key."
     ssh-keygen -t rsa -b 4096 -C "jiaobuzuji@163.com"
-    msg "Adding it to the ssh-agent."
-    eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/id_rsa
+
+    # -----------------------------------------------
+    # Microsoft Windows. put the following in .bashrc
+    # env=~/.ssh/agent.env
+    # agent_load_env () { test -f "$env" && . "$env" >| /dev/null ; }
+
+    # agent_start () {
+    #     (umask 077; ssh-agent >| "$env")
+    #     . "$env" >| /dev/null ; }
+
+    # agent_load_env
+
+    # # agent_run_state: 0=agent running w/ key; 1=agent w/o key; 2= agent not running
+    # agent_run_state=$(ssh-add -l >| /dev/null 2>&1; echo $?)
+
+    # if [ ! "$SSH_AUTH_SOCK" ] || [ $agent_run_state = 2 ]; then
+    #     agent_start
+    #     ssh-add ~/.ssh/github_rsa
+    # elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
+    #     ssh-add ~/.ssh/github_rsa
+    # fi
+
+    # unset env
+    # -----------------------------------------------
+
+    # msg "Adding it to the ssh-agent."
+    # eval "$(ssh-agent -s)"
+    # ssh-add ~/.ssh/id_rsa
     # xclip -sel clip < ~/.ssh/id_rsa.pub # Copies the contents of the id_rsa.pub file to your clipboard
   else
     printf '\n' >&2
