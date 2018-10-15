@@ -138,7 +138,6 @@
       <property name="&lt;Alt&gt;F4" type="string" value="close_window_key"/>
       <property name="&lt;Primary&gt;&lt;Shift&gt;&lt;Alt&gt;Left" type="string" value="move_window_left_key"/>
       <property name="&lt;Alt&gt;F6" type="string" value="stick_window_key"/>
-      <property name="&lt;Alt&gt;F10" type="string" value="maximize_window_key"/>
       <property name="&lt;Alt&gt;F12" type="string" value="above_key"/>
       <property name="&lt;Alt&gt;F9" type="string" value="hide_window_key"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;Down" type="string" value="down_workspace_key"/>
@@ -174,6 +173,9 @@
       <property name="&lt;Primary&gt;&lt;Alt&gt;KP_5" type="string" value="move_window_workspace_5_key"/>
       <property name="override" type="bool" value="true"/>
       <property name="&lt;Super&gt;d" type="string" value="show_desktop_key"/>
+      <property name="&lt;Super&gt;Left" type="string" value="tile_left_key"/>
+      <property name="&lt;Super&gt;Right" type="string" value="tile_right_key"/>
+      <property name="&lt;Super&gt;Up" type="string" value="maximize_window_key"/>
     </property>
   </property>
   <property name="providers" type="array">
