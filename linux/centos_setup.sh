@@ -267,11 +267,13 @@ function pkg_wps() { # {{{2
     mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
     msg "Downloading WPS Office !"
     curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/${patch_version}/wps-office-${wps_version}.${patch_version}-1.x86_64.rpm
+    curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/fonts/wps-office-fonts-1.0-1.noarch.rpm
     sudo yum install -y wps-office-${wps_version}.${patch_version}-1.x86_64.rpm
+    sudo yum install -y wps-office-fonts-1.0-1.noarch.rpm
     cd $CURR_PATH
 
     # uninstall
-    # sudo yum remove wps-office
+    # sudo yum remove wps-office wps-office-fonts
   else
     printf '\n' >&2
   fi
