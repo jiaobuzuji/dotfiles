@@ -46,6 +46,7 @@ function centos_xfce() { # {{{2
     # sudo systemctl isolate graphical.target # start ui now
     # startxface4 # or `init 5`
 
+    # https://wiki.xfce.org/recommendedapps
     pkg_install "xfce4-about xarchiver xfce4-screenshooter xfce4-screenshooter-plugin"
     pkg_install "ristretto xfdashboard xfce4-battery-plugin xfce4-mount-plugin"
     # pkg_install "system-config-language"
