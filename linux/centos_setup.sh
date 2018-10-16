@@ -188,13 +188,13 @@ function pkg_git() { # {{{2
     [[ $ans =~ [Yy] ]] && sudo yum remove git -y || return 1
   fi
 
-  local git_version="2.19.1" # TODO 20181008
+  local pkg_version="2.19.1" # TODO 20181008
   mkdir -p "$HOME/repos/git" && cd "$HOME/repos/git"
-  if [[ ! -d "$HOME/repos/git/git-${git_version}"  ]]; then
+  if [[ ! -d "$HOME/repos/git/git-${pkg_version}"  ]]; then
     msg "Downloading git source!"
-    curl -OfSL "https://github.com/git/git/archive/v${git_version}.tar.gz" && tar -zxf "v${git_version}.tar.gz"
+    curl -OfSL "https://github.com/git/git/archive/v${pkg_version}.tar.gz" && tar -zxf "v${pkg_version}.tar.gz"
   fi
-  cd "git-${git_version}"
+  cd "git-${pkg_version}"
 
   pkg_install "gcc gcc-c++ automake autoconf expat-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto texinfo docbook2X"
   sudo ln -sf /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
@@ -236,14 +236,34 @@ function pkg_vim() { # {{{2
 function pkg_vbox() { # {{{2
   read -n1 -p "Install VirtualBox ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    local vbox_version="5.2.18" # TODO 20181008
+    local pkg_version="5.2.18" # TODO 20181008
     pkg_install "dkms VirtualBox-5.2" # NOTE!
     # Install USB 3.0 Controler
     mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
     msg "Downloading VBox Extension Pack !"
-    curl -fSLO "https://download.virtualbox.org/virtualbox/$vbox_version/Oracle_VM_VirtualBox_Extension_Pack-$vbox_version.vbox-extpack"
-    VBoxManage extpack install "Oracle_VM_VirtualBox_Extension_Pack-$vbox_version.vbox-extpack"
+    curl -fSLO "https://download.virtualbox.org/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
+    VBoxManage extpack install "Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
     cd $CURR_PATH
+  else
+    printf '\n' >&2
+  fi
+}
+
+function pkg_wps() { # {{{2
+  read -n1 -p "Install TeamViewer ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    local pkg_version="10.1.0" # TODO 20181008
+    local patch_version="6757" # TODO 20181008
+    mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
+    msg "Downloading WPS Office !"
+    curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/${patch_version}/wps-office-${pkg_version}.${patch_version}-1.x86_64.rpm
+    curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/fonts/wps-office-fonts-1.0-1.noarch.rpm
+    sudo yum install -y wps-office-${pkg_version}.${patch_version}-1.x86_64.rpm
+    sudo yum install -y wps-office-fonts-1.0-1.noarch.rpm
+    cd $CURR_PATH
+
+    # uninstall
+    # sudo yum remove wps-office wps-office-fonts
   else
     printf '\n' >&2
   fi
@@ -259,26 +279,23 @@ function pkg_teamviewer() { # {{{2
   fi
 }
 
-function pkg_wps() { # {{{2
-  read -n1 -p "Install TeamViewer ? (y/N) " ans
+function pkg_bcompare() { # {{{2
+  read -n1 -p "Install BeyondCompare ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    local wps_version="10.1.0" # TODO 20181008
-    local patch_version="6757" # TODO 20181008
+    local pkg_version="4.2.6.23150" # TODO 20181008
     mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
-    msg "Downloading WPS Office !"
-    curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/${patch_version}/wps-office-${wps_version}.${patch_version}-1.x86_64.rpm
-    curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/fonts/wps-office-fonts-1.0-1.noarch.rpm
-    sudo yum install -y wps-office-${wps_version}.${patch_version}-1.x86_64.rpm
-    sudo yum install -y wps-office-fonts-1.0-1.noarch.rpm
+    msg "Downloading BeyondCompare !"
+    curl -OfSL http://www.scootersoftware.com/bcompare-${pkg_version}.x86_64.rpm
+    sudo rpm --import http://www.scootersoftware.com/RPM-GPG-KEY-scootersoftware
+    sudo yum install -y bcompare-${pkg_version}.x86_64.rpm
     cd $CURR_PATH
 
     # uninstall
-    # sudo yum remove wps-office wps-office-fonts
+    # sudo yum remove bcompare
   else
     printf '\n' >&2
   fi
 }
-
 # Environment {{{1
 [ -z "$REPO_PATH" ] && REPO_PATH="$HOME/repos"
 [ -z "$CURR_PATH" ] && CURR_PATH=$(pwd)
@@ -309,6 +326,7 @@ else
   pkg_vbox
   pkg_wps
   pkg_teamviewer
+  pkg_bcompare
 fi
 pkg_clean
 
