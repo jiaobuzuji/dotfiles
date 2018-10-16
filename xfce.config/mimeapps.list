@@ -2,3 +2,5 @@
 x-scheme-handler/http=exo-web-browser.desktop
 x-scheme-handler/https=exo-web-browser.desktop
 video/x-flv=vlc.desktop;
+text/plain=gvim.desktop;vim.desktop;
+application/pdf=evince.desktop;

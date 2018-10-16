@@ -48,10 +48,17 @@ function centos_xfce() { # {{{2
 
     # https://wiki.xfce.org/recommendedapps
     pkg_install "xfce4-about xarchiver xfce4-screenshooter xfce4-screenshooter-plugin"
-    pkg_install "ristretto xfdashboard xfce4-battery-plugin xfce4-mount-plugin"
+    pkg_install "xfdashboard xfce4-mount-plugin"
     # pkg_install "system-config-language"
-    pkg_install "xfce4-taskmanager"
+    pkg_install "xfce4-taskmanager gnome-system-monitor" # monitor
+    pkg_install "xfce4-battery-plugin xbacklight" # power, brightness
+    pkg_install "evince" # pdf
+    pkg_install "ristretto" # jpeg png
+    pkg_install "firewall-config"
+    pkg_install "vinagre" # remote desktop viewer 
+    pkg_install "xfdashboard-themes xfwm4-themes arc-theme arc-theme-plank" # themes https://www.xfce-look.org/
 
+    sudo xbacklight -set 10 # for laptop
     sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                    /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
 
