@@ -164,7 +164,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "cjkuni-ukai-fonts " # fonts and font tools
 
   pkg_install "im-chooser gtk2-immodules gtk3-immodules gtk2-immodule-xim gtk3-immodule-xim" # input method
-  pkg_install "ibus ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # input method
+  pkg_install "ibus ibus-qt ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # input method
   # imsettings-switch ibus # current user
   # sudo imsettings-switch ibus # root
   # ibus-setup # config ibus
