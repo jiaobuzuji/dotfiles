@@ -4,3 +4,5 @@ x-scheme-handler/https=exo-web-browser.desktop
 video/x-flv=vlc.desktop;
 text/plain=gvim.desktop;vim.desktop;
 application/pdf=evince.desktop;
+application/vnd.rar=xarchiver.desktop;
+application/zip=xarchiver.desktop;

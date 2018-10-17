@@ -29,6 +29,7 @@ function centos_mirror() { # {{{2
     # sudo curl -o /etc/yum.repos.d/epel-7.repo -fSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
     sudo yum makecache
     sudo yum -y update
+    sudo yum -y upgrade
     sudo rm -f /tmp/yum_save_tx* # clean log
     sudo yum install -y epel-release
   else
@@ -119,6 +120,7 @@ function pkg_update() { # {{{2
     sudo rm -rf /var/cache/yum
     sudo yum makecache
     sudo yum -y update
+    sudo yum -y upgrade
     sudo rm -f /tmp/yum_save_tx* # clean log
     sudo yum install -y epel-release
   else
@@ -274,6 +276,18 @@ function pkg_wps() { # {{{2
 
     # uninstall
     # sudo yum remove wps-office wps-office-fonts
+
+    # 在/usr/bin/wps /usr/bin/wpp /usr/bin/et
+    # gedit/usr/bin/wps
+    # 在#!/bin/bash下面添加如下配置：
+    # exportXMODIFIERS=”@im=ibus”
+    # export QT_IM_MODULE=”ibus”
+    # gedit/usr/bin/et
+    # 在#!/bin/bash下面添加如下配置：
+    # exportXMODIFIERS=”@im=ibus”
+    # export QT_IM_MODULE=”ibus”
+    # 重新启动WPS可以发现中文问题解决！
+
   else
     printf '\n' >&2
   fi

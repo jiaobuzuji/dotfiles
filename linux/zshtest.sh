@@ -49,7 +49,7 @@
 # $ vi /etc/hosts
 # END_OF_ECHO
 
-cat << ECHO_END
+cat > wow.txt << ECHO_END
 env=~/.ssh/agent.env
 agent_load_env () { test -f "\$env" && . "\$env" >| /dev/null ; }
 ECHO_END
