@@ -6,4 +6,9 @@
     <value type="string" value="exo-file-manager.desktop"/>
     <value type="string" value="exo-terminal-emulator.desktop"/>
   </property>
+  <property name="components" type="empty">
+    <property name="windows-view" type="empty">
+      <property name="scroll-event-changes-workspace" type="bool" value="false"/>
+    </property>
+  </property>
 </channel>

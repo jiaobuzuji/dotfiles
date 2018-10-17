@@ -56,7 +56,9 @@ function centos_xfce() { # {{{2
     pkg_install "ristretto" # jpeg png
     pkg_install "firewall-config"
     pkg_install "vinagre" # remote desktop viewer 
+
     pkg_install "xfdashboard-themes xfwm4-themes arc-theme arc-theme-plank" # themes https://www.xfce-look.org/
+    # pkg_install "numix-gtk-theme numix-icon-theme"
 
     sudo xbacklight -set 10 # for laptop
     sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
