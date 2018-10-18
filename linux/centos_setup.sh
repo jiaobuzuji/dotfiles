@@ -147,7 +147,7 @@ function pkg_group_basic() { # {{{2
   # sudo yum groups install -y "Development Tools"
   pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope clang csh libgcc libcxx"
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
-  pkg_install "firefox bzip2 ntfs-3g ntfs-3g tree zip xclip"
+  pkg_install "firefox bzip2 ntfs-3g ntfs-3g tree xclip"
   pkg_install "libcurl-devel zlib-devel"
   pkg_install "libgnome-devel libgnomeui-devel gtk3-devel gtk2-devel" # ui dependencies
   pkg_install "texinfo texi2html" # zsh
@@ -165,11 +165,17 @@ function pkg_group_basic() { # {{{2
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
   pkg_install "cjkuni-ukai-fonts " # fonts and font tools
 
-  pkg_install "im-chooser gtk2-immodules gtk3-immodules gtk2-immodule-xim gtk3-immodule-xim" # input method
-  pkg_install "ibus ibus-qt ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # input method
-  # imsettings-switch ibus # current user
-  # sudo imsettings-switch ibus # root
+  pkg_install "zip p7zip p7zip-doc p7zip-gui p7zip-plugins"
+
+  pkg_install "im-chooser imsettings-gsettings" # input method
+  # pkg_install "im-chooser imsettings-xim imsettings-gsettings" # input method
+  # pkg_install "gtk2-immodules gtk3-immodules gtk2-immodule-xim gtk3-immodule-xim" # input method
+  # pkg_install "ibus ibus-qt ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # ibus
+  pkg_install "fcitx fcitx-configtool fcitx-table-chinese" # fcitx
+  # pkg_install "fcitx fcitx-qt4 fcitx-qt5 fcitx-configtool fcitx-table-chinese" # fcitx
   # ibus-setup # config ibus
+  # imsettings-switch fcitx # current user
+  # sudo imsettings-switch fcitx # root
 
   pkg_install "flash-plugin"
   pkg_install "vlc"
