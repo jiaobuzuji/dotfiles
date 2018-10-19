@@ -8,6 +8,14 @@ xfce.config/xfce4/desktop/
 xfce.config/dconf/
 xfce.config/ibus/
 xfce.config/pulse/
+xfce.config/teamviewer/
 xfce.config/Thunar/
 xfce.config/Trolltech.conf
 xfce.config/vlc/vlc-qt-interface.conf
+
+xfce.config/fcitx/clipboard/
+xfce.config/fcitx/data/
+xfce.config/fcitx/dbus/
+xfce.config/fcitx/log/
+xfce.config/fcitx/table/
+xfce.config/fcitx/cached_layout
