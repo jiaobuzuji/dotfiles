@@ -147,8 +147,8 @@ alias -s zip='unzip'
 
 # User configuration {{{1
 # -----------------------------------------------------------------
-for file in $HOME/.myshell/{basic,extra}.sh; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+for file in $HOME/repos/dotfiles.git/shell/{basic,extra}.sh; do
+  [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 

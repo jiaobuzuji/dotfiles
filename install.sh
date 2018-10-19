@@ -122,6 +122,8 @@ function gen_ssh_key() {
 }
 
 function my_copyright() {
+  unset CURR_PATH
+  unset EDASCRIPT_PATH
   msg "\nThanks for installing ."
   msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
 }
@@ -159,6 +161,7 @@ fi
 
 if [ $0 = "./install.sh" ]; then
   source "${CURR_PATH}/linux/tools_func.sh"
+  EDASCRIPT_PATH="${CURR_PATH}/eda"
 elif [ $0 = "x" ]; then
   my_copyright
   exit 1
@@ -168,6 +171,7 @@ else
              "master" \
              "dotfiles.git"
   source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
+  EDASCRIPT_PATH="$REPO_PATH/dotfiles.git/eda"
 fi
 
 gen_ssh_key
@@ -181,14 +185,13 @@ tools_zsh
 tools_tmux
 tools_rg_ag
 tools_vim
-# tools_fonts
+tools_fonts
 # exit 1 # DEBUG
 
 
 # Create Links {{{2
 mkdir -p ${HOME}/{.ssh,.vnc}
 lnif "$REPO_PATH/dotfiles.git/xfce.config"   "$HOME/.config"
-lnif "$REPO_PATH/dotfiles.git/shell"   "$HOME/.myshell"
 lnif "$REPO_PATH/dotfiles.git/shell/.zshrc"   "$HOME/.zshrc"
 # lnif "$REPO_PATH/dotfiles.git/shell/.bashrc"   "$HOME/.bashrc"
 # lnif "$REPO_PATH/dotfiles.git/shell/.bash_profile"   "$HOME/.bash_profile"
@@ -197,6 +200,8 @@ lnif "$REPO_PATH/dotfiles.git/git/.gitconfig"   "$HOME/.gitconfig"
 lnif "$REPO_PATH/dotfiles.git/tmux/.tmux.conf"   "$HOME/.tmux.conf"
 # lnif "$REPO_PATH/dotfiles.git/ssh/config"   "$HOME/.ssh/config"
 
+# Setup EDA tools {{{2
+bash "${EDASCRIPT_PATH}/eda_setup.sh"
 
 # Finish {{{2
 my_copyright

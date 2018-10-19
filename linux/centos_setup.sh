@@ -29,7 +29,7 @@ function centos_mirror() { # {{{2
     # sudo curl -o /etc/yum.repos.d/epel-7.repo -fSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
     sudo yum makecache
     sudo yum -y update
-    sudo yum -y upgrade
+    # sudo yum -y upgrade
     sudo rm -f /tmp/yum_save_tx* # clean log
     sudo yum install -y epel-release
   else
@@ -50,13 +50,19 @@ function centos_xfce() { # {{{2
     # https://wiki.xfce.org/recommendedapps
     pkg_install "xfce4-about xarchiver xfce4-screenshooter xfce4-screenshooter-plugin"
     pkg_install "xfdashboard xfce4-mount-plugin"
-    # pkg_install "system-config-language"
-    pkg_install "xfce4-taskmanager gnome-system-monitor" # monitor
+    pkg_install "system-config-users system-config-language system-config-printer"
+    pkg_install "xfce4-taskmanager gnome-system-monitor gnome-system-log" # monitor
     pkg_install "xfce4-battery-plugin xbacklight" # power, brightness
+
+    pkg_install "usermode-gtk" # users information
     pkg_install "evince" # pdf
-    pkg_install "ristretto" # jpeg png
+    # pkg_install "ristretto" # xfce image viewer
+    pkg_install "eog" # gnome image viewer
     pkg_install "firewall-config"
-    pkg_install "vinagre" # remote desktop viewer 
+    pkg_install "vinagre" # remote desktop viewer
+    pkg_install "seahorse" # key manager
+    pkg_install "udisks2 baobab" # disk modifier & analyzer
+    pkg_install "gnome-calculator" # calculator
 
     pkg_install "xfdashboard-themes xfwm4-themes arc-theme arc-theme-plank" # themes https://www.xfce-look.org/
     # pkg_install "numix-gtk-theme numix-icon-theme"
@@ -70,6 +76,13 @@ function centos_xfce() { # {{{2
     # SSH Key Agent (GNOME Keyring:SSH agent)
     # Select Advanced
     # Check Launch GNOME services on startup
+
+    # GDM (GNOME Display Manage) autologin
+    # vi /etc/gdm/custom.conf
+    # [daemon]
+    # AutomaticLoginEnable=True
+    # AutomaticLogin=MyName  # user name
+
   else
     printf '\n' >&2
   fi
@@ -106,7 +119,11 @@ function pkg_addition() { # {{{2
   # sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm # epel-release TODO CentOS 7
   sudo yum install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm # vlc TODO CentOS 7
 
+  # rpm -i http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-xxxx.rpm # Fail !!
+  # rpm -Uvh http://download.fedoraproject.org/pub/epel/xxxx.rpm
+
   cd /etc/yum.repos.d/
+  msg "Getting virtualbox repo !"
   sudo curl -OfSL http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo # vbox
 
   cd $CURR_PATH
@@ -120,7 +137,8 @@ function pkg_update() { # {{{2
     sudo rm -rf /var/cache/yum
     sudo yum makecache
     sudo yum -y update
-    sudo yum -y upgrade
+    # sudo yum -y upgrade
+    # yum --enablerepo=rpmforge-extras update # use rpmforge source
     sudo rm -f /tmp/yum_save_tx* # clean log
     sudo yum install -y epel-release
   else
@@ -165,10 +183,9 @@ function pkg_group_basic() { # {{{2
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
   pkg_install "cjkuni-ukai-fonts " # fonts and font tools
 
-  pkg_install "zip p7zip p7zip-doc p7zip-gui p7zip-plugins"
+  pkg_install "zip p7zip p7zip-doc p7zip-gui p7zip-plugins" # archive tools
 
-  pkg_install "im-chooser imsettings-gsettings" # input method
-  # pkg_install "im-chooser imsettings-xim imsettings-gsettings" # input method
+  pkg_install "im-chooser imsettings-gsettings" # imsettings-xim" # input method setting
 
   # pkg_install "gtk2-immodules gtk3-immodules gtk2-immodule-xim gtk3-immodule-xim" # input method
   # pkg_install "ibus ibus-qt ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # ibus
@@ -186,7 +203,7 @@ function pkg_group_basic() { # {{{2
 
 }
 
-function pkg_clean() { # {{{2 TODO
+function pkg_clean() { # {{{2
   read -n1 -p "Clean old kernel ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     sudo yum remove -y $(rpm -q kernel kernel-devel kernel-headers | egrep -v `uname -r`)
@@ -196,71 +213,86 @@ function pkg_clean() { # {{{2 TODO
 }
 
 function pkg_gcc() { # {{{2
+  # read -n1 -p "Install VirtualBox ? (y/N) " ans
+  # if [[ $ans =~ [Yy] ]]; then
+  # else
+  #   printf '\n' >&2
+  # fi
   pkg_install "libmpc-devel mpfr-devel gmp-devel zlib-devel"
   pkg_install "texinfo flex"
-  # mkdir -p "$HOME/repos/gcc" && cd "$HOME/repos/gcc"
+  # mkdir -p "$REPO_PATH/gcc" && cd "$REPO_PATH/gcc"
   # cd $CURR_PATH
 }
 
 function pkg_git() { # {{{2
-  # if [ -x "$(which git)" ];
-  which git > /dev/null 2>&1
-  if [ $? -eq 0 ]; then
-    read -n1 -p "'git' has already in system. Do you want to reinstall it ? (y/N) " ans
-    [[ $ans =~ [Yy] ]] && sudo yum remove git -y || return 1
-  fi
+  read -n1 -p "Build git ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    # if [ -x "$(which git)" ];
+    which git > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+      read -n1 -p "'git' has already in system. Do you want to reinstall it ? (y/N) " ans
+      [[ $ans =~ [Yy] ]] && sudo yum remove git -y || return 1
+    fi
 
-  local pkg_version="2.19.1" # TODO 20181008
-  mkdir -p "$HOME/repos/git" && cd "$HOME/repos/git"
-  if [[ ! -d "$HOME/repos/git/git-${pkg_version}"  ]]; then
-    msg "Downloading git source!"
-    curl -OfSL "https://github.com/git/git/archive/v${pkg_version}.tar.gz" && tar -zxf "v${pkg_version}.tar.gz"
-  fi
-  cd "git-${pkg_version}"
+    local pkg_version="2.19.1" # TODO 20181008
+    mkdir -p "$REPO_PATH/git" && cd "$REPO_PATH/git"
+    if [[ ! -d "$REPO_PATH/git/git-${pkg_version}"  ]]; then
+      msg "Downloading git source!"
+      curl -OfSL "https://github.com/git/git/archive/v${pkg_version}.tar.gz" && tar -zxf "v${pkg_version}.tar.gz"
+    fi
+    cd "git-${pkg_version}"
 
-  pkg_install "gcc gcc-c++ automake autoconf expat-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto texinfo docbook2X"
-  sudo ln -sf /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
-  sudo make uninstall # uninstall
-  sudo make clean distclean
-  make prefix=/usr all doc info
-  if [ $? -eq 0 ]; then
-    sudo make prefix=/usr install install-doc install-html install-info
+    pkg_install "gcc gcc-c++ automake autoconf expat-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto texinfo docbook2X"
+    sudo ln -sf /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
+    sudo make uninstall # uninstall
+    sudo make clean distclean
+    make prefix=/usr all doc info
+    if [ $? -eq 0 ]; then
+      sudo make prefix=/usr install install-doc install-html install-info
+    fi
+    cd $CURR_PATH
+  else
+    printf '\n' >&2
   fi
-  cd $CURR_PATH
 }
 
 function pkg_vim() { # {{{2
-  which vim > /dev/null 2>&1
-  if [ $? -eq 0 ]; then
-    read -n1 -p "'vim' has already in system. Do you want to reinstall it ? (y/N) " ans
-    [[ $ans =~ [Yy] ]] && sudo yum remove vim-common vim-enhanced -y || return 1
-  fi
+  read -n1 -p "Build vim ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    which vim > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+      read -n1 -p "'vim' has already in system. Do you want to reinstall it ? (y/N) " ans
+      [[ $ans =~ [Yy] ]] && sudo yum remove vim-common vim-enhanced -y || return 1
+    fi
 
-  if [ ! -e "$HOME/repos/vim.git" ]; then
-      git clone --depth 1 "https://github.com/vim/vim" "$HOME/repos/vim.git" && \
-      cd "$HOME/repos/vim.git"
+    if [ ! -e "$REPO_PATH/vim.git" ]; then
+        git clone --depth 1 "https://github.com/vim/vim" "$REPO_PATH/vim.git" && \
+        cd "$REPO_PATH/vim.git"
+    else
+        cd "$REPO_PATH/vim.git" && git pull
+    fi
+
+    pkg_install "libgnome-devel libgnomeui-devel"
+    pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel libattr-devel"
+    pkg_install "perl perl-devel perl-ExtUtils-ParseXS \
+                 perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
+                 perl-ExtUtils-Embed perl-YAML"
+
+    curl -OfsSL "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_myvim.sh" # TODO
+    source centos_myvim.sh
+
+    cd $CURR_PATH
   else
-      cd "$HOME/repos/vim.git" && git pull
+    printf '\n' >&2
   fi
-
-  pkg_install "libgnome-devel libgnomeui-devel"
-  pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel libattr-devel"
-  pkg_install "perl perl-devel perl-ExtUtils-ParseXS \
-               perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
-               perl-ExtUtils-Embed perl-YAML"
-
-  curl -OfsSL "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_myvim.sh" # TODO
-  source centos_myvim.sh
-
-  cd $CURR_PATH
 }
 
 function pkg_vbox() { # {{{2
   read -n1 -p "Install VirtualBox ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    local pkg_version="5.2.18" # TODO 20181008
+    local pkg_version="5.2.20" # TODO 20181010
     pkg_install "dkms VirtualBox-5.2" # NOTE!
-    # Install USB 3.0 Controler
+    # Install USB 2.0/3.0 Controler
     mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
     msg "Downloading VBox Extension Pack !"
     curl -fSLO "https://download.virtualbox.org/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
@@ -272,7 +304,7 @@ function pkg_vbox() { # {{{2
 }
 
 function pkg_wps() { # {{{2
-  read -n1 -p "Install TeamViewer ? (y/N) " ans
+  read -n1 -p "Install WPS Office ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     local pkg_version="10.1.0" # TODO 20181008
     local patch_version="6757" # TODO 20181008
@@ -287,7 +319,6 @@ function pkg_wps() { # {{{2
     # uninstall
     # sudo yum remove wps-office wps-office-fonts
 
-  cat << ECHO_END
     # method 1
     # 在/usr/bin/wps /usr/bin/wpp /usr/bin/et
     # gedit/usr/bin/wps
@@ -297,7 +328,6 @@ function pkg_wps() { # {{{2
 
     # method 2
     # rm -rf ~/.cache ~/.ibus ~/.dbus ~/.kingsoft     and so on
-ECHO_END
 
   else
     printf '\n' >&2
@@ -353,6 +383,7 @@ centos_hostname
 
 if [ $0 = "x" ]; then
   pkg_clean
+  unset CURR_PATH
   exit 1
 else
   # pkg_gcc
@@ -364,6 +395,7 @@ else
   pkg_bcompare
 fi
 pkg_clean
+unset CURR_PATH
 
 # echo "haha" # DEBUG
 

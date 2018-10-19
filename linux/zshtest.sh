@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
 
+# ------------------------------------------------------------
 # if [ -n "$ZSH_VERSION" ]; then
 #   echo "zzzzzzzsh"
 # else
@@ -22,6 +23,7 @@
 #   echo "zzzzzzzsh"
 # fi
 
+# ------------------------------------------------------------
 # echo $HOME
 # function func0 () {
 #   cd ..
@@ -32,6 +34,7 @@
 # }
 # func1
 
+# ------------------------------------------------------------
 # echo "$0"
 # echo "$1"
 # if [ $0 = "l" ]; then
@@ -40,17 +43,30 @@
 #   echo "url install"
 # fi
 
+# ------------------------------------------------------------
 # vim +PlugInstall
 # echo "Finish vim plugin."
 
+# ------------------------------------------------------------
 # echo "Modify \"hostname\" ? Using method 2 ."
 # cat << END_OF_ECHO
 # method 1
 # $ vi /etc/hosts
 # END_OF_ECHO
 
-cat > wow.txt << ECHO_END
-env=~/.ssh/agent.env
-agent_load_env () { test -f "\$env" && . "\$env" >| /dev/null ; }
-ECHO_END
+# cat > wow.txt << ECHO_END
+# env=~/.ssh/agent.env
+# agent_load_env () { test -f "\$env" && . "\$env" >| /dev/null ; }
+# ECHO_END
 
+# ------------------------------------------------------------
+read -p "Where is EDA Tools Path ? ($HOME/.opt) : " ans # ans : ~
+# echo "$ans"
+# echo "~/test0"
+# echo "$HOME/test1"
+# cd $ans
+# echo "$(pwd)/test0"
+# cd repos
+# pwd
+# eval "cd ${ans}"
+# pwd

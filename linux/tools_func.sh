@@ -133,8 +133,8 @@ function tools_fonts() {
 
   sudo ln -sfT  "$REPO_PATH/program_font"   "/usr/share/fonts/program_font"
   cd "/usr/share/fonts/program_font"
-  sudo mkfontscale
-  sudo mkfontdir
+  # sudo mkfontscale
+  # sudo mkfontdir
   sudo fc-cache -fv
   cd $CURR_PATH
 }
