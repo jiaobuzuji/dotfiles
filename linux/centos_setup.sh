@@ -169,13 +169,17 @@ function pkg_group_basic() { # {{{2
 
   pkg_install "im-chooser imsettings-gsettings" # input method
   # pkg_install "im-chooser imsettings-xim imsettings-gsettings" # input method
+
   # pkg_install "gtk2-immodules gtk3-immodules gtk2-immodule-xim gtk3-immodule-xim" # input method
   # pkg_install "ibus ibus-qt ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # ibus
+  # ibus-setup # config ibus
+  # imsettings-switch ibus
+  # im-chooser
+
   pkg_install "fcitx fcitx-configtool fcitx-table-chinese" # fcitx
   # pkg_install "fcitx fcitx-qt4 fcitx-qt5 fcitx-configtool fcitx-table-chinese" # fcitx
-  # ibus-setup # config ibus
   # imsettings-switch fcitx # current user
-  # sudo imsettings-switch fcitx # root
+  # im-chooser
 
   pkg_install "flash-plugin"
   pkg_install "vlc"
@@ -283,16 +287,17 @@ function pkg_wps() { # {{{2
     # uninstall
     # sudo yum remove wps-office wps-office-fonts
 
+  cat << ECHO_END
+    # method 1
     # 在/usr/bin/wps /usr/bin/wpp /usr/bin/et
     # gedit/usr/bin/wps
     # 在#!/bin/bash下面添加如下配置：
     # exportXMODIFIERS=”@im=ibus”
     # export QT_IM_MODULE=”ibus”
-    # gedit/usr/bin/et
-    # 在#!/bin/bash下面添加如下配置：
-    # exportXMODIFIERS=”@im=ibus”
-    # export QT_IM_MODULE=”ibus”
-    # 重新启动WPS可以发现中文问题解决！
+
+    # method 2
+    # rm -rf ~/.cache ~/.ibus ~/.dbus ~/.kingsoft     and so on
+ECHO_END
 
   else
     printf '\n' >&2
