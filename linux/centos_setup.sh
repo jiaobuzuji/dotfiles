@@ -56,18 +56,18 @@ function centos_xfce() { # {{{2
 
     pkg_install "usermode-gtk" # users information
     pkg_install "evince" # pdf
-    # pkg_install "ristretto" # xfce image viewer
-    pkg_install "eog" # gnome image viewer
+    pkg_install "ristretto" # xfce image viewer
+    # pkg_install "eog" # gnome image viewer
     pkg_install "firewall-config"
     pkg_install "vinagre" # remote desktop viewer
     pkg_install "seahorse" # key manager
-    pkg_install "udisks2 baobab" # disk modifier & analyzer
+    pkg_install "gnome-disk-utility baobab" # disk modifier & analyzer (udisksctl, mkfs.ext4)
     pkg_install "gnome-calculator" # calculator
 
     pkg_install "xfdashboard-themes xfwm4-themes arc-theme arc-theme-plank" # themes https://www.xfce-look.org/
     # pkg_install "numix-gtk-theme numix-icon-theme"
 
-    sudo xbacklight -set 10 # for laptop
+    sudo xbacklight -set 8 # for laptop
     sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                    /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
 
@@ -206,7 +206,8 @@ function pkg_group_basic() { # {{{2
 function pkg_clean() { # {{{2
   read -n1 -p "Clean old kernel ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    sudo yum remove -y $(rpm -q kernel kernel-devel kernel-headers | egrep -v `uname -r`)
+    local old_kernels=$(rpm -q kernel kernel-devel kernel-headers | egrep -v $(uname -r))
+    [ ! -z "$old_kernels" ] && sudo yum remove -y $old_kernels
   else
     printf '\n' >&2
   fi
@@ -361,6 +362,7 @@ function pkg_bcompare() { # {{{2
     printf '\n' >&2
   fi
 }
+
 # Environment {{{1
 [ -z "$REPO_PATH" ] && REPO_PATH="$HOME/repos"
 [ -z "$CURR_PATH" ] && CURR_PATH=$(pwd)

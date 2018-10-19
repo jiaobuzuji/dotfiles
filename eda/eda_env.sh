@@ -14,14 +14,14 @@ export DESIGNWARE_HOME=$EDATOOLS/snps/dw
 export PT_HOME="$EDATOOLS/snps/pt201606s3p2"
 export PR_HOME="$EDATOOLS/snps/pr201706s1"
 export SFPGA_HOME="$EDATOOLS/snps/sfpga201503"
-#export SYN_HOME="$EDATOOLS/snps/syn201409s4"
-export SYN_HOME="$EDATOOLS/snps/syn201603s5p4"
+export SYN_HOME="$EDATOOLS/snps/syn201603sp1"
+# export SYN_HOME="$EDATOOLS/snps/syn201603s5p4"
 export DC_HOME=$SYN_HOME
 export SYNOPSYS_SYN_ROOT=$SYN_HOME
 #export VCS_HOME="$EDATOOLS/snps/vcsmx201509s2p12"
 #export VCS_HOME="$EDATOOLS/snps/vcsmx201509s2p14"
-#export VCS_HOME="$EDATOOLS/snps/vcsmx201606s2p6"
 export VCS_HOME="$EDATOOLS/snps/vcsmx201606"
+#export VCS_HOME="$EDATOOLS/snps/vcsmx201606s2p6"
 #export VCS_HOME="$EDATOOLS/snps/vcsmx201703s1p1"
 #export CORETOOL_HOME="$EDATOOLS/snps/coretool201609s2p3"
 export CORETOOL_HOME="$EDATOOLS/snps/coretool201609s4p1"
@@ -107,19 +107,19 @@ export PATH="$PATH:$CALIBRE_HOME/bin"
 export LM_LICENSE_FILE="$LM_LICENSE_FILE:27001@$HOSTNAME"
 #export LM_LICENSE_FILE="$LM_LICENSE_FILE:$EDATOOLS/license/mentor_$MACADDR.lic"
 
-source $EDATOOLS/Xilinx/14.7/ISE_DS/settings64.sh > /dev/null
-export XKEYSYMDB=/usr/share/X11/XKeysymDB
-source $EDATOOLS/Xilinx/Vivado/2018.1/settings64.sh > /dev/null
-export LM_LICENSE_FILE="$LM_LICENSE_FILE:$EDATOOLS/license/xilinx_ise14.lic:$EDATOOLS/license/Vivado.lic"
-if [ -n "$LD_LIBRARY_PATH" ]; then
-  export LD_LIBRARY_PATH="/lib64:/usr/lib64:$LD_LIBRARY_PATH"
-else
-  export LD_LIBRARY_PATH="/lib64:/usr/lib64"
-fi
+# source $EDATOOLS/Xilinx/14.7/ISE_DS/settings64.sh > /dev/null
+# export XKEYSYMDB=/usr/share/X11/XKeysymDB
+# source $EDATOOLS/Xilinx/Vivado/2018.1/settings64.sh > /dev/null
+# export LM_LICENSE_FILE="$LM_LICENSE_FILE:$EDATOOLS/license/xilinx_ise14.lic:$EDATOOLS/license/Vivado.lic"
+# if [ -n "$LD_LIBRARY_PATH" ]; then
+#   export LD_LIBRARY_PATH="/lib64:/usr/lib64:$LD_LIBRARY_PATH"
+# else
+#   export LD_LIBRARY_PATH="/lib64:/usr/lib64"
+# fi
 
-# ARM compiler
-export ARMGCC_HOME="$EDATOOLS/ARM/gcc-arm-none-eabi-5_4-2016q3"
-export PATH=$ARMGCC_HOME/bin:$PATH
+# # ARM compiler
+# export ARMGCC_HOME="$EDATOOLS/ARM/gcc-arm-none-eabi-5_4-2016q3"
+# export PATH=$ARMGCC_HOME/bin:$PATH
 
-# SystemC
-export SYSTEMC_HOME="$EDATOOLS/systemc/systemc-2.3.0a"
+# # SystemC
+# export SYSTEMC_HOME="$EDATOOLS/systemc/systemc-2.3.0a"
