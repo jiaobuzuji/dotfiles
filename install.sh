@@ -123,7 +123,6 @@ function gen_ssh_key() {
 
 function my_copyright() {
   unset CURR_PATH
-  unset EDASCRIPT_PATH
   msg "\nThanks for installing ."
   msg "Copyright © `date +%Y`  http://www.jiaobuzuji.com/"
 }
@@ -161,7 +160,6 @@ fi
 
 if [ $0 = "./install.sh" ]; then
   source "${CURR_PATH}/linux/tools_func.sh"
-  EDASCRIPT_PATH="${CURR_PATH}/eda"
 elif [ $0 = "x" ]; then
   my_copyright
   exit 1
@@ -171,7 +169,6 @@ else
              "master" \
              "dotfiles.git"
   source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
-  EDASCRIPT_PATH="$REPO_PATH/dotfiles.git/eda"
 fi
 
 gen_ssh_key
@@ -201,7 +198,7 @@ lnif "$REPO_PATH/dotfiles.git/tmux/.tmux.conf"   "$HOME/.tmux.conf"
 # lnif "$REPO_PATH/dotfiles.git/ssh/config"   "$HOME/.ssh/config"
 
 # Setup EDA tools {{{2
-bash "${EDASCRIPT_PATH}/eda_setup.sh"
+# bash "$REPO_PATH/dotfiles.git/eda/eda_setup.sh"
 
 # Finish {{{2
 my_copyright
