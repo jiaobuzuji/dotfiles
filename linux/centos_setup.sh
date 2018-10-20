@@ -53,16 +53,18 @@ function centos_xfce() { # {{{2
     pkg_install "system-config-users system-config-language system-config-printer"
     pkg_install "xfce4-taskmanager gnome-system-monitor gnome-system-log" # monitor
     pkg_install "xfce4-battery-plugin xbacklight" # power, brightness
+    pkg_install "xfce4-notifyd" # notify
 
     pkg_install "usermode-gtk" # users information
     pkg_install "evince" # pdf
     pkg_install "ristretto" # xfce image viewer
     # pkg_install "eog" # gnome image viewer
-    pkg_install "firewall-config"
+    pkg_install "firewall-config setroubleshoot"
     pkg_install "vinagre" # remote desktop viewer
     pkg_install "seahorse" # key manager
     pkg_install "gnome-disk-utility baobab" # disk modifier & analyzer (udisksctl, mkfs.ext4)
     pkg_install "gnome-calculator" # calculator
+    pkg_install "cheese" # laptop camera
 
     pkg_install "xfdashboard-themes xfwm4-themes arc-theme arc-theme-plank" # themes https://www.xfce-look.org/
     # pkg_install "numix-gtk-theme numix-icon-theme"
