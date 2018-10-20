@@ -316,6 +316,7 @@ function pkg_wps() { # {{{2
     sudo yum install -y wps-office-${pkg_version}.${patch_version}-1.x86_64.rpm
     sudo yum install -y wps-office-fonts-1.0-1.noarch.rpm
     cd $CURR_PATH
+    # View -> Eye Protection Mode
 
     # uninstall
     # sudo yum remove wps-office wps-office-fonts
