@@ -15,6 +15,7 @@ xfce.config/vlc/vlc-qt-interface.conf
 
 xfce.config/fcitx/clipboard/
 xfce.config/fcitx/data/
+xfce.config/fcitx/pinyin/
 xfce.config/fcitx/dbus/
 xfce.config/fcitx/log/
 xfce.config/fcitx/table/
