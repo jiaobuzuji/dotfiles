@@ -77,11 +77,17 @@ function centos_xfce() { # {{{2
     # Select Advanced
     # Check Launch GNOME services on startup
 
+    cat << ECHO_END
     # GDM (GNOME Display Manage) autologin
     # vi /etc/gdm/custom.conf
     # [daemon]
     # AutomaticLoginEnable=True
     # AutomaticLogin=MyName  # user name
+
+    # Diable WIFI on boot
+    # nm-applet(network-manager-applet)
+    # top-right corner. logo -> right click -> disable WIFI
+ECHO_END
 
   else
     printf '\n' >&2
