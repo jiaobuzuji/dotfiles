@@ -10,5 +10,10 @@
     <property name="windows-view" type="empty">
       <property name="scroll-event-changes-workspace" type="bool" value="false"/>
     </property>
+    <property name="applications-view" type="empty">
+      <property name="show-all-apps" type="bool" value="false"/>
+    </property>
   </property>
+  <property name="enable-unmapped-window-workaround" type="bool" value="false"/>
+  <property name="switch-to-view-on-resume" type="string" value=""/>
 </channel>

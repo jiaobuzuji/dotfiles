@@ -25,13 +25,17 @@ mkdir -p ${EDATOOLS}
 lnif "$REPO_PATH/dotfiles.git/eda/eda_server.sh" "${EDATOOLS}/eda_server.sh"
 lnif "$REPO_PATH/dotfiles.git/eda/eda_env.sh" "${EDATOOLS}/eda_env.sh"
 
-# sudo cat >> "/etc/rc.local" << ECHO_END # TODO Error
+sudo chmod u+x "/etc/rc.d/rc.local"
 
-# export EDATOOLS="${EDATOOLS}"
-# if [ -f \${EDATOOLS}/eda_server.sh ]; then
-#   source \${EDATOOLS}/eda_server.sh
-# fi
-# ECHO_END
+cat "/etc/rc.local" > "./rc.local" << ECHO_END
+
+export EDATOOLS="${EDATOOLS}"
+if [ -f \${EDATOOLS}/eda_server.sh ]; then
+  source \${EDATOOLS}/eda_server.sh
+fi
+ECHO_END
+
+sudo mv -f "./rc.local" "/etc/rc.local"
 
 # -----------------------------------------------------------------
 # vim:fdm=marker

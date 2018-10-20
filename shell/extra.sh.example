@@ -5,12 +5,12 @@
 
 
 # export {{{1
-export TOOLS='/opt'
-[ -f "${TOOLS}/rc.sh" ] && source "${TOOLS}/rc.sh"
+export EDATOOLS="/opt"
+[ -f "${EDATOOLS}/eda_env.sh" ] && source "${EDATOOLS}/eda_env.sh"
 
-export C_INCLUDE_PATH="${TOOLS}/gnu/gcc-4.9.3/include"
-export LD_LIBRARY_PATH="${TOOLS}/gnu/gcc-4.9.3/lib64:${TOOLS}/gnu/gcc-4.9.3/lib:${TOOLS}/gnu/gcc-4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3:$LD_LIBRARY_PATH"
-export    LIBRARY_PATH="${TOOLS}/gnu/gcc-4.9.3/lib64:${TOOLS}/gnu/gcc-4.9.3/lib:${TOOLS}/gnu/gcc-4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3:$LIBRARY_PATH"
+export C_INCLUDE_PATH="${EDATOOLS}/gnu/gcc-4.9.3/include"
+export LD_LIBRARY_PATH="${EDATOOLS}/gnu/gcc-4.9.3/lib64:${EDATOOLS}/gnu/gcc-4.9.3/lib:${EDATOOLS}/gnu/gcc-4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3:$LD_LIBRARY_PATH"
+export    LIBRARY_PATH="${EDATOOLS}/gnu/gcc-4.9.3/lib64:${EDATOOLS}/gnu/gcc-4.9.3/lib:${EDATOOLS}/gnu/gcc-4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3:$LIBRARY_PATH"
 
 
 # aliases {{{1
@@ -18,13 +18,13 @@ alias which='which -a'
 # alias vncviewer="vncviewer -passwd ${HOME}/.vnc/passwd -compresslevel 0 -quality 0 -bgr233"
 alias ssh='ssh -YN'
 
-alias rbb="rabbitvcs browser &"
-alias rbl="rabbitvcs log &"
-# alias rbo="rabbitvcs update && rabbitvcs commit &"
-alias rbo="rabbitvcs commit &"
-alias rbu="rabbitvcs update &"
-alias rbs="rabbitvcs switch &"
-alias rbm="rabbitvcs merge &"
+alias rbb='rabbitvcs browser &'
+alias rbl='rabbitvcs log &'
+# alias rbo='rabbitvcs update && rabbitvcs commit &'
+alias rbo='rabbitvcs commit &'
+alias rbu='rabbitvcs update &'
+alias rbs='rabbitvcs switch &'
+alias rbm='rabbitvcs merge &'
 
 alias nautilus='nautilus --no-desktop'
 
@@ -32,7 +32,7 @@ alias tarc='tar -Jcvhf "hello.tar.xz" --exclude-vcs --exclude-vcs-ignores'
 
 
 # misc {{{1
-if [ -x $(which tmux) ]; then
+if [ -x $(\which tmux) ]; then
   case $- in *i*) # interactive shell
     [ -z "$TMUX" ] && exec $(tmux -2)
     # [ -z "$TMUX" ] && $(tmux -2)

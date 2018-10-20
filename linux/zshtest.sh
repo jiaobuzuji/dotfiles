@@ -64,6 +64,13 @@
 # agent_load_env () { test -f "\$env" && . "\$env" >| /dev/null ; }
 # ECHO_END
 
+# cat "/etc/rc.local" > "./rc.local" << ECHO_END
+# export EDATOOLS="${EDATOOLS}"
+# if [ -f \${EDATOOLS}/eda_server.sh ]; then
+#   source \${EDATOOLS}/eda_server.sh
+# fi
+# ECHO_END
+
 # ------------------------------------------------------------
 # read -p "Where is EDA Tools Path ? ($HOME/.opt) : " ans # ans : ~
 # echo "$ans"
