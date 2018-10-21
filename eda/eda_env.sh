@@ -1,6 +1,6 @@
 # EDATOOLS=/opt
 HOSTNAME=`hostname`
-# MACADDR=`${EDATOOLS}/novas/novas201210/bin/lmhostid -n`
+# MACADDR=`${EDATOOLS}/snps/verdi201210/bin/lmhostid -n`
 # #MACADDR=`${EDATOOLS}/snps/scl201612/linux64/bin/lmhostid -n`
 # if [[ ${#MACADDR} > 12 ]] ; then
 #   MACADDR=${MACADDR:1:12}
@@ -48,9 +48,8 @@ else
   export LM_LICENSE_FILE="27000@$HOSTNAME"
 fi
 
-#export VERDI_HOME="$EDATOOLS/novas/novas201210"
-#export VERDI_HOME="$EDATOOLS/novas/verdi201210"
-#export VERDI_HOME="$EDATOOLS/novas/verdi201309"
+#export VERDI_HOME="$EDATOOLS/snps/verdi201210"
+#export VERDI_HOME="$EDATOOLS/snps/verdi201309"
 export VERDI_HOME="$EDATOOLS/snps/verdi201509s2p13"
 export NOVAS_HOME=$VERDI_HOME
 export VC_HOME=$VERDI_HOME
