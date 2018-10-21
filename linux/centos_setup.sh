@@ -191,6 +191,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
   pkg_install "cjkuni-ukai-fonts " # fonts and font tools
 
+  # command is not "7zip" or "p7zip", but "7za"!!
   pkg_install "zip p7zip p7zip-doc p7zip-gui p7zip-plugins" # archive tools
 
   pkg_install "im-chooser imsettings-gsettings" # imsettings-xim" # input method setting
