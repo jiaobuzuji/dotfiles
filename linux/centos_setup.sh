@@ -349,6 +349,7 @@ function pkg_teamviewer() { # {{{2
   if [[ $ans =~ [Yy] ]]; then
     # sudo yum install -y https://download.teamviewer.com/download/linux/teamviewer-host.x86_64.rpm # teamviewer
     sudo yum install -y https://download.teamviewer.com/download/linux/teamviewer.x86_64.rpm # teamviewer
+    sudo systemctl disable teamviewerd
   else
     printf '\n' >&2
   fi

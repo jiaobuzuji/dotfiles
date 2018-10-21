@@ -88,10 +88,11 @@ function gen_ssh_key() {
     msg "Generating a new SSH key."
     ssh-keygen -t rsa -b 4096 -C "jiaobuzuji@163.com"
 
-    # sudo sed -i -e "s/^#\?\s*Port\s.*/Port 22/g" "/etc/ssh/sshd_config" #Port 22
-    sudo sed -i -e "s/^#\?\s*PermitRootLogin\s.*/PermitRootLogin no/g" "/etc/ssh/sshd_config" # Prohibit root login by ssh
+    # sudo sed -i -e "s/^\s*#\?\s*Port\s.*/Port 22/g" "/etc/ssh/sshd_config" #Port 22
+    sudo sed -i -e "s/^\s*#\?\s*PermitRootLogin\s.*/PermitRootLogin no/g" "/etc/ssh/sshd_config" # Prohibit root login by ssh
 
-    sudo service sshd restart
+    # sudo systemctl restart sshd # service sshd restart
+    sudo systemctl disable sshd
 
     # -----------------------------------------------
     # Microsoft Windows. put the following in .bashrc
