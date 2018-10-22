@@ -179,6 +179,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "texinfo texi2html" # zsh
   pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
   pkg_install "libevent-devel" # tmux
+  pkg_install "libXScrnSaver" # verdi
 
   pkg_install "java"
   pkg_install "perl-devel"
