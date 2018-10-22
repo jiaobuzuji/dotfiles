@@ -50,7 +50,8 @@ fi
 
 #export VERDI_HOME="$EDATOOLS/snps/verdi201210"
 #export VERDI_HOME="$EDATOOLS/snps/verdi201309"
-export VERDI_HOME="$EDATOOLS/snps/verdi201509s2p13"
+# export VERDI_HOME="$EDATOOLS/snps/verdi201509s2p13"
+export VERDI_HOME="$EDATOOLS/snps/verdi201606sp1"
 export NOVAS_HOME=$VERDI_HOME
 export VC_HOME=$VERDI_HOME
 export PLATFORM=LINUX64
