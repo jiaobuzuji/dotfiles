@@ -121,7 +121,7 @@ function tools_vim() {
   cd  ${HOME}/.vim/bundle/YouCompleteMe
   git submodule update --init --recursive && python3 ./install.py --clang-completer || return 1 # TODO
 
-  vim +PlugInstall
+  vim +'PlugInstall' +':q'
   cd $CURR_PATH
 }
 
