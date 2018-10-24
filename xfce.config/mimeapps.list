@@ -7,3 +7,4 @@ application/pdf=evince.desktop;
 application/vnd.rar=xarchiver.desktop;
 application/zip=xarchiver.desktop;
 image/jpeg=ristretto.desktop;
+application/x-xz-compressed-tar=xarchiver.desktop;
