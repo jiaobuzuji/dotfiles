@@ -182,7 +182,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "libXScrnSaver" # verdi
 
   pkg_install "java"
-  pkg_install "perl-devel"
+  pkg_install "perl perl-devel perl-Switch"
   pkg_install "tcl-devel"
   # pkg_install "lua lua-devel luajit luajit-devel"
   # pkg_install "ruby ruby-devel"
