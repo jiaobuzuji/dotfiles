@@ -236,7 +236,7 @@ function pkg_gcc() { # {{{2
     pkg_install "texinfo flex"
 
     ./contrib/download_prerequisites
-    sudo ldconfg
+    sudo ldconfig
 
     mkdir -p "${HOME}/.opt"
     mkdir -p ../gcc-build-${pkg_version} && cd ../gcc-build-${pkg_version}
@@ -247,7 +247,7 @@ function pkg_gcc() { # {{{2
     ../gcc-${pkg_version}/configure --prefix=${HOME}/.opt/gcc-${pkg_version} --with-system-zlib --disable-multilib --enable-languages=c,c++,java
     if [ $? -eq 0 ]; then
       make -j4
-      sudo make install
+      make install
     fi
     cd $CURR_PATH
   else
