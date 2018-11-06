@@ -329,7 +329,7 @@ function pkg_vlc() { # {{{2
     curl -OfSL "ftp://ftp.videolan.org/pub/vlc/${pkg_version}/vlc-${pkg_version}.tar.xz" && tar -Jxf "vlc-${pkg_version}.tar.xz"
     cd "vlc-${pkg_version}"
 
-    pkg_install "libtool pkgconfig"
+    pkg_install "libtool pkgconfig lua lua-devel ffmpeg ffmpeg-devel gstreamer gstreamer-devel"
     pkg_install "a52dec a52dec-devel caca-utils dirac dirac-devel expat expat-devel faac faac-devel faad2 faad2-devel ffmpeg \
       ffmpeg-libs flac flac-devel fribidi-devel gettext gnutls gnutls-devel gnutls-utils lame lame-devel live555 live555-devel \
       libass libass-devel libcaca libcaca-devel libcddb libcddb-devel libcdio libcdio-devel libdap libdap-devel libdca-devel \
