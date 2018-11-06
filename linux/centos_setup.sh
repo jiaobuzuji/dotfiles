@@ -125,7 +125,7 @@ function pkg_addition() { # {{{2
   sudo yum install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
 
   # sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm # epel-release TODO CentOS 7
-  sudo yum install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm # vlc TODO CentOS 7
+  # sudo yum install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm # vlc TODO CentOS 7
 
   # rpm -i http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-xxxx.rpm # Fail !!
   # rpm -Uvh http://download.fedoraproject.org/pub/epel/xxxx.rpm
@@ -209,7 +209,7 @@ function pkg_group_basic() { # {{{2
   # im-chooser
 
   pkg_install "flash-plugin"
-  pkg_install "vlc"
+  # pkg_install "vlc"
 
 }
 
@@ -224,15 +224,35 @@ function pkg_clean() { # {{{2
 }
 
 function pkg_gcc() { # {{{2
-  # read -n1 -p "Install VirtualBox ? (y/N) " ans
-  # if [[ $ans =~ [Yy] ]]; then
-  # else
-  #   printf '\n' >&2
-  # fi
-  pkg_install "libmpc-devel mpfr-devel gmp-devel zlib-devel"
-  pkg_install "texinfo flex"
-  # mkdir -p "$REPO_PATH/gcc" && cd "$REPO_PATH/gcc"
-  # cd $CURR_PATH
+  read -n1 -p "Build gcc ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    local pkg_version="5.5.0"
+    mkdir -p "$REPO_PATH/gcc" && cd "$REPO_PATH/gcc"
+    msg "Downloading gcc source!"
+    curl -OfSL "http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-${pkg_version}/gcc-${pkg_version}.tar.xz"
+    cd "gcc-${pkg_version}"
+
+    pkg_install "libmpc-devel mpfr-devel gmp-devel zlib-devel"
+    pkg_install "texinfo flex"
+
+    ./contrib/download_prerequisites
+    sudo ldconfg
+
+    mkdir -p "${HOME}/.opt"
+    mkdir -p ../gcc-build-${pkg_version} && cd ../gcc-build-${pkg_version}
+
+    sudo make uninstall # uninstall
+    sudo make clean distclean
+
+    ../gcc-${pkg_version}/configure --prefix=${HOME}/.opt/gcc-${pkg_version} --with-system-zlib --disable-multilib --enable-languages=c,c++,java
+    if [ $? -eq 0 ]; then
+      make -j4
+      sudo make install
+    fi
+    cd $CURR_PATH
+  else
+    printf '\n' >&2
+  fi
 }
 
 function pkg_git() { # {{{2
@@ -298,13 +318,61 @@ function pkg_vim() { # {{{2
   fi
 }
 
+function pkg_vlc() { # {{{2
+  read -n1 -p "Build vlc ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    local pkg_version="3.0.4" # TODO 20181010
+    mkdir -p "$REPO_PATH/vlc" && cd "$REPO_PATH/vlc"
+    msg "Downloading vlc source!"
+    curl -OfSL "ftp://ftp.videolan.org/pub/vlc/${pkg_version}/vlc-${pkg_version}.tar.xz" && tar -Jxf "vlc-${pkg_version}.tar.xz"
+    cd "vlc-${pkg_version}"
+
+    pkg_install "libtool pkgconfig"
+    pkg_install "a52dec a52dec-devel caca-utils dirac dirac-devel expat expat-devel faac faac-devel faad2 faad2-devel ffmpeg \
+      ffmpeg-libs flac flac-devel fribidi-devel gettext gnutls gnutls-devel gnutls-utils lame lame-devel live555 live555-devel \
+      libass libass-devel libcaca libcaca-devel libcddb libcddb-devel libcdio libcdio-devel libdap libdap-devel libdca-devel \
+      libdvbpsi libdvbpsi-devel libdvdnav libdvdnav-devel libdvdread libebml libebml-devel freetype freetype-devel fribidi \
+      libgcrypt libgcrypt-devel libgpg-error libgpg-error-devel libjpeg-turbo libmad libmad-devel libmatroska libmatroska-devel \
+      libmodplug libmodplug-devel libmpcdec-devel libmpeg2-devel libogg-devel liboil-devel libpng libpng-devel libshout \
+      libshout-devel libtheora-devel libtiff libupnp libupnp-devel libvorbis-devel libX11 libX11-devel libxcb libxcb-devel \
+      libxml2 libxml2-devel mpeg2dec portaudio-devel qt4 qt4-devel schroedinger-devel SDL-devel SDL_image SDL_image-devel speex \
+      speex-devel taglib-devel twolame twolame-devel vcdimager vcdimager-devel vcdimager-libs x264 x264-devel yasm zlib \
+      lua xcb-util-devel libsamplerate-devel"
+
+    sudo make uninstall # uninstall
+    sudo make clean distclean
+
+    ./configure --prefix=/usr --enable-run-as-root \
+      --enable-x11 --enable-xvideo --disable-gtk \
+      --enable-sdl --enable-ffmpeg --with-ffmpeg-mp3lame \
+      --enable-mad --enable-libdvbpsi --enable-a52 --enable-dts \
+      --enable-libmpeg2 --enable-dvdnav --enable-faad \
+      --enable-vorbis --enable-ogg --enable-theora --enable-faac\
+      --enable-mkv --enable-freetype --enable-fribidi \
+      --enable-speex --enable-flac --enable-livedotcom \
+      --with-livedotcom-tree=/usr/lib/live --enable-caca \
+      --enable-skins --enable-skins2 --enable-alsa --disable-kde\
+      --disable-qt --enable-wxwindows --enable-ncurses \
+      --enable-release
+
+    if [ $? -eq 0 ]; then
+      make -j4
+      # sudo checkinstall # package for Debain linux
+      sudo make install
+    fi
+    cd $CURR_PATH
+  else
+    printf '\n' >&2
+  fi
+}
+
 function pkg_vbox() { # {{{2
   read -n1 -p "Install VirtualBox ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     local pkg_version="5.2.20" # TODO 20181010
     pkg_install "dkms VirtualBox-5.2" # NOTE!
     # Install USB 2.0/3.0 Controler
-    mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
+    cd ${HOME}/Downloads/
     msg "Downloading VBox Extension Pack !"
     curl -fSLO "https://download.virtualbox.org/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
     VBoxManage extpack install "Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
@@ -319,7 +387,7 @@ function pkg_wps() { # {{{2
   if [[ $ans =~ [Yy] ]]; then
     local pkg_version="10.1.0" # TODO 20181008
     local patch_version="6757" # TODO 20181008
-    mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
+    cd ${HOME}/Downloads/
     msg "Downloading WPS Office !"
     curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/${patch_version}/wps-office-${pkg_version}.${patch_version}-1.x86_64.rpm
     curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/fonts/wps-office-fonts-1.0-1.noarch.rpm
@@ -361,11 +429,20 @@ function pkg_bcompare() { # {{{2
   read -n1 -p "Install BeyondCompare ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     local pkg_version="4.2.6.23150" # TODO 20181008
-    mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
+    cd ${HOME}/Downloads/
     msg "Downloading BeyondCompare !"
     curl -OfSL http://www.scootersoftware.com/bcompare-${pkg_version}.x86_64.rpm
     sudo rpm --import http://www.scootersoftware.com/RPM-GPG-KEY-scootersoftware
     sudo yum install -y bcompare-${pkg_version}.x86_64.rpm
+
+    # crack
+    # sudo mv /etc/yum.repos.d/scootersoftware.repo /etc/yum.repos.d/scootersoftware.repo.backup
+    cd /usr/lib64/beyondcompare
+    sudo cp BCompare BCompare.bak
+    sudo sed -i "s/keexjEP3t4Mue23hrnuPtY4TdcsqNiJL-5174TsUdLmJSIXKfG2NGPwBL6vnRPddT7tH29qpkneX63DO9ECSPE9rzY1zhThHERg8lHM9IBFT+rVuiY823aQJuqzxCKIE1bcDqM4wgW01FH6oCBP1G4ub01xmb4BGSUG6ZrjxWHJyNLyIlGvOhoY2HAYzEtzYGwxFZn2JZ66o4RONkXjX0DF9EzsdUef3UAS+JQ+fCYReLawdjEe6tXCv88GKaaPKWxCeaUL9PejICQgRQOLGOZtZQkLgAelrOtehxz5ANOOqCaJgy2mJLQVLM5SJ9Dli909c5ybvEhVmIC0dc9dWH+/N9KmiLVlKMU7RJqnE+WXEEPI1SgglmfmLc1yVH7dqBb9ehOoKG9UE+HAE1YvH1XX2XVGeEqYUY-Tsk7YBTz0WpSpoYyPgx6Iki5KLtQ5G-aKP9eysnkuOAkrvHU8bLbGtZteGwJarev03PhfCioJL4OSqsmQGEvDbHFEbNl1qJtdwEriR+VNZts9vNNLk7UGfeNwIiqpxjk4Mn09nmSd8FhM4ifvcaIbNCRoMPGl6KU12iseSe+w+1kFsLhX+OhQM8WXcWV10cGqBzQE9OqOLUcg9n0krrR3KrohstS9smTwEx9olyLYppvC0p5i7dAx2deWvM1ZxKNs0BvcXGukR+/g" BCompare
+    chmod a-w "${HOME}/.config/bcompare/BCState.xml" "${HOME}/.config/bcompare/BCState.xml.bak"
+    # license:xxxxx
+
     cd $CURR_PATH
 
     # uninstall
@@ -395,14 +472,17 @@ pkg_group_basic
 centos_xfce
 centos_hostname
 
+mkdir -p "${HOME}/Downloads/"
+
 if [ $0 = "x" ]; then
   pkg_clean
   unset CURR_PATH
   exit 1
 else
-  # pkg_gcc
+  pkg_gcc
   pkg_git
   pkg_vim
+  pkg_vlc
   pkg_vbox
   pkg_wps
   pkg_teamviewer
