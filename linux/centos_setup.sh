@@ -125,7 +125,7 @@ function pkg_addition() { # {{{2
   sudo yum install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
 
   # sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm # epel-release TODO CentOS 7
-  # sudo yum install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm # vlc TODO CentOS 7
+  sudo yum install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm # vlc TODO CentOS 7
 
   # rpm -i http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-xxxx.rpm # Fail !!
   # rpm -Uvh http://download.fedoraproject.org/pub/epel/xxxx.rpm
@@ -173,8 +173,9 @@ function pkg_group_basic() { # {{{2
   # sudo yum groups install -y "Development Tools"
   pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope clang csh libgcc libcxx"
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
-  pkg_install "firefox bzip2 ntfs-3g ntfs-3g tree xclip"
-  pkg_install "libcurl-devel zlib-devel"
+  pkg_install "firefox bzip2 ntfs-3g ntfs-3g tree xclip bison mlocate"
+  pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
+  pkg_install "glibc.i686 zlib.i686" # i686 libraries (bad ELF interpreter: No such file or directory)
   pkg_install "libgnome-devel libgnomeui-devel gtk3-devel gtk2-devel" # ui dependencies
   pkg_install "texinfo texi2html" # zsh
   pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
@@ -209,7 +210,7 @@ function pkg_group_basic() { # {{{2
   # im-chooser
 
   pkg_install "flash-plugin"
-  # pkg_install "vlc"
+  pkg_install "vlc ffmpeg ffmpeg-libs x264 x265"
 
 }
 
@@ -233,7 +234,7 @@ function pkg_gcc() { # {{{2
     tar -Jxf "gcc-${pkg_version}.tar.xz"
     cd "gcc-${pkg_version}"
 
-    pkg_install "libtool libmpc-devel mpfr-devel gmp-devel zlib-devel"
+    pkg_install "libmpc-devel mpfr-devel gmp-devel zlib-devel"
     pkg_install "texinfo flex"
 
     ./contrib/download_prerequisites
@@ -320,18 +321,37 @@ function pkg_vim() { # {{{2
 }
 
 function pkg_vlc() { # {{{2
+  # https://wiki.videolan.org/UnixCompile/
+  # https://trac.ffmpeg.org/wiki/CompilationGuide
+
   read -n1 -p "Build vlc ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     local pkg_version="3.0.4" # TODO 20181010
     local gcc_version="5.5.0"
+
+    if [ ! -e "$REPO_PATH/ffmpeg.git" ]; then
+      git clone --depth 1 "git://source.ffmpeg.org/ffmpeg.git" "$REPO_PATH/ffmpeg.git" && \
+      cd "$REPO_PATH/ffmpeg.git"
+    else
+      cd "$REPO_PATH/ffmpeg.git" && git pull
+    fi
+    pkg_install "nasm yasm freetype freetype-devel"
+    # TODO
+
+
     mkdir -p "$REPO_PATH/vlc" && cd "$REPO_PATH/vlc"
     msg "Downloading vlc source!"
     curl -OfSL "ftp://ftp.videolan.org/pub/vlc/${pkg_version}/vlc-${pkg_version}.tar.xz" && tar -Jxf "vlc-${pkg_version}.tar.xz"
     cd "vlc-${pkg_version}"
 
-    pkg_install "libtool pkgconfig lua lua-devel ffmpeg ffmpeg-devel gstreamer gstreamer-devel"
-    pkg_install "a52dec a52dec-devel caca-utils dirac dirac-devel expat expat-devel faac faac-devel faad2 faad2-devel ffmpeg \
-      ffmpeg-libs flac flac-devel fribidi-devel gettext gnutls gnutls-devel gnutls-utils lame lame-devel live555 live555-devel \
+    sudo make uninstall # uninstall
+    sudo make clean distclean
+
+    # Get the third-party libraries
+    # https://wiki.videolan.org/Contrib_Status/
+    pkg_install "lua lua-devel gstreamer gstreamer-devel x265 x265-devel " # ffmpeg ffmpeg-devel ffmpeg-libs
+    pkg_install "a52dec a52dec-devel caca-utils dirac dirac-devel expat expat-devel faac faac-devel faad2 faad2-devel \
+      flac flac-devel fribidi-devel gettext gnutls gnutls-devel gnutls-utils lame lame-devel live555 live555-devel \
       libass libass-devel libcaca libcaca-devel libcddb libcddb-devel libcdio libcdio-devel libdap libdap-devel libdca-devel \
       libdvbpsi libdvbpsi-devel libdvdnav libdvdnav-devel libdvdread libebml libebml-devel freetype freetype-devel fribidi \
       libgcrypt libgcrypt-devel libgpg-error libgpg-error-devel libjpeg-turbo libmad libmad-devel libmatroska libmatroska-devel \
@@ -340,12 +360,16 @@ function pkg_vlc() { # {{{2
       libxml2 libxml2-devel mpeg2dec portaudio-devel qt4 qt4-devel schroedinger-devel SDL-devel SDL_image SDL_image-devel speex \
       speex-devel taglib-devel twolame twolame-devel vcdimager vcdimager-devel vcdimager-libs x264 x264-devel yasm zlib \
       lua xcb-util-devel libsamplerate-devel"
+    # # another method
+    # cd contrib
+    # mkdir native && cd native
+    # sudo make clean distclean
+    # ../bootstrap
+    # make
+    # cd ../../
 
-    sudo make uninstall # uninstall
-    sudo make clean distclean
-
+    # https://wiki.videolan.org/Configure/
     ./bootstrap
-
     CC="${HOME}/.opt/gnu/gcc-${gcc_version}/bin/gcc" \
     CXX="${HOME}/.opt/gnu/gcc-${gcc_version}/bin/g++" \
     ./configure --prefix=/usr --enable-run-as-root \
@@ -357,13 +381,14 @@ function pkg_vlc() { # {{{2
       --enable-mkv --enable-freetype --enable-fribidi \
       --enable-speex --enable-flac --enable-livedotcom \
       --with-livedotcom-tree=/usr/lib/live --enable-caca \
-      --enable-skins --enable-skins2 --enable-alsa --disable-kde\
+      --enable-skins --enable-alsa --disable-kde\
       --disable-qt --enable-wxwindows --enable-ncurses \
-      --enable-release
+      --enable-release \
+      --enable-skins2
+      # --disable-avcodec
 
     if [ $? -eq 0 ]; then
       make -j4
-      # sudo checkinstall # package for Debain linux
       sudo make install
     fi
     cd $CURR_PATH
@@ -459,6 +484,12 @@ function pkg_bcompare() { # {{{2
   fi
 }
 
+function centos_exit () { # {{{2
+  pkg_clean
+  sudo updatedb
+  unset CURR_PATH
+}
+
 # Environment {{{1
 [ -z "$REPO_PATH" ] && REPO_PATH="$HOME/repos"
 [ -z "$CURR_PATH" ] && CURR_PATH=$(pwd)
@@ -482,21 +513,19 @@ centos_hostname
 mkdir -p "${HOME}/Downloads/"
 
 if [ $0 = "x" ]; then
-  pkg_clean
-  unset CURR_PATH
+  centos_exit
   exit 1
 else
-  pkg_gcc
+  # pkg_gcc
   pkg_git
   pkg_vim
-  pkg_vlc
+  # pkg_vlc
   pkg_vbox
   pkg_wps
   pkg_teamviewer
   pkg_bcompare
 fi
-pkg_clean
-unset CURR_PATH
+centos_exit
 
 # echo "haha" # DEBUG
 
