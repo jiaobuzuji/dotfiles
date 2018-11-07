@@ -230,21 +230,22 @@ function pkg_gcc() { # {{{2
     mkdir -p "$REPO_PATH/gcc" && cd "$REPO_PATH/gcc"
     msg "Downloading gcc source!"
     curl -OfSL "http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-${pkg_version}/gcc-${pkg_version}.tar.xz"
+    tar -Jxf "gcc-${pkg_version}.tar.xz"
     cd "gcc-${pkg_version}"
 
-    pkg_install "libmpc-devel mpfr-devel gmp-devel zlib-devel"
+    pkg_install "libtool libmpc-devel mpfr-devel gmp-devel zlib-devel"
     pkg_install "texinfo flex"
 
     ./contrib/download_prerequisites
     sudo ldconfig
 
-    mkdir -p "${HOME}/.opt"
+    mkdir -p "${HOME}/.opt/gnu"
     mkdir -p ../gcc-build-${pkg_version} && cd ../gcc-build-${pkg_version}
 
     sudo make uninstall # uninstall
     sudo make clean distclean
 
-    ../gcc-${pkg_version}/configure --prefix=${HOME}/.opt/gcc-${pkg_version} --with-system-zlib --disable-multilib --enable-languages=c,c++,java
+    ../gcc-${pkg_version}/configure --prefix=${HOME}/.opt/gnu/gcc-${pkg_version} --with-system-zlib --disable-multilib --enable-languages=c,c++,java
     if [ $? -eq 0 ]; then
       make -j4
       make install
@@ -322,12 +323,13 @@ function pkg_vlc() { # {{{2
   read -n1 -p "Build vlc ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     local pkg_version="3.0.4" # TODO 20181010
+    local gcc_version="5.5.0"
     mkdir -p "$REPO_PATH/vlc" && cd "$REPO_PATH/vlc"
     msg "Downloading vlc source!"
     curl -OfSL "ftp://ftp.videolan.org/pub/vlc/${pkg_version}/vlc-${pkg_version}.tar.xz" && tar -Jxf "vlc-${pkg_version}.tar.xz"
     cd "vlc-${pkg_version}"
 
-    pkg_install "libtool pkgconfig"
+    pkg_install "libtool pkgconfig lua lua-devel ffmpeg ffmpeg-devel gstreamer gstreamer-devel"
     pkg_install "a52dec a52dec-devel caca-utils dirac dirac-devel expat expat-devel faac faac-devel faad2 faad2-devel ffmpeg \
       ffmpeg-libs flac flac-devel fribidi-devel gettext gnutls gnutls-devel gnutls-utils lame lame-devel live555 live555-devel \
       libass libass-devel libcaca libcaca-devel libcddb libcddb-devel libcdio libcdio-devel libdap libdap-devel libdca-devel \
@@ -342,6 +344,10 @@ function pkg_vlc() { # {{{2
     sudo make uninstall # uninstall
     sudo make clean distclean
 
+    ./bootstrap
+
+    CC="${HOME}/.opt/gnu/gcc-${gcc_version}/bin/gcc" \
+    CXX="${HOME}/.opt/gnu/gcc-${gcc_version}/bin/g++" \
     ./configure --prefix=/usr --enable-run-as-root \
       --enable-x11 --enable-xvideo --disable-gtk \
       --enable-sdl --enable-ffmpeg --with-ffmpeg-mp3lame \
@@ -440,7 +446,8 @@ function pkg_bcompare() { # {{{2
     cd /usr/lib64/beyondcompare
     sudo cp BCompare BCompare.bak
     sudo sed -i "s/keexjEP3t4Mue23hrnuPtY4TdcsqNiJL-5174TsUdLmJSIXKfG2NGPwBL6vnRPddT7tH29qpkneX63DO9ECSPE9rzY1zhThHERg8lHM9IBFT+rVuiY823aQJuqzxCKIE1bcDqM4wgW01FH6oCBP1G4ub01xmb4BGSUG6ZrjxWHJyNLyIlGvOhoY2HAYzEtzYGwxFZn2JZ66o4RONkXjX0DF9EzsdUef3UAS+JQ+fCYReLawdjEe6tXCv88GKaaPKWxCeaUL9PejICQgRQOLGOZtZQkLgAelrOtehxz5ANOOqCaJgy2mJLQVLM5SJ9Dli909c5ybvEhVmIC0dc9dWH+/N9KmiLVlKMU7RJqnE+WXEEPI1SgglmfmLc1yVH7dqBb9ehOoKG9UE+HAE1YvH1XX2XVGeEqYUY-Tsk7YBTz0WpSpoYyPgx6Iki5KLtQ5G-aKP9eysnkuOAkrvHU8bLbGtZteGwJarev03PhfCioJL4OSqsmQGEvDbHFEbNl1qJtdwEriR+VNZts9vNNLk7UGfeNwIiqpxjk4Mn09nmSd8FhM4ifvcaIbNCRoMPGl6KU12iseSe+w+1kFsLhX+OhQM8WXcWV10cGqBzQE9OqOLUcg9n0krrR3KrohstS9smTwEx9olyLYppvC0p5i7dAx2deWvM1ZxKNs0BvcXGukR+/g" BCompare
-    chmod a-w "${HOME}/.config/bcompare/BCState.xml" "${HOME}/.config/bcompare/BCState.xml.bak"
+    # bcompare
+    # chmod a-w "${HOME}/.config/bcompare/BCState.xml" "${HOME}/.config/bcompare/BCState.xml.bak"
     # license:xxxxx
 
     cd $CURR_PATH
