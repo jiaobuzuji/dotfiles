@@ -209,6 +209,7 @@ function pkg_group_basic() { # {{{2
   # imsettings-switch fcitx # current user
   # im-chooser
 
+  pkg_install "dia" # alternative visio
   pkg_install "flash-plugin"
   pkg_install "vlc ffmpeg ffmpeg-libs x264 x265"
 
