@@ -171,7 +171,8 @@ function pkg_install() { # {{{2
 
 function pkg_group_basic() { # {{{2
   # sudo yum groups install -y "Development Tools"
-  pkg_install "gcc gcc-c++ automake autoconf cmake wget ctags cscope clang csh libgcc libcxx"
+  # pkg_install "cmake"
+  pkg_install "gcc gcc-c++ automake autoconf cmake3 wget ctags cscope clang csh libgcc libcxx"
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
   pkg_install "firefox bzip2 ntfs-3g ntfs-3g tree xclip bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
@@ -483,6 +484,21 @@ function pkg_bcompare() { # {{{2
   else
     printf '\n' >&2
   fi
+}
+
+function pkg_iptux() { # {{{2
+  sudo yum install gtk2-devel glib2-devel GConf2-devel gstreamer1-devel gcc gcc-c++ make cmake3 jsoncpp-devel
+  sudo yum remove cmake
+  sudo ln -s /usr/bin/cmake3 /usr/bin/cmake
+
+  git clone git://github.com/iptux-src/iptux.git # Official
+  cd iptux
+  mkdir build && cd build && cmake .. && make
+  sudo make install
+
+  sudo firewall-cmd --permanent --zone=public --add-port=2425/tcp
+  sudo firewall-cmd --permanent --zone=public --add-port=2425/udp
+  sudo firewall-cmd --complete-reload
 }
 
 function centos_exit () { # {{{2
