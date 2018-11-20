@@ -171,8 +171,7 @@ function pkg_install() { # {{{2
 
 function pkg_group_basic() { # {{{2
   # sudo yum groups install -y "Development Tools"
-  # pkg_install "cmake"
-  pkg_install "gcc gcc-c++ automake autoconf cmake3 wget ctags cscope clang csh libgcc libcxx"
+  pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget ctags cscope clang csh libgcc libcxx"
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
   pkg_install "firefox bzip2 ntfs-3g ntfs-3g tree xclip bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
@@ -332,7 +331,7 @@ function pkg_vlc() { # {{{2
     local gcc_version="5.5.0"
 
     if [ ! -e "$REPO_PATH/ffmpeg.git" ]; then
-      git clone --depth 1 "git://source.ffmpeg.org/ffmpeg.git" "$REPO_PATH/ffmpeg.git" && \
+      git clone --depth 1 "git://source.ffmpeg.org/ffmpeg" "$REPO_PATH/ffmpeg.git" && \
       cd "$REPO_PATH/ffmpeg.git"
     else
       cd "$REPO_PATH/ffmpeg.git" && git pull
@@ -487,18 +486,32 @@ function pkg_bcompare() { # {{{2
 }
 
 function pkg_iptux() { # {{{2
-  sudo yum install gtk2-devel glib2-devel GConf2-devel gstreamer1-devel gcc gcc-c++ make cmake3 jsoncpp-devel
-  sudo yum remove cmake
-  sudo ln -s /usr/bin/cmake3 /usr/bin/cmake
+  read -n1 -p "Install iptux ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    pkg_install "gtk2-devel glib2-devel GConf2-devel gstreamer1-devel gcc gcc-c++ make cmake3"
+    # sudo ln -s /usr/bin/cmake3 /usr/bin/cmake
 
-  git clone git://github.com/iptux-src/iptux.git # Official
-  cd iptux
-  mkdir build && cd build && cmake .. && make
-  sudo make install
+    git clone --depth 1 "https://github.com/open-source-parsers/jsoncpp" "$REPO_PATH/jsoncpp.git" && \
+      cd "$REPO_PATH/jsoncpp.git"
+    mkdir -p build/release
+    cd build/release
+    cmake3 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=release -DBUILD_STATIC_LIBS=OFF -DBUILD_SHARED_LIBS=ON -DARCHIVE_INSTALL_DIR=. -DCMAKE_INSTALL_INCLUDEDIR=include -G "Unix Makefiles" ../..
+    make && sudo make install
 
-  sudo firewall-cmd --permanent --zone=public --add-port=2425/tcp
-  sudo firewall-cmd --permanent --zone=public --add-port=2425/udp
-  sudo firewall-cmd --complete-reload
+    git clone "https://github.com/iptux-src/iptux" "$REPO_PATH/iptux.git" && \ # Official
+      cd "$REPO_PATH/iptux.git"
+    git checkout "v0.7.5" # TODO 20181008
+    mkdir build && cd build && cmake3 ..
+    make && sudo make install
+
+    # firewall
+    sudo firewall-cmd --permanent --zone=public --add-port=2425/tcp
+    sudo firewall-cmd --permanent --zone=public --add-port=2425/udp
+    sudo firewall-cmd --complete-reload
+    cd $CURR_PATH
+  else
+    printf '\n' >&2
+  fi
 }
 
 function centos_exit () { # {{{2
@@ -541,6 +554,7 @@ else
   pkg_wps
   pkg_teamviewer
   pkg_bcompare
+  pkg_iptux
 fi
 centos_exit
 
