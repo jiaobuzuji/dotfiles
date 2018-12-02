@@ -64,8 +64,13 @@ DISABLE_AUTO_UPDATE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+
+# plugins=(
+#   osx autojump history-substring-search command-not-found sudo
+#   git github git-flow svn web-search
+# )
 plugins=(
-  osx autojump history-substring-search command-not-found sudo
+  autojump history-substring-search command-not-found sudo
   git github git-flow svn web-search
 )
 
