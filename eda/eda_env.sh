@@ -82,9 +82,9 @@ fi
 # export SCILAB_HOME="$EDATOOLS/scilab-5.5.2"
 # export PATH="$PATH:$SCILAB_HOME/bin"
 
-export MATLAB_HOME="$EDATOOLS/MATLAB/R2012a"
+export MATLAB_HOME="$EDATOOLS/MATLAB/R2013b"
 export PATH="$PATH:$MATLAB_HOME/bin"
-export LM_LICENSE_FILE="$LM_LICENSE_FILE:$EDATOOLS/license/mat_standalone.dat"
+# export LM_LICENSE_FILE="$LM_LICENSE_FILE:$EDATOOLS/license/mat_standalone.dat"
 
 # export QUARTUS_HOME="$EDATOOLS/altera/14.1/quartus"
 # export QSYS_ROOTDIR="$EDATOOLS/altera/14.1/quartus/sopc_builder/bin"

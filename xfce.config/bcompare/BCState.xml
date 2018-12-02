@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Produced by Beyond Compare 4 from Scooter Software -->
+<BCState Version="1" MinVersion="1">
+	<TBcState>
+		<FirstStartup Value="False"/>
+		<FormPositions>
+			<TViewFrame Value="0;28;1366;768;95"/>
+		</FormPositions>
+	</TBcState>
+	<TCheckForUpdatesState>
+		<Build Value="23479"/>
+		<LastChecked Value="2018-12-02 10:47:14"/>
+	</TCheckForUpdatesState>
+	<TDirCompareState>
+		<MRUFilters>
+			<_0 Value="-*.swp;-.svn/;-.git/"/>
+		</MRUFilters>
+	</TDirCompareState>
+	<THomeState>
+		<SessionType Value="TDirCompareSession"/>
+	</THomeState>
+	<TTextCompareState>
+		<MRUFonts>
+			<_0 Value="Andale Mono;9"/>
+		</MRUFonts>
+		<ShowItemNum Value="True"/>
+	</TTextCompareState>
+	<TTipState>
+		<DontShowAgain Value="[tipFastRefresh]"/>
+	</TTipState>
+</BCState>
