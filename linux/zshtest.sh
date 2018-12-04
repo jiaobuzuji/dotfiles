@@ -86,3 +86,10 @@
 # ------------------------------------------------------------
 # sed -i -e "s/#?\s*PermitRootLogin.*/PermitRootLogin no/g" "sshd_config"
 # sed -i -e "s/^#\?\s*PermitRootLogin\s.*/PermitRootLogin no/g" "sshd_config"
+
+# ------------------------------------------------------------
+# test00=136
+# test01=68
+# let test02="$test00/$test01"
+# echo $test02
+
