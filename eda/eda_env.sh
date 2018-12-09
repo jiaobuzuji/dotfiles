@@ -7,6 +7,7 @@ HOSTNAME=`hostname`
 #   #echo ${MACADDR}
 # fi
 
+#---------------------------------------------------------
 export VCS_ARCH_OVERRIDE=linux
 export VCS_TARGET_ARCH=amd64
 export DESIGNWARE_HOME=$EDATOOLS/snps/dw
@@ -58,6 +59,7 @@ export PLATFORM=LINUX64
 export PATH="$PATH:$VERDI_HOME/bin"
 #export LM_LICENSE_FILE="$LM_LICENSE_FILE:27860@$HOSTNAME"
 
+#---------------------------------------------------------
 #export IES_HOME="$EDATOOLS/cadence/INCISIV132"
 export IES_HOME="$EDATOOLS/cadence/INCISIVE151"
 #export LEC_HOME="$EDATOOLS/cadence/CONFRML131"
@@ -79,6 +81,18 @@ else
   export LD_LIBRARY_PATH="$VERDI_HOME/share/PLI/IUS/LINUX64"
 fi
 
+#---------------------------------------------------------
+#export QUESTASIM_HOME="$EDATOOLS/mentor/questasim"
+#export PATH="$PATH:$QUESTASIM_HOME/bin"
+#export DFT_HOME="$EDATOOLS/mentor/tessent20131"
+export DFT_HOME="$EDATOOLS/mentor/tessent20163"
+export PATH="$PATH:$DFT_HOME/bin"
+export CALIBRE_HOME="$EDATOOLS/mentor/aoi_cal_2016.3_28.17"
+export PATH="$PATH:$CALIBRE_HOME/bin"
+export LM_LICENSE_FILE="$LM_LICENSE_FILE:27001@$HOSTNAME"
+#export LM_LICENSE_FILE="$LM_LICENSE_FILE:$EDATOOLS/license/mentor_$MACADDR.lic"
+
+#---------------------------------------------------------
 # export SCILAB_HOME="$EDATOOLS/scilab-5.5.2"
 # export PATH="$PATH:$SCILAB_HOME/bin"
 
@@ -97,16 +111,6 @@ export PATH="$PATH:$MATLAB_HOME/bin"
 #export PATH="$PATH:$EDATOOLS/X-Tek/xedit-2.0.0/bin"
 #export PATH="$PATH:$EDATOOLS/X-Tek/xhdl-4.2.5/bin"
 #
-#export QUESTASIM_HOME="$EDATOOLS/mentor/questasim"
-#export PATH="$PATH:$QUESTASIM_HOME/bin"
-#export DFT_HOME="$EDATOOLS/mentor/tessent20131"
-export DFT_HOME="$EDATOOLS/mentor/tessent20163"
-export PATH="$PATH:$DFT_HOME/bin"
-export CALIBRE_HOME="$EDATOOLS/mentor/aoi_cal_2016.3_28.17"
-export PATH="$PATH:$CALIBRE_HOME/bin"
-export LM_LICENSE_FILE="$LM_LICENSE_FILE:27001@$HOSTNAME"
-#export LM_LICENSE_FILE="$LM_LICENSE_FILE:$EDATOOLS/license/mentor_$MACADDR.lic"
-
 # source $EDATOOLS/Xilinx/14.7/ISE_DS/settings64.sh > /dev/null
 # export XKEYSYMDB=/usr/share/X11/XKeysymDB
 # source $EDATOOLS/Xilinx/Vivado/2018.1/settings64.sh > /dev/null
@@ -117,9 +121,25 @@ export LM_LICENSE_FILE="$LM_LICENSE_FILE:27001@$HOSTNAME"
 #   export LD_LIBRARY_PATH="/lib64:/usr/lib64"
 # fi
 
+#---------------------------------------------------------
 # # ARM compiler
 # export ARMGCC_HOME="$EDATOOLS/ARM/gcc-arm-none-eabi-5_4-2016q3"
 # export PATH=$ARMGCC_HOME/bin:$PATH
 
+# #---------------------------------------------------------
 # # SystemC
 # export SYSTEMC_HOME="$EDATOOLS/systemc/systemc-2.3.0a"
+
+#---------------------------------------------------------
+# Foundry
+export PATH="$PATH:$EDATOOLS/foundry/smic/40ll/smic-logic0040ll-sram_dp_hde_rvt_rvt-r1p1-02rel0/bin"
+export PATH="$PATH:$EDATOOLS/foundry/smic/40ll/smic-logic0040ll-rf_sp_hdf_rvt_rvt-r1p1-03rel0/bin"
+export PATH="$PATH:$EDATOOLS/foundry/smic/40ll/smic-logic0040ll-rom_via_hdd_rvt_rvt-r1p1-03rel0/bin"
+export PATH="$PATH:$EDATOOLS/foundry/smic/40ll/smic-logic0040ll-sram_sp_hde_rvt_rvt-r1p2-03rel0/bin"
+export PATH="$PATH:$EDATOOLS/foundry/smic/40ll/smic-logic0040ll-rf_2p_hde_rvt_rvt-r1p1-03rel0/bin"
+alias s4r1=rf_sp_hdf_rvt_rvt
+alias s4r2=rf_2p_hde_rvt_rvt
+alias s4ro=rom_via_hdd_rvt_rvt
+alias s4m1=sram_sp_hde_rvt_rvt
+alias s4m2=sram_dp_hde_rvt_rvt
+
