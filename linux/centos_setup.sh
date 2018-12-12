@@ -175,6 +175,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
   pkg_install "firefox vnc bzip2 ntfs-3g ntfs-3g tree xclip bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
+  pkg_install "ocl-icd opencl-headers" # opencl
   pkg_install "glibc.i686 zlib.i686 libXext.i686 libXtst.i686" # i686 libraries (bad ELF interpreter: No such file or directory)
   pkg_install "libgnome-devel libgnomeui-devel gtk3-devel gtk2-devel" # ui dependencies
   pkg_install "texinfo texi2html" # zsh
