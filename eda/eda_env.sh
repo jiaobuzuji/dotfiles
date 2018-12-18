@@ -122,9 +122,9 @@ export PATH="$PATH:$MATLAB_HOME/bin"
 # fi
 
 #---------------------------------------------------------
-# # ARM compiler
-# export ARMGCC_HOME="$EDATOOLS/ARM/gcc-arm-none-eabi-5_4-2016q3"
-# export PATH=$ARMGCC_HOME/bin:$PATH
+# ARM compiler
+export ARMGCC_HOME="$EDATOOLS/ARM/gcc-arm-none-eabi-5_4-2016q3"
+export PATH=$ARMGCC_HOME/bin:$PATH
 
 # #---------------------------------------------------------
 # # SystemC
