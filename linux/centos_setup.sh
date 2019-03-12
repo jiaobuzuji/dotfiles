@@ -184,6 +184,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "libXScrnSaver" # verdi
   pkg_install "compat-libtiff3" # lc_shell
 
+  pkg_install "dtc" # Freedom (RSIC V)
   pkg_install "java java-devel"
   pkg_install "perl perl-devel perl-Switch"
   pkg_install "tcl-devel"
