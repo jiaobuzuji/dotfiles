@@ -126,6 +126,11 @@ export PATH="$PATH:$MATLAB_HOME/bin"
 export ARMGCC_HOME="$EDATOOLS/ARM/gcc-arm-none-eabi-5_4-2016q3"
 export PATH=$ARMGCC_HOME/bin:$PATH
 
+#---------------------------------------------------------
+# RISCV compiler
+export RISCV="$EDATOOLS/RISCV/riscv64-unknown-elf-gcc-8.2.0-2019.02.0-x86_64-linux-centos6"
+export PATH=$RISCV/bin:$PATH
+
 # #---------------------------------------------------------
 # # SystemC
 # export SYSTEMC_HOME="$EDATOOLS/systemc/systemc-2.3.0a"
