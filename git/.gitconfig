@@ -27,3 +27,5 @@
 	browser = xdg-open
 [color]
 	ui = true
+[push]
+	default = upstream

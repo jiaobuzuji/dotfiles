@@ -3,5 +3,29 @@
 <BCState Version="1" MinVersion="1">
 	<TBcState>
 		<FirstStartup Value="False"/>
+		<FormPositions>
+			<TViewFrame Value="0;28;1366;768;95"/>
+		</FormPositions>
 	</TBcState>
+	<TCheckForUpdatesState>
+		<Build Value="23626"/>
+		<CheckID Value="264990461515313"/>
+		<LastChecked Value="2019-02-18 21:47:43"/>
+	</TCheckForUpdatesState>
+	<THomeState>
+		<NewExpanded Value="True"/>
+	</THomeState>
+	<TTextCompareState>
+		<LeftMRUSpecs>
+			<_0 Value="/home/jbzj/repos/dotfiles.git/xfce.config/bcompa/BCState.xml.bak"/>
+			<_1 Value="/home/jbzj/repos/dotfiles.git/xfce.config/bcompa/BCState.xml"/>
+		</LeftMRUSpecs>
+		<MRUFonts>
+			<_0 Value="Andale Mono;9"/>
+		</MRUFonts>
+		<RightMRUSpecs>
+			<_0 Value="/home/jbzj/repos/dotfiles.git/xfce.config/bcompare/BCState.xml.bak"/>
+			<_1 Value="/home/jbzj/repos/dotfiles.git/xfce.config/bcompare/BCState.xml"/>
+		</RightMRUSpecs>
+	</TTextCompareState>
 </BCState>

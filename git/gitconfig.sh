@@ -69,10 +69,10 @@ git config --global color.ui true
 # # "git pull --rebase" is now the default for pull no matter what
 # git config --global pull.rebase true
 # 
-# # This makes sure that push pushes only the current branch, and pushes it to the
-# # same branch pull would pull from
-# git config --global push.default upstream
-# 
+# This makes sure that push pushes only the current branch, and pushes it to the
+# same branch pull would pull from
+git config --global push.default upstream
+
 # # This converts CRLF endings to LF endings on Mac & Lin and also keeps them in
 # # the repo, but for Windows checkouts it converts LF to CRLF (and back to LF on
 # # commits)
