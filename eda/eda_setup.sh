@@ -39,5 +39,7 @@ sudo mv -f "./rc.local" "/etc/rc.d/rc.local"
 sudo chown root:root "/etc/rc.d/rc.local"
 sudo chmod u+x "/etc/rc.d/rc.local"
 
+sudo sed -i -e "s#127\.0\.0\.1#127.0.0.1 `hostname`#g" /etc/hosts # Verdi,VCS ....
+
 # -----------------------------------------------------------------
 # vim:fdm=marker
