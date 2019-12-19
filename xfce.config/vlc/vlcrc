@@ -1,5 +1,5 @@
 ﻿###
-###  vlc 3.0.6
+###  vlc 3.0.7.1
 ###
 
 ###
@@ -465,11 +465,11 @@
 # Tone-mapping algorithm (integer)
 #tone-mapping=3
 
-# Tone-mapping parameter (float)
-#tone-mapping-param=0.000000
-
 # Tone-mapping desaturation coefficient (float)
 #tone-mapping-desat=0.500000
+
+# Tone-mapping parameter (float)
+#tone-mapping-param=0.000000
 
 # Highlight clipped pixels (boolean)
 #tone-mapping-warn=0
@@ -1236,7 +1236,7 @@
 #sout-avi-subject=
 
 # Encoder (string)
-#sout-avi-encoder=VLC Media Player - 3.0.6 Vetinari
+#sout-avi-encoder=VLC Media Player - 3.0.7.1 Vetinari
 
 # Keywords (string)
 #sout-avi-keywords=
@@ -2614,6 +2614,9 @@ qt-privacy-ask=0
 # Advanced options (string)
 #sout-avformat-options=
 
+# Reset timestamps (boolean)
+#sout-avformat-reset-ts=0
+
 [mkv] # Matroska stream demuxer
 
 # Respect ordered chapters (boolean)
@@ -2954,6 +2957,104 @@ qt-privacy-ask=0
 
 # Opacity (boolean)
 #cc-opaque=1
+
+[schroedinger] # Dirac video decoder using libschroedinger
+
+# Rate control method (string)
+#sout-schro-rate-control=
+
+# Constant quality factor (float)
+#sout-schro-quality=-1.000000
+
+# Noise Threshold (float)
+#sout-schro-noise-threshold=-1.000000
+
+# CBR bitrate (kbps) (integer)
+#sout-schro-bitrate=-1
+
+# Maximum bitrate (kbps) (integer)
+#sout-schro-max-bitrate=-1
+
+# Minimum bitrate (kbps) (integer)
+#sout-schro-min-bitrate=-1
+
+# GOP structure (string)
+#sout-schro-gop-structure=
+
+# GOP length (integer)
+#sout-schro-gop-length=-1
+
+# Chroma format (string)
+#sout-schro-chroma-fmt=420
+
+# Picture coding mode (string)
+#sout-schro-coding-mode=auto
+
+# Motion Vector precision (string)
+#sout-schro-mv-precision=
+
+# Size of motion compensation blocks (string)
+#sout-schro-motion-block-size=
+
+# Overlap of motion compensation blocks (string)
+#sout-schro-motion-block-overlap=
+
+# Three component motion estimation (integer)
+#sout-schro-me-combined=-1
+
+# Enable hierarchical Motion Estimation (integer)
+#sout-schro-enable-hierarchical-me=-1
+
+# Number of levels of downsampling (integer)
+#sout-schro-downsample-levels=-1
+
+# Enable Global Motion Estimation (integer)
+#sout-schro-enable-global-me=-1
+
+# Enable Phase Correlation Estimation (integer)
+#sout-schro-enable-phasecorr-me=-1
+
+# Intra picture DWT filter (string)
+#sout-schro-intra-wavelet=
+
+# Inter picture DWT filter (string)
+#sout-schro-inter-wavelet=
+
+# Number of DWT iterations (integer)
+#sout-schro-transform-depth=-1
+
+# Enable multiple quantizers (integer)
+#sout-schro-enable-multiquant=-1
+
+# Size of code blocks in each subband (string)
+#sout-schro-codeblock-size=
+
+# Prefilter (string)
+#sout-schro-filtering=
+
+# Amount of prefiltering (float)
+#sout-schro-filter-value=-1.000000
+
+# Enable Scene Change Detection (integer)
+#sout-schro-enable-scd=-1
+
+# perceptual weighting method (string)
+#sout-schro-perceptual-weighting=
+
+# perceptual distance (float)
+#sout-schro-perceptual-distance=-1.000000
+
+# Disable arithmetic coding (integer)
+#sout-schro-enable-noarith=-1
+
+# Horizontal slices per frame (integer)
+#sout-schro-horiz-slices=-1
+
+# Vertical slices per frame (integer)
+#sout-schro-vert-slices=-1
+
+# Force Profile (string)
+#sout-schro-force-profile=
 
 [jpeg] # JPEG image decoder
 
@@ -4020,7 +4121,7 @@ qt-privacy-ask=0
 #loop=0
 
 # Repeat current item (boolean)
-repeat=1
+#repeat=0
 
 # Play and exit (boolean)
 #play-and-exit=0

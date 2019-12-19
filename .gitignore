@@ -18,6 +18,5 @@ xfce.config/fcitx/data/
 xfce.config/fcitx/pinyin/
 xfce.config/fcitx/dbus/
 xfce.config/fcitx/log/
-xfce.config/fcitx/table/
 xfce.config/fcitx/cached_layout
 xfce.config/fcitx/profile_*
