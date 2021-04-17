@@ -3,7 +3,7 @@
 <channel name="displays" version="1.0">
   <property name="Default" type="empty">
     <property name="LVDS-1" type="string" value="Laptop">
-      <property name="Active" type="bool" value="false"/>
+      <property name="Active" type="bool" value="true"/>
       <property name="Resolution" type="string" value="1366x768"/>
       <property name="RefreshRate" type="double" value="59.989197"/>
       <property name="Rotation" type="int" value="0"/>
@@ -27,4 +27,5 @@
       </property>
     </property>
   </property>
+  <property name="Notify" type="bool" value="false"/>
 </channel>

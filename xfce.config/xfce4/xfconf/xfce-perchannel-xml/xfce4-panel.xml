@@ -48,6 +48,7 @@
         <value type="string" value="ibus-ui-gtk3"/>
         <value type="string" value="orage"/>
         <value type="string" value="seapplet"/>
+        <value type="string" value="ktorrent"/>
         <value type="string" value="xfce4-power-manager"/>
         <value type="string" value="teamviewer"/>
       </property>

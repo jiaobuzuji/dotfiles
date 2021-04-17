@@ -3,6 +3,8 @@
 #     User jiaobuzuji
 #     PreferredAuthentications publickey
 #     IdentityFile ~/.ssh/github_id_rsa
+#     PasswordAuthentication yes
+#     Compression yes
 #     Port 22
 #     ForwardX11 yes
 #     Localforward 5912 192.168.1.100:5912

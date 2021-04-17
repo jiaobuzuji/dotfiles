@@ -122,7 +122,7 @@ ECHO_END
 
 
 function pkg_addition() { # {{{2
-  sudo yum install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
+  # sudo yum install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
 
   # sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm # epel-release TODO CentOS 7
   sudo yum install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm # vlc TODO CentOS 7
@@ -213,7 +213,7 @@ function pkg_group_basic() { # {{{2
   # im-chooser
 
   pkg_install "dia" # alternative visio
-  pkg_install "flash-plugin"
+  # pkg_install "flash-plugin"
   pkg_install "vlc ffmpeg ffmpeg-devel ffmpeg-libs x264 x265"
 
 }
@@ -404,13 +404,13 @@ function pkg_vlc() { # {{{2
 function pkg_vbox() { # {{{2
   read -n1 -p "Install VirtualBox ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    local pkg_version="5.2.20" # TODO 20181010
-    pkg_install "dkms VirtualBox-5.2" # NOTE!
+    local pkg_version="6.1.16" # TODO 20201118
+    pkg_install "dkms akmod-VirtualBox VirtualBox-6.1" # NOTE!
     # Install USB 2.0/3.0 Controler
     cd ${HOME}/Downloads/
     msg "Downloading VBox Extension Pack !"
     curl -fSLO "https://download.virtualbox.org/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
-    VBoxManage extpack install "Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
+    VBoxManage extpack install --replace "Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
     cd $CURR_PATH
   else
     printf '\n' >&2
