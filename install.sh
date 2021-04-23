@@ -189,6 +189,9 @@ tools_tmux
 tools_rg_ag
 tools_vim
 tools_fonts
+if [ -e "/etc/centos-release" ]; then # CentOS
+  tools_rar
+fi
 # exit 1 # DEBUG
 
 

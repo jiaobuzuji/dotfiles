@@ -139,20 +139,25 @@ function tools_fonts() {
   cd $CURR_PATH
 }
 
-# function tools_rar() {
-#   read -n1 -p "Install rar ? (y/N) " ans
-#   if [[ $ans =~ [Yy] ]]; then
-#     local pkg_version="5.6.1" # TODO 20181008
-#     mkdir -p ${HOME}/Downloads/ && cd ${HOME}/Downloads/
-#     msg "Downloading rar !"
-#     curl -OfSL https://www.rarlab.com/rar/rarlinux-x64-${pkg_version}tar.gz
-#     sudo make uninstall # uninstall
-#     sudo make clean distclean
-#     cd $CURR_PATH
-#   else
-#     printf '\n' >&2
-#   fi
-# }
+function tools_rar() {
+  read -n1 -p "Install rar ? (y/N) " ans
+  if [[ $ans =~ [Yy] ]]; then
+    local pkg_version="5.6.1" # TODO 20181008
+    mkdir -p ${HOME}/repos/rar/ && cd ${HOME}/repos/rar/
+    msg "Downloading rar !"
+    curl -OfSL https://www.rarlab.com/rar/rarlinux-x64-${pkg_version}.tar.gz
+    tar -xzvf rarlinux-x64-${pkg_version}.tar.gz
+    cd rar
+    sudo make
+
+    # uninstall
+    # vim makefile
+
+    cd $CURR_PATH
+  else
+    printf '\n' >&2
+  fi
+}
 
 # -----------------------------------------------------------------
 # vim:fdm=marker

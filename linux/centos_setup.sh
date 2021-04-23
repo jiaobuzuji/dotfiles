@@ -420,14 +420,18 @@ function pkg_vbox() { # {{{2
 function pkg_wps() { # {{{2
   read -n1 -p "Install WPS Office ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    local pkg_version="10.1.0" # TODO 20181008
-    local patch_version="6757" # TODO 20181008
     cd ${HOME}/Downloads/
-    msg "Downloading WPS Office !"
-    curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/${patch_version}/wps-office-${pkg_version}.${patch_version}-1.x86_64.rpm
-    curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/fonts/wps-office-fonts-1.0-1.noarch.rpm
-    sudo yum install -y wps-office-${pkg_version}.${patch_version}-1.x86_64.rpm
-    sudo yum install -y wps-office-fonts-1.0-1.noarch.rpm
+    msg "Download and Install WPS Office !"
+
+    # local pkg_version="10.1.0" # TODO 20181008
+    # local patch_version="6757" # TODO 20181008
+    # curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/${patch_version}/wps-office-${pkg_version}.${patch_version}-1.x86_64.rpm
+    # curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/fonts/wps-office-fonts-1.0-1.noarch.rpm
+    # sudo yum install -y wps-office-${pkg_version}.${patch_version}-1.x86_64.rpm
+    # sudo yum install -y wps-office-fonts-1.0-1.noarch.rpm
+
+    curl -OfSL "https://wdl1.cache.wps.cn/wps/download/ep/Linux2019/10161/wps-office-11.1.0.10161-1.x86_64.rpm"
+    sudo yum install -y wps-office-11.1.0.10161-1.x86_64.rpm
     cd $CURR_PATH
     # View -> Eye Protection Mode
 
@@ -447,6 +451,12 @@ function pkg_wps() { # {{{2
   else
     printf '\n' >&2
   fi
+}
+
+function pkg_rar() { # {{{2
+    msg "Install rar & unrar !"
+
+    cd $CURR_PATH
 }
 
 function pkg_teamviewer() { # {{{2
@@ -555,7 +565,8 @@ else
   # pkg_vlc
   pkg_vbox
   pkg_wps
-  pkg_teamviewer
+  pkg_rar
+  # pkg_teamviewer
   pkg_bcompare
   pkg_iptux
 fi
