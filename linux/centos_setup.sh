@@ -453,12 +453,6 @@ function pkg_wps() { # {{{2
   fi
 }
 
-function pkg_rar() { # {{{2
-    msg "Install rar & unrar !"
-
-    cd $CURR_PATH
-}
-
 function pkg_teamviewer() { # {{{2
   read -n1 -p "Install TeamViewer ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
@@ -487,6 +481,7 @@ function pkg_bcompare() { # {{{2
     sudo sed -i "s/keexjEP3t4Mue23hrnuPtY4TdcsqNiJL-5174TsUdLmJSIXKfG2NGPwBL6vnRPddT7tH29qpkneX63DO9ECSPE9rzY1zhThHERg8lHM9IBFT+rVuiY823aQJuqzxCKIE1bcDqM4wgW01FH6oCBP1G4ub01xmb4BGSUG6ZrjxWHJyNLyIlGvOhoY2HAYzEtzYGwxFZn2JZ66o4RONkXjX0DF9EzsdUef3UAS+JQ+fCYReLawdjEe6tXCv88GKaaPKWxCeaUL9PejICQgRQOLGOZtZQkLgAelrOtehxz5ANOOqCaJgy2mJLQVLM5SJ9Dli909c5ybvEhVmIC0dc9dWH+/N9KmiLVlKMU7RJqnE+WXEEPI1SgglmfmLc1yVH7dqBb9ehOoKG9UE+HAE1YvH1XX2XVGeEqYUY-Tsk7YBTz0WpSpoYyPgx6Iki5KLtQ5G-aKP9eysnkuOAkrvHU8bLbGtZteGwJarev03PhfCioJL4OSqsmQGEvDbHFEbNl1qJtdwEriR+VNZts9vNNLk7UGfeNwIiqpxjk4Mn09nmSd8FhM4ifvcaIbNCRoMPGl6KU12iseSe+w+1kFsLhX+OhQM8WXcWV10cGqBzQE9OqOLUcg9n0krrR3KrohstS9smTwEx9olyLYppvC0p5i7dAx2deWvM1ZxKNs0BvcXGukR+/g" BCompare
     # bcompare
     # license:xxxxx
+    # sudo chmod 444 BC4Key.txt BCState.xml BCLOCK_0.0 BCState.xml.bak
     # sudo cp ~/.config/bcompare/BC4Key.txt /etc/  # for all users
 
     cd $CURR_PATH
