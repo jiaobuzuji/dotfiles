@@ -3,8 +3,9 @@
 # -----------------------------------------------------------------
 # Author : Jiaobuzuji@163.com
 # Abstract : install Gitlab Community Edition
-# Official Docs : https://about.gitlab.com/install/#centos-7
-# Tuna : https://mirror.tuna.tsinghua.edu.cn/help/gitlab-ce/
+# Official : https://about.gitlab.com/install/?version=ce
+# Docs : http://docs.gitlab.com/ce
+# Mirrors,Tuna : https://mirror.tuna.tsinghua.edu.cn/help/gitlab-ce/
 # -----------------------------------------------------------------
 
 # add /etc/yum.repos.d/gitlab-ce.repo
