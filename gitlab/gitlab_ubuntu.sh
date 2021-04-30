@@ -16,9 +16,12 @@ sudo apt-get install -y postfix
 curl https://packages.gitlab.com/gpg.key 2> /dev/null | sudo apt-key add - &>/dev/null
 
 # ubuntu 20.04 (lsb_release -c)
-echo "deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu focal main" > gitlab-ce.list
+echo "
+deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu focal main
+deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-runner/ubuntu focal main
+" > gitlab-ce.list
 sudo chown root:root gitlab-ce.list
 sudo mv gitlab-ce.list /etc/apt/sources.list.d/
 
 sudo apt-get update
-sudo apt-get install gitlab-ce
+sudo apt-get install gitlab-ce gitlab-runner
