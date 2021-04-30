@@ -31,4 +31,10 @@ sudo chown root:root gitlab-all.repo
 sudo mv gitlab-all.repo /etc/yum.repos.d/
 
 sudo yum makecache
-sudo EXTERNAL_URL="http://127.0.0.1:8081" yum install gitlab-ce gitlab-runner
+# sudo EXTERNAL_URL="http://127.0.0.1:8081" yum install gitlab-ce gitlab-runner
+sudo yum install gitlab-ce gitlab-runner
+
+# Next Step : restart network
+
+# disable Boot start.
+# sudo systemctl disable gitlab-runsvdir.service

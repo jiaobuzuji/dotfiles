@@ -25,3 +25,6 @@ sudo mv gitlab-ce.list /etc/apt/sources.list.d/
 
 sudo apt-get update
 sudo apt-get install gitlab-ce gitlab-runner
+
+# Next Step : restart network
+
