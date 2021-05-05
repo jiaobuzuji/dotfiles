@@ -56,8 +56,9 @@ function centos_xfce() { # {{{2
     pkg_install "xfce4-notifyd" # notify
 
     pkg_install "usermode-gtk" # users information
-    pkg_install "evince" # pdf
+    # pkg_install "evince" # pdf (WPS PDF instead)
     pkg_install "ristretto" # xfce image viewer
+    pkg_install "gimp" # xfce image editor
     # pkg_install "eog" # gnome image viewer
     pkg_install "firewall-config setroubleshoot"
     pkg_install "vinagre" # remote desktop viewer

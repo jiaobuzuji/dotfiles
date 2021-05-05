@@ -28,13 +28,36 @@ gpgkey=https://packages.gitlab.com/gpg.key
 " > gitlab-all.repo
 
 sudo chown root:root gitlab-all.repo
-sudo mv gitlab-all.repo /etc/yum.repos.d/
+sudo mv -i gitlab-all.repo /etc/yum.repos.d/
 
 sudo yum makecache
+sudo yum install -y curl policycoreutils-python openssh-server openssh-clients perl
+sudo systemctl enable sshd
+sudo systemctl start sshd
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --add-service=https
+sudo systemctl reload firewalld
+
+# external SMTP server. Email
+sudo yum install postfix
+sudo systemctl enable postfix
+sudo systemctl start postfix
+
 # sudo EXTERNAL_URL="http://127.0.0.1:8081" yum install gitlab-ce gitlab-runner
 sudo yum install gitlab-ce gitlab-runner
 
+sudo sed -i -e "s#^exernal_url$#exernal_url 'http://127.0.0.1:8081'#g" "/etc/gitlab/gitlab.rb"
+
 # Next Step : restart network
+# ifconfig xxxx down
+# ifconfig xxxx up
 
 # disable Boot start.
 # sudo systemctl disable gitlab-runsvdir.service
+
+# start gitlab-runner
+systemctl start gitlab-runner
+systemctl status gitlab-runner
+# register
+xxxxx
+gitlab-runner register

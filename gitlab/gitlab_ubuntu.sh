@@ -21,7 +21,7 @@ deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu focal main
 deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-runner/ubuntu focal main
 " > gitlab-ce.list
 sudo chown root:root gitlab-ce.list
-sudo mv gitlab-ce.list /etc/apt/sources.list.d/
+sudo mv -i gitlab-ce.list /etc/apt/sources.list.d/
 
 sudo apt-get update
 sudo apt-get install gitlab-ce gitlab-runner
