@@ -47,17 +47,23 @@ sudo systemctl start postfix
 sudo yum install gitlab-ce gitlab-runner
 
 sudo sed -i -e "s#^exernal_url$#exernal_url 'http://127.0.0.1:8081'#g" "/etc/gitlab/gitlab.rb"
+# echo "git_data_dirs({ "default" => { "path" => "/home/gitlab/git-data" } })" >>  "/etc/gitlab/gitlab.rb"
+sudo gitlab-ctl reconfigure
 
 # Next Step : restart network
-# ifconfig xxxx down
-# ifconfig xxxx up
+# ifconfig enp2s0 down
+# ifconfig enp2s0 up
 
 # disable Boot start.
 # sudo systemctl disable gitlab-runsvdir.service
+
+# start gitlab-ce
+gitlab-ctl start
+gitlab-ctl status
+gitlab-ctl --help
 
 # start gitlab-runner
 systemctl start gitlab-runner
 systemctl status gitlab-runner
 # register
-xxxxx
 gitlab-runner register
