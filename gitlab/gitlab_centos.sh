@@ -54,9 +54,6 @@ sudo gitlab-ctl reconfigure
 # ifconfig enp2s0 down
 # ifconfig enp2s0 up
 
-# disable Boot start.
-# sudo systemctl disable gitlab-runsvdir.service
-
 # start gitlab-ce
 gitlab-ctl start
 gitlab-ctl status
@@ -67,3 +64,8 @@ systemctl start gitlab-runner
 systemctl status gitlab-runner
 # register
 gitlab-runner register
+
+# disable Boot start.
+sudo systemctl disable gitlab-runsvdir
+sudo systemctl disable gitlab-runner
+
