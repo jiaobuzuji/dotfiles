@@ -31,7 +31,7 @@ function centos_mirror() { # {{{2
     sudo yum -y update
     # sudo yum -y upgrade
     sudo rm -f /tmp/yum_save_tx* # clean log
-    sudo yum install -y epel-release
+    # sudo yum install -y epel-release
   else
     printf '\n' >&2
   fi
@@ -149,7 +149,7 @@ function pkg_update() { # {{{2
     # sudo yum -y upgrade
     # yum --enablerepo=rpmforge-extras update # use rpmforge source
     sudo rm -f /tmp/yum_save_tx* # clean log
-    sudo yum install -y epel-release
+    # sudo yum install -y epel-release
   else
     printf '\n' >&2
   fi
@@ -309,12 +309,6 @@ function pkg_vim() { # {{{2
     else
         cd "$REPO_PATH/vim.git" && git pull
     fi
-
-    pkg_install "libgnome-devel libgnomeui-devel"
-    pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel libattr-devel"
-    pkg_install "perl perl-devel perl-ExtUtils-ParseXS \
-                 perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
-                 perl-ExtUtils-Embed perl-YAML"
 
     curl -OfsSL "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_myvim.sh" # TODO
     source centos_myvim.sh
