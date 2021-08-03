@@ -10,7 +10,9 @@ function tools_autojump() {
   # pkg_install "autojump autojump-zsh" # CentOS
   # pkg_install "autojump" # Ubuntu
 
-  sudo ./uninstall.py
+  if [ -e "$REPO_PATH/autojump.git" ]; then
+    sudo ./uninstall.py
+  fi
 
   repo_sync  "$REPO_PATH" \
     "https://github.com/wting/autojump" \
@@ -27,8 +29,10 @@ function tools_zsh() {
   # pkg_install "zsh zsh-doc" # zsh
   # pkg_install "texinfo texi2html yodl" # zsh-doc dependencies
 
-  sudo make uninstall # uninstall
-  sudo make clean distclean
+  if [ -e "$REPO_PATH/zsh.git" ]; then
+    sudo make uninstall # uninstall
+    sudo make clean distclean
+  fi
 
   repo_sync  "$REPO_PATH" \
              "https://github.com/zsh-users/zsh/" \
@@ -65,8 +69,10 @@ function tools_tmux() {
   # pkg_install "tmux"
   # pkg_install "libevent-dev libcurses-ocaml-dev" # Ubuntu
 
-  sudo make uninstall # uninstall
-  sudo make clean distclean
+  if [ -e "$REPO_PATH/tmux.git" ]; then
+    sudo make uninstall # uninstall
+    sudo make clean distclean
+  fi
 
   repo_sync  "$REPO_PATH" \
     "https://github.com/tmux/tmux" \
