@@ -10,7 +10,7 @@ sudo yum install -y \
     python python-devel python3 python3-devel python36 python36-devel \
     perl perl-devel perl-ExtUtils-ParseXS \
     perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
-    perl-ExtUtils-Embed perl-YAML
+    perl-ExtUtils-Embed perl-YAML \
     tcl tcl-devel \
     libgnome-devel libgnomeui-devel gtk2-devel atk-devel libbonoboui-devel cairo-devel \
     libX11-devel ncurses-devel libXpm-devel libXt-devel libcxx \

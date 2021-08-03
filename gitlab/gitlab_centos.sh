@@ -43,6 +43,9 @@ sudo yum install postfix
 sudo systemctl enable postfix
 sudo systemctl start postfix
 
+# default port: 80/tcp
+# sudo firewall-cmd --zone=public --add-port=8081/tcp --permanent
+# sudo systemctl reload firewalld
 # sudo EXTERNAL_URL="http://127.0.0.1:8081" yum install gitlab-ce gitlab-runner
 sudo yum install gitlab-ce gitlab-runner
 
