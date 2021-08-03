@@ -26,7 +26,7 @@ function centos_mirror() { # {{{2
     sudo rm -rf /var/cache/yum
     sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak # backup
     sudo curl -o /etc/yum.repos.d/CentOS-Base.repo -fSL http://mirrors.aliyun.com/repo/Centos-7.repo # TODO CentOS 7
-    # sudo curl -o /etc/yum.repos.d/epel-7.repo -fSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
+    sudo curl -o /etc/yum.repos.d/epel-7.repo -fSL http://mirrors.aliyun.com/repo/epel-7.repo # TODO CentOS 7
     sudo yum makecache
     sudo yum -y update
     # sudo yum -y upgrade
@@ -540,8 +540,8 @@ function centos_exit () { # {{{2
 # Command `nmtui` to activate ethernet.
 
 pkg_addition
-# centos_mirror
-pkg_update
+centos_mirror
+# pkg_update
 sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
                /etc/default/grub # Waiting time
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
