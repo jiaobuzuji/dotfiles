@@ -11,6 +11,7 @@ function tools_autojump() {
   # pkg_install "autojump" # Ubuntu
 
   if [ -e "$REPO_PATH/autojump.git" ]; then
+    cd "$REPO_PATH/autojump.git"
     sudo ./uninstall.py
   fi
 
@@ -30,6 +31,7 @@ function tools_zsh() {
   # pkg_install "texinfo texi2html yodl" # zsh-doc dependencies
 
   if [ -e "$REPO_PATH/zsh.git" ]; then
+    cd "$REPO_PATH/zsh.git"
     sudo make uninstall # uninstall
     sudo make clean distclean
   fi
@@ -70,6 +72,7 @@ function tools_tmux() {
   # pkg_install "libevent-dev libcurses-ocaml-dev" # Ubuntu
 
   if [ -e "$REPO_PATH/tmux.git" ]; then
+    cd "$REPO_PATH/tmux.git"
     sudo make uninstall # uninstall
     sudo make clean distclean
   fi

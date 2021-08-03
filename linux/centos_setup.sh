@@ -555,7 +555,6 @@ else
   # pkg_vlc
   pkg_vbox
   pkg_wps
-  pkg_rar
   # pkg_teamviewer
   pkg_bcompare
   pkg_iptux
