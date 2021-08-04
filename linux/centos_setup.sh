@@ -320,7 +320,7 @@ function pkg_vim() { # {{{2
         libgnome-devel libgnomeui-devel gtk2-devel atk-devel libbonoboui-devel cairo-devel \
         libX11-devel ncurses-devel libXpm-devel libXt-devel libcxx \
         libsodium libsodium-devel \
-        ctags cscope git
+        gcc ctags cscope git
     curl -OfsSL "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/vim/build_vim.sh"
     source build_vim.sh
 
