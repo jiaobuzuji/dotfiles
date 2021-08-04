@@ -16,7 +16,7 @@
 #     libgnome-devel libgnomeui-devel gtk2-devel atk-devel libbonoboui-devel cairo-devel \
 #     libX11-devel ncurses-devel libXpm-devel libXt-devel libcxx \
 #     libsodium libsodium-devel \
-#     ctags cscope git
+#     gcc ctags cscope git
 # sudo yum remove -y vim gvim vim-runtime vim-common vim-enhanced
 
 # Ubuntu TODO
@@ -24,7 +24,8 @@
 #     libncurses5-dev libgnome2-dev libgnomeui-dev \
 #     libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
 #     libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
-#     python3-dev ruby-dev lua5.1 lua5.1-dev libperl-dev git
+#     python3-dev ruby-dev lua5.1 lua5.1-dev libperl-dev \
+#     gcc ctags cscope git
 # sudo apt remove -y vim gvim vim-runtime
 
 # -----------------------------------------------------------------
