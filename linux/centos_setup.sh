@@ -300,7 +300,7 @@ function pkg_vim() { # {{{2
     which vim > /dev/null 2>&1
     if [ $? -eq 0 ]; then
       read -n1 -p "'vim' has already in system. Do you want to reinstall it ? (y/N) " ans
-      [[ $ans =~ [Yy] ]] && sudo yum remove vim-common vim-enhanced -y || return 1
+      [[ $ans =~ [Yy] ]] && sudo yum remove -y vim gvim vim-runtime vim-common vim-enhanced || return 1
     fi
 
     if [ ! -e "${REPO_PATH}/vim.git" ]; then
@@ -310,8 +310,19 @@ function pkg_vim() { # {{{2
         cd "${REPO_PATH}/vim.git" && git pull
     fi
 
-    curl -OfsSL "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_myvim.sh" # TODO
-    source centos_myvim.sh
+    sudo yum install -y \
+        ruby ruby-devel lua lua-devel luajit luajit-devel \
+        python python-devel python3 python3-devel python36 python36-devel \
+        perl perl-devel perl-ExtUtils-ParseXS \
+        perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
+        perl-ExtUtils-Embed perl-YAML \
+        tcl tcl-devel \
+        libgnome-devel libgnomeui-devel gtk2-devel atk-devel libbonoboui-devel cairo-devel \
+        libX11-devel ncurses-devel libXpm-devel libXt-devel libcxx \
+        libsodium libsodium-devel \
+        ctags cscope git
+    curl -OfsSL "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/vim/build_vim.sh"
+    source build_vim.sh
 
     cd ${CURR_PATH}
   else

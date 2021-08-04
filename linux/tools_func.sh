@@ -59,10 +59,10 @@ function tools_zsh() {
   fi
 
   repo_sync  "${REPO_PATH}" \
-    "https://${GITSRVURL}/robbyrussell/oh-my-zsh" \
+    "https://${GITSRVURL}/ohmyzsh/ohmyzsh" \
     "master" \
-    "oh-my-zsh.git"
-  # cd oh-my-zsh/tools && ./install.sh || ( echo "Error occurred!exit.";exit 3 )
+    "ohmyzsh.git"
+  # cd ohmyzsh.git/tools && ./install.sh || ( echo "Error occurred!exit.";exit 3 )
   # curl -L git.io/antigen > antigen.zsh
   cd ${CURR_PATH}
 }
