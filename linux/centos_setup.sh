@@ -135,7 +135,7 @@ function pkg_addition() { # {{{2
   msg "Getting virtualbox repo !"
   sudo curl -OfSL http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo # vbox
 
-  cd $CURR_PATH
+  cd ${CURR_PATH}
 }
 
 function pkg_update() { # {{{2
@@ -233,7 +233,7 @@ function pkg_gcc() { # {{{2
   read -n1 -p "Build gcc ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     local pkg_version="5.5.0"
-    mkdir -p "$REPO_PATH/gcc" && cd "$REPO_PATH/gcc"
+    mkdir -p "${REPO_PATH}/gcc" && cd "${REPO_PATH}/gcc"
     msg "Downloading gcc source!"
     curl -OfSL "http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-${pkg_version}/gcc-${pkg_version}.tar.xz"
     tar -Jxf "gcc-${pkg_version}.tar.xz"
@@ -256,7 +256,7 @@ function pkg_gcc() { # {{{2
       make -j4
       make install
     fi
-    cd $CURR_PATH
+    cd ${CURR_PATH}
   else
     printf '\n' >&2
   fi
@@ -273,10 +273,10 @@ function pkg_git() { # {{{2
     fi
 
     local pkg_version="2.19.1" # TODO 20181008
-    mkdir -p "$REPO_PATH/git" && cd "$REPO_PATH/git"
-    if [[ ! -d "$REPO_PATH/git/git-${pkg_version}"  ]]; then
+    mkdir -p "${REPO_PATH}/git" && cd "${REPO_PATH}/git"
+    if [[ ! -d "${REPO_PATH}/git/git-${pkg_version}"  ]]; then
       msg "Downloading git source!"
-      curl -OfSL "https://github.com/git/git/archive/v${pkg_version}.tar.gz" && tar -zxf "v${pkg_version}.tar.gz"
+      curl -OfSL "https://${GITSRVURL}/git/git/archive/v${pkg_version}.tar.gz" && tar -zxf "v${pkg_version}.tar.gz"
     fi
     cd "git-${pkg_version}"
 
@@ -288,7 +288,7 @@ function pkg_git() { # {{{2
     if [ $? -eq 0 ]; then
       sudo make prefix=/usr install install-doc install-html install-info
     fi
-    cd $CURR_PATH
+    cd ${CURR_PATH}
   else
     printf '\n' >&2
   fi
@@ -303,17 +303,17 @@ function pkg_vim() { # {{{2
       [[ $ans =~ [Yy] ]] && sudo yum remove vim-common vim-enhanced -y || return 1
     fi
 
-    if [ ! -e "$REPO_PATH/vim.git" ]; then
-        git clone --depth 1 "https://github.com/vim/vim" "$REPO_PATH/vim.git" && \
-        cd "$REPO_PATH/vim.git"
+    if [ ! -e "${REPO_PATH}/vim.git" ]; then
+        git clone --depth 1 "https://${GITSRVURL}/vim/vim" "${REPO_PATH}/vim.git" && \
+        cd "${REPO_PATH}/vim.git"
     else
-        cd "$REPO_PATH/vim.git" && git pull
+        cd "${REPO_PATH}/vim.git" && git pull
     fi
 
     curl -OfsSL "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/linux/centos_myvim.sh" # TODO
     source centos_myvim.sh
 
-    cd $CURR_PATH
+    cd ${CURR_PATH}
   else
     printf '\n' >&2
   fi
@@ -328,17 +328,17 @@ function pkg_vlc() { # {{{2
     local pkg_version="3.0.4" # TODO 20181010
     local gcc_version="5.5.0"
 
-    if [ ! -e "$REPO_PATH/ffmpeg.git" ]; then
-      git clone --depth 1 "git://source.ffmpeg.org/ffmpeg" "$REPO_PATH/ffmpeg.git" && \
-      cd "$REPO_PATH/ffmpeg.git"
+    if [ ! -e "${REPO_PATH}/ffmpeg.git" ]; then
+      git clone --depth 1 "git://source.ffmpeg.org/ffmpeg" "${REPO_PATH}/ffmpeg.git" && \
+      cd "${REPO_PATH}/ffmpeg.git"
     else
-      cd "$REPO_PATH/ffmpeg.git" && git pull
+      cd "${REPO_PATH}/ffmpeg.git" && git pull
     fi
     pkg_install "nasm yasm freetype freetype-devel"
     # TODO
 
 
-    mkdir -p "$REPO_PATH/vlc" && cd "$REPO_PATH/vlc"
+    mkdir -p "${REPO_PATH}/vlc" && cd "${REPO_PATH}/vlc"
     msg "Downloading vlc source!"
     curl -OfSL "ftp://ftp.videolan.org/pub/vlc/${pkg_version}/vlc-${pkg_version}.tar.xz" && tar -Jxf "vlc-${pkg_version}.tar.xz"
     cd "vlc-${pkg_version}"
@@ -390,7 +390,7 @@ function pkg_vlc() { # {{{2
       make -j4
       sudo make install
     fi
-    cd $CURR_PATH
+    cd ${CURR_PATH}
   else
     printf '\n' >&2
   fi
@@ -406,7 +406,7 @@ function pkg_vbox() { # {{{2
     msg "Downloading VBox Extension Pack !"
     curl -fSLO "https://download.virtualbox.org/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
     VBoxManage extpack install --replace "Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
-    cd $CURR_PATH
+    cd ${CURR_PATH}
   else
     printf '\n' >&2
   fi
@@ -427,7 +427,7 @@ function pkg_wps() { # {{{2
 
     curl -OfSL "https://wdl1.cache.wps.cn/wps/download/ep/Linux2019/10161/wps-office-11.1.0.10161-1.x86_64.rpm"
     sudo yum install -y wps-office-11.1.0.10161-1.x86_64.rpm
-    cd $CURR_PATH
+    cd ${CURR_PATH}
     # View -> Eye Protection Mode
 
     # uninstall
@@ -479,7 +479,7 @@ function pkg_bcompare() { # {{{2
     # sudo chmod 444 BC4Key.txt BCState.xml BCLOCK_0.0 BCState.xml.bak
     # sudo cp ~/.config/bcompare/BC4Key.txt /etc/  # for all users
 
-    cd $CURR_PATH
+    cd ${CURR_PATH}
 
     # uninstall
     # sudo yum remove bcompare
@@ -494,15 +494,15 @@ function pkg_iptux() { # {{{2
     pkg_install "gtk2-devel glib2-devel GConf2-devel gstreamer1-devel gcc gcc-c++ make cmake3"
     # sudo ln -s /usr/bin/cmake3 /usr/bin/cmake
 
-    git clone --depth 1 "https://github.com/open-source-parsers/jsoncpp" "$REPO_PATH/jsoncpp.git" && \
-      cd "$REPO_PATH/jsoncpp.git"
+    git clone --depth 1 "https://${GITSRVURL}/open-source-parsers/jsoncpp" "${REPO_PATH}/jsoncpp.git" && \
+      cd "${REPO_PATH}/jsoncpp.git"
     mkdir -p build/release
     cd build/release
     cmake3 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=release -DBUILD_STATIC_LIBS=OFF -DBUILD_SHARED_LIBS=ON -DARCHIVE_INSTALL_DIR=. -DCMAKE_INSTALL_INCLUDEDIR=include -G "Unix Makefiles" ../..
     make && sudo make install
 
-    git clone "https://github.com/iptux-src/iptux" "$REPO_PATH/iptux.git" && \ # Official
-      cd "$REPO_PATH/iptux.git"
+    git clone "https://${GITSRVURL}/iptux-src/iptux" "${REPO_PATH}/iptux.git" && \ # Official
+      cd "${REPO_PATH}/iptux.git"
     git checkout "v0.7.5" # TODO 20181008
     mkdir build && cd build && cmake3 ..
     make && sudo make install
@@ -511,7 +511,7 @@ function pkg_iptux() { # {{{2
     sudo firewall-cmd --permanent --zone=public --add-port=2425/tcp
     sudo firewall-cmd --permanent --zone=public --add-port=2425/udp
     sudo firewall-cmd --complete-reload
-    cd $CURR_PATH
+    cd ${CURR_PATH}
   else
     printf '\n' >&2
   fi
@@ -523,8 +523,8 @@ function centos_exit () { # {{{2
 }
 
 # Environment {{{1
-[ -z "$REPO_PATH" ] && REPO_PATH="$HOME/repos"
-[ -z "$CURR_PATH" ] && CURR_PATH=$(pwd)
+[ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
+[ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
 
 # Install Packages {{{1
 # -----------------------------------------------------------------

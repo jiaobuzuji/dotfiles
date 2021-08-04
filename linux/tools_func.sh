@@ -10,19 +10,19 @@ function tools_autojump() {
   # pkg_install "autojump autojump-zsh" # CentOS
   # pkg_install "autojump" # Ubuntu
 
-  if [ -e "$REPO_PATH/autojump.git" ]; then
-    cd "$REPO_PATH/autojump.git"
+  if [ -e "${REPO_PATH}/autojump.git" ]; then
+    cd "${REPO_PATH}/autojump.git"
     sudo ./uninstall.py
   fi
 
-  repo_sync  "$REPO_PATH" \
-    "https://github.com/wting/autojump" \
+  repo_sync  "${REPO_PATH}" \
+    "https://${GITSRVURL}/wting/autojump" \
     "master" \
     "autojump.git"
 
   # ./install.py  # for current user
-  cd "$REPO_PATH/autojump.git" && sudo ./install.py -s # for all users
-  cd $CURR_PATH
+  cd "${REPO_PATH}/autojump.git" && sudo ./install.py -s # for all users
+  cd ${CURR_PATH}
 }
 
 
@@ -30,17 +30,17 @@ function tools_zsh() {
   # pkg_install "zsh zsh-doc" # zsh
   # pkg_install "texinfo texi2html yodl" # zsh-doc dependencies
 
-  if [ -e "$REPO_PATH/zsh.git" ]; then
-    cd "$REPO_PATH/zsh.git"
+  if [ -e "${REPO_PATH}/zsh.git" ]; then
+    cd "${REPO_PATH}/zsh.git"
     sudo make uninstall # uninstall
     sudo make clean distclean
   fi
 
-  repo_sync  "$REPO_PATH" \
-             "https://github.com/zsh-users/zsh/" \
+  repo_sync  "${REPO_PATH}" \
+             "https://${GITSRVURL}/zsh-users/zsh/" \
              "master" \
              "zsh.git"
-  cd "$REPO_PATH/zsh.git"
+  cd "${REPO_PATH}/zsh.git"
   git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
   ./Util/preconfig
   ./configure --prefix=/usr
@@ -58,30 +58,30 @@ function tools_zsh() {
     # chsh -s $(which zsh) or chsh -s `which zsh` or chsh -s /bin/zsh, and restart shell
   fi
 
-  repo_sync  "$REPO_PATH" \
-    "https://github.com/robbyrussell/oh-my-zsh" \
+  repo_sync  "${REPO_PATH}" \
+    "https://${GITSRVURL}/robbyrussell/oh-my-zsh" \
     "master" \
     "oh-my-zsh.git"
   # cd oh-my-zsh/tools && ./install.sh || ( echo "Error occurred!exit.";exit 3 )
   # curl -L git.io/antigen > antigen.zsh
-  cd $CURR_PATH
+  cd ${CURR_PATH}
 }
 
 function tools_tmux() {
   # pkg_install "tmux"
   # pkg_install "libevent-dev libcurses-ocaml-dev" # Ubuntu
 
-  if [ -e "$REPO_PATH/tmux.git" ]; then
-    cd "$REPO_PATH/tmux.git"
+  if [ -e "${REPO_PATH}/tmux.git" ]; then
+    cd "${REPO_PATH}/tmux.git"
     sudo make uninstall # uninstall
     sudo make clean distclean
   fi
 
-  repo_sync  "$REPO_PATH" \
-    "https://github.com/tmux/tmux" \
+  repo_sync  "${REPO_PATH}" \
+    "https://${GITSRVURL}/tmux/tmux" \
     "master" \
     "tmux.git"
-  cd "$REPO_PATH/tmux.git"
+  cd "${REPO_PATH}/tmux.git"
   git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
 
   ./autogen.sh
@@ -92,7 +92,7 @@ function tools_tmux() {
     # sudo checkinstall # package for Debain linux
     sudo make install
   fi
-  cd $CURR_PATH
+  cd ${CURR_PATH}
 }
 
 function tools_rg_ag() {
@@ -111,19 +111,19 @@ function tools_rg_ag() {
 
 
 function tools_vim() {
-  repo_sync  "$REPO_PATH" \
-             "https://github.com/jiaobuzuji/vimrc" \
+  repo_sync  "${REPO_PATH}" \
+             "https://${GITSRVURL}/jiaobuzuji/vimrc" \
              "master" \
              "vimrc.git"
 
-  lnif "$REPO_PATH/vimrc.git"   "$HOME/.vim"
-  mkdir -p "$HOME/.vim/undodir"
+  lnif "${REPO_PATH}/vimrc.git"   "${HOME}/.vim"
+  mkdir -p "${HOME}/.vim/undodir"
 
   curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
   repo_sync  "${HOME}/.vim/bundle" \
-             "https://github.com/Valloric/YouCompleteMe/" \
+             "https://${GITSRVURL}/Valloric/YouCompleteMe/" \
              "master" \
              "YouCompleteMe"
 
@@ -131,21 +131,21 @@ function tools_vim() {
   git submodule update --init --recursive && python3 ./install.py --clang-completer || return 1 # TODO
 
   vim +'PlugInstall' +':q'
-  cd $CURR_PATH
+  cd ${CURR_PATH}
 }
 
 function tools_fonts() {
-  repo_sync  "$REPO_PATH" \
-             "https://github.com/tracyone/program_font" \
+  repo_sync  "${REPO_PATH}" \
+             "https://${GITSRVURL}/tracyone/program_font" \
              "master" \
              "program_font"
 
-  sudo ln -sfT  "$REPO_PATH/program_font"   "/usr/share/fonts/program_font"
+  sudo ln -sfT  "${REPO_PATH}/program_font"   "/usr/share/fonts/program_font"
   cd "/usr/share/fonts/program_font"
   # sudo mkfontscale
   # sudo mkfontdir
   sudo fc-cache -fv
-  cd $CURR_PATH
+  cd ${CURR_PATH}
 }
 
 function tools_rar() {
@@ -162,7 +162,7 @@ function tools_rar() {
     # uninstall
     # vim makefile
 
-    cd $CURR_PATH
+    cd ${CURR_PATH}
   else
     printf '\n' >&2
   fi

@@ -78,7 +78,7 @@ function repo_sync() {
     success "Successfully updated '$repo_name'"
   fi
   msg ""
-  cd $CURR_PATH
+  cd ${CURR_PATH}
   debug
 }
 
@@ -144,8 +144,9 @@ msg   "Distributor : $(head -n1 /etc/issue | cut -f1 -d\ )" # Ubuntu, CentOS6(bu
 # msg "`lsb_release -d`\n" # "lsb_release" is not bare command.
 # msg $(lsb_release -si) # $(lsb_release -i | cut -f2)
 
-[ -z "$REPO_PATH" ] && REPO_PATH="$HOME/repos"
-[ -z "$CURR_PATH" ] && CURR_PATH=$(pwd)
+[ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
+[ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
+[ -z "${GITSRVURL}" ] && GITSRVURL="github.com" # mirror0: github.com.cnpmjs.org   mirror1: gitee.com(not work)
 
 # Install basic packages {{{2
 if [ -e "/etc/centos-release" ]; then # CentOS
@@ -170,11 +171,11 @@ elif [ $0 = "x" ]; then
   my_copyright
   exit 1
 else
-  repo_sync  "$REPO_PATH" \
-             "https://github.com/jiaobuzuji/dotfiles" \
+  repo_sync  "${REPO_PATH}" \
+             "https://${GITSRVURL}/jiaobuzuji/dotfiles" \
              "master" \
              "dotfiles.git"
-  source "$REPO_PATH/dotfiles.git/linux/tools_func.sh"
+  source "${REPO_PATH}/dotfiles.git/linux/tools_func.sh"
 fi
 
 gen_ssh_key
@@ -197,17 +198,17 @@ fi
 
 # Create Links {{{2
 mkdir -p ${HOME}/{.ssh,.vnc}
-lnif "$REPO_PATH/dotfiles.git/xfce.config"   "$HOME/.config"
-lnif "$REPO_PATH/dotfiles.git/shell/.zshrc"   "$HOME/.zshrc"
-# lnif "$REPO_PATH/dotfiles.git/shell/.bashrc"   "$HOME/.bashrc"
-# lnif "$REPO_PATH/dotfiles.git/shell/.bash_profile"   "$HOME/.bash_profile"
-# lnif "$REPO_PATH/dotfiles.git/shell/.bash_aliases"   "$HOME/.bash_aliases"
-lnif "$REPO_PATH/dotfiles.git/git/.gitconfig"   "$HOME/.gitconfig"
-lnif "$REPO_PATH/dotfiles.git/tmux/.tmux.conf"   "$HOME/.tmux.conf"
-# lnif "$REPO_PATH/dotfiles.git/ssh/config"   "$HOME/.ssh/config"
+lnif "${REPO_PATH}/dotfiles.git/xfce.config"   "${HOME}/.config"
+lnif "${REPO_PATH}/dotfiles.git/shell/.zshrc"   "${HOME}/.zshrc"
+# lnif "${REPO_PATH}/dotfiles.git/shell/.bashrc"   "${HOME}/.bashrc"
+# lnif "${REPO_PATH}/dotfiles.git/shell/.bash_profile"   "${HOME}/.bash_profile"
+# lnif "${REPO_PATH}/dotfiles.git/shell/.bash_aliases"   "${HOME}/.bash_aliases"
+lnif "${REPO_PATH}/dotfiles.git/git/.gitconfig"   "${HOME}/.gitconfig"
+lnif "${REPO_PATH}/dotfiles.git/tmux/.tmux.conf"   "${HOME}/.tmux.conf"
+# lnif "${REPO_PATH}/dotfiles.git/ssh/config"   "${HOME}/.ssh/config"
 
 # Setup EDA tools {{{2
-# bash "$REPO_PATH/dotfiles.git/eda/eda_setup.sh"
+# bash "${REPO_PATH}/dotfiles.git/eda/eda_setup.sh"
 
 # Finish {{{2
 my_copyright
