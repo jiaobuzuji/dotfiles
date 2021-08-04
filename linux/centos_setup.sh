@@ -519,7 +519,6 @@ function pkg_iptux() { # {{{2
 
 function centos_exit () { # {{{2
   pkg_clean
-  sudo updatedb
   unset CURR_PATH
 }
 
@@ -546,7 +545,7 @@ centos_hostname
 mkdir -p "${HOME}/Downloads/"
 
 if [ $0 = "x" ]; then
-  centos_exit
+  # centos_exit
   exit 1
 else
   # pkg_gcc
@@ -559,7 +558,7 @@ else
   pkg_bcompare
   pkg_iptux
 fi
-centos_exit
+# centos_exit
 
 # echo "haha" # DEBUG
 
