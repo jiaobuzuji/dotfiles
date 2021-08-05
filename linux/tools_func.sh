@@ -6,6 +6,8 @@
 # Abstract : tools functions
 # -----------------------------------------------------------------
 
+# BASIC SETUP TOOLS (functions) {{{1
+# -----------------------------------------------------------------
 function tools_autojump() {
   # pkg_install "autojump autojump-zsh" # CentOS
   # pkg_install "autojump" # Ubuntu
@@ -167,6 +169,12 @@ function tools_rar() {
     printf '\n' >&2
   fi
 }
+
+# Environment {{{1
+# -----------------------------------------------------------------
+[ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
+[ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
+[ -z "${GITSRVURL}" ] && GITSRVURL="github.com" # mirror0: github.com.cnpmjs.org   mirror1: gitee.com(not work)
 
 # -----------------------------------------------------------------
 # vim:fdm=marker
