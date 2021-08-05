@@ -48,7 +48,7 @@ function tools_zsh() {
   ./configure --prefix=/usr
 
   if [ $? -eq 0 ]; then
-    make
+    make -j$(nproc)
     # sudo checkinstall # package for Debain linux
     sudo make install
   fi
@@ -90,7 +90,7 @@ function tools_tmux() {
   ./configure --prefix=/usr
 
   if [ $? -eq 0 ]; then
-    make
+    make -j$(nproc)
     # sudo checkinstall # package for Debain linux
     sudo make install
   fi
@@ -159,7 +159,7 @@ function tools_rar() {
     curl -OfSL https://www.rarlab.com/rar/rarlinux-x64-${pkg_version}.tar.gz
     tar -xzvf rarlinux-x64-${pkg_version}.tar.gz
     cd rar
-    sudo make
+    sudo make -j$(nproc)
 
     # uninstall
     # vim makefile

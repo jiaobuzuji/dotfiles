@@ -280,7 +280,7 @@ function pkg_git() { # {{{2
     fi
     cd "git-${pkg_version}"
 
-    pkg_install "gcc gcc-c++ automake autoconf expat-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto texinfo docbook2X"
+    pkg_install "gcc gcc-c++ automake autoconf libcurl-devel expat-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto texinfo docbook2X"
     sudo ln -sf /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
     sudo make uninstall # uninstall
     sudo make clean distclean
