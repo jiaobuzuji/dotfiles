@@ -266,13 +266,6 @@ function pkg_gcc() { # {{{2
 function pkg_git() { # {{{2
   read -n1 -p "Build git ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    # if [ -x "$(which git)" ];
-    which git > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-      read -n1 -p "'git' has already in system. Do you want to reinstall it ? (y/N) " ans
-      [[ $ans =~ [Yy] ]] && sudo yum remove git -y || return 1
-    fi
-
     local pkg_version="2.19.1" # TODO 20181008
     mkdir -p "${REPO_PATH}/git" && cd "${REPO_PATH}/git"
     if [[ ! -d "${REPO_PATH}/git/git-${pkg_version}"  ]]; then
@@ -287,6 +280,12 @@ function pkg_git() { # {{{2
     sudo make clean distclean
     make prefix=/usr all doc info
     if [ $? -eq 0 ]; then
+      # if [ -x "$(which git)" ];
+      which git > /dev/null 2>&1
+      if [ $? -eq 0 ]; then
+        read -n1 -p "'git' has already in system. Do you want to reinstall it ? (y/N) " ans
+        [[ $ans =~ [Yy] ]] && sudo yum remove git -y || return 1
+      fi
       sudo make prefix=/usr install install-doc install-html install-info
     fi
     cd ${CURR_PATH}

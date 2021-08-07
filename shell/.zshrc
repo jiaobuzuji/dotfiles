@@ -7,7 +7,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=${HOME}/repos/oh-my-zsh.git
+export ZSH=${HOME}/repos/ohmyzsh.git
 
 # for faster loading,we use zsh buildin command zcompile
 # to compile the .zshrc
