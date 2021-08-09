@@ -61,7 +61,7 @@ function centos_xfce() { # {{{2
     pkg_install "gimp" # xfce image editor
     # pkg_install "eog" # gnome image viewer
     pkg_install "firewall-config setroubleshoot"
-    pkg_install "vinagre" # remote desktop viewer
+    pkg_install "vinagre remmina" # remote desktop viewer
     pkg_install "seahorse" # key manager
     pkg_install "gnome-disk-utility baobab" # disk modifier & analyzer (udisksctl, mkfs.ext4)
     pkg_install "gnome-calculator" # calculator
