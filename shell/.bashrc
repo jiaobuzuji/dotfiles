@@ -74,14 +74,12 @@ plugins=(
 source $OSH/oh-my-bash.sh
 # jiaobuzuji
 [[ -s '/etc/profile.d/autojump.sh' ]] && source '/etc/profile.d/autojump.sh'
-case $- in *i*) # interactive shell
-  [ -z "$TMUX" ] && exec $(tmux -2)
-esac
 alias v='vim'
 alias gv='gvim'
 
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
+export TERM='xterm-256color'
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -107,3 +105,8 @@ alias gv='gvim'
 # Example aliases
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
+
+# tmux
+case $- in *i*) # interactive shell
+  [ -z "$TMUX" ] && exec $(tmux -2)
+esac
