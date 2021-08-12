@@ -16,7 +16,7 @@
 
 # -----------------------------------------------------------------
 # Set Environment {{{1
-source "basic_func.sh"
+source "../linux/basic_func.sh"
 # source "ubuntu_func.sh"
 # pkg_update
 # sudo apt-get -y build-dep vlc

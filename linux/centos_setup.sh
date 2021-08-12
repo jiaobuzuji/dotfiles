@@ -528,11 +528,6 @@ function pkg_iptux() { # {{{2
   fi
 }
 
-function centos_exit () { # {{{2
-  pkg_clean
-  unset CURR_PATH
-}
-
 # Environment {{{1
 [ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
 [ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
@@ -557,7 +552,7 @@ centos_hostname
 mkdir -p "${HOME}/Downloads/"
 
 if [ $0 = "x" ]; then
-  # centos_exit
+  # pkg_clean
   exit 1
 else
   # pkg_gcc
@@ -570,9 +565,7 @@ else
   pkg_bcompare
   pkg_iptux
 fi
-# centos_exit
-
-# echo "haha" # DEBUG
+# pkg_clean
 
 # -----------------------------------------------------------------
 # vim:fdm=marker

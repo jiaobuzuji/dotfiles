@@ -2,7 +2,6 @@
 
 # -----------------------------------------------------------------
 # Author : Jiaobuzuji@163.com
-# Reference : https://github.com/tracyone/dotfiles/
 # Reference : https://github.com/spf13/spf13-vim/blob/3.0/bootstrap.sh
 # Abstract : basic functions
 # -----------------------------------------------------------------
