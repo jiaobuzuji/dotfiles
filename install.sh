@@ -204,13 +204,16 @@ lnif "${REPO_PATH}/dotfiles.git/git/.gitconfig"   "${HOME}/.gitconfig"
 lnif "${REPO_PATH}/dotfiles.git/tmux/.tmux.conf"   "${HOME}/.tmux.conf"
 # lnif "${REPO_PATH}/dotfiles.git/ssh/config"   "${HOME}/.ssh/config"
 
+
 # Setup EDA tools {{{2
 # bash "${REPO_PATH}/dotfiles.git/eda/eda_setup.sh"
 
+
 # Finish {{{2
 my_copyright
-
 }
+
+
 # Run Main {{{2
 main_func | tee install.log
 
