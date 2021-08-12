@@ -112,30 +112,6 @@ function tools_rg_ag() {
 }
 
 
-function tools_vim() {
-  repo_sync  "${REPO_PATH}" \
-             "https://${GITSRVURL}/jiaobuzuji/vimrc" \
-             "master" \
-             "vimrc.git"
-
-  lnif "${REPO_PATH}/vimrc.git"   "${HOME}/.vim"
-  mkdir -p "${HOME}/.vim/undodir"
-
-  curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-  repo_sync  "${HOME}/.vim/bundle" \
-             "https://${GITSRVURL}/Valloric/YouCompleteMe/" \
-             "master" \
-             "YouCompleteMe"
-
-  cd  ${HOME}/.vim/bundle/YouCompleteMe
-  git submodule update --init --recursive && python3 ./install.py --clang-completer || return 1 # TODO
-
-  vim +'PlugInstall' +':q'
-  cd ${CURR_PATH}
-}
-
 function tools_fonts() {
   repo_sync  "${REPO_PATH}" \
              "https://${GITSRVURL}/tracyone/program_font" \

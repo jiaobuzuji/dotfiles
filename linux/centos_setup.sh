@@ -321,7 +321,7 @@ function pkg_vim() { # {{{2
         libX11-devel ncurses-devel libXpm-devel libXt-devel libcxx \
         libsodium libsodium-devel \
         gcc ctags cscope git
-    curl -OfsSL "https://raw.githubusercontent.com/jiaobuzuji/dotfiles/master/vim/build_vim.sh"
+    curl -OfsSL "https://raw.githubusercontent.com/jiaobuzuji/vimrc/master/tools/build_vim.sh"
     source build_vim.sh
 
     cd ${CURR_PATH}

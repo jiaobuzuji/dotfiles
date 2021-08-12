@@ -188,7 +188,6 @@ tools_autojump
 tools_zsh
 tools_tmux
 tools_rg_ag
-tools_vim
 tools_fonts
 if [ -e "/etc/centos-release" ]; then # CentOS
   tools_rar
@@ -200,9 +199,7 @@ fi
 mkdir -p ${HOME}/{.ssh,.vnc}
 lnif "${REPO_PATH}/dotfiles.git/xfce.config"   "${HOME}/.config"
 lnif "${REPO_PATH}/dotfiles.git/shell/.zshrc"   "${HOME}/.zshrc"
-# lnif "${REPO_PATH}/dotfiles.git/shell/.bashrc"   "${HOME}/.bashrc"
-# lnif "${REPO_PATH}/dotfiles.git/shell/.bash_profile"   "${HOME}/.bash_profile"
-# lnif "${REPO_PATH}/dotfiles.git/shell/.bash_aliases"   "${HOME}/.bash_aliases"
+lnif "${REPO_PATH}/dotfiles.git/shell/.bashrc"   "${HOME}/.bashrc"
 lnif "${REPO_PATH}/dotfiles.git/git/.gitconfig"   "${HOME}/.gitconfig"
 lnif "${REPO_PATH}/dotfiles.git/tmux/.tmux.conf"   "${HOME}/.tmux.conf"
 # lnif "${REPO_PATH}/dotfiles.git/ssh/config"   "${HOME}/.ssh/config"
