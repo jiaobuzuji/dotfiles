@@ -77,6 +77,7 @@ plugins=(
 zmodload zsh/terminfo
 source "$ZSH/oh-my-zsh.sh"
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [[ -s "/etc/profile.d/autojump.sh" ]] && source "/etc/profile.d/autojump.sh"
 # [[ -s "$HOME/.autojump/etc/profile.d/autojump.sh" ]] && source "$HOME/.autojump/etc/profile.d/autojump.sh"
 autoload -U compinit promptinit
@@ -190,3 +191,4 @@ unset file;
 
 # -----------------------------------------------------------------
 # vim:fdm=marker
+

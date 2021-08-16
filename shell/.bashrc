@@ -110,3 +110,5 @@ export TERM='xterm-256color'
 case $- in *i*) # interactive shell
   [ -z "$TMUX" ] && exec $(tmux -2)
 esac
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
