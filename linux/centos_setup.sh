@@ -528,6 +528,12 @@ function pkg_iptux() { # {{{2
   fi
 }
 
+function pkg_nodejs() { # {{{2
+  sudo yum install nodejs
+  sudo npm install -g n
+  sudo n lts
+}
+
 # Environment {{{1
 [ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
 [ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
@@ -564,6 +570,7 @@ else
   # pkg_teamviewer
   pkg_bcompare
   pkg_iptux
+  pkg_nodejs
 fi
 # pkg_clean
 
