@@ -185,6 +185,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "libXScrnSaver" # verdi
   pkg_install "compat-libtiff3" # lc_shell
   pkg_install "asciinema" # https://asciinema.org/
+  pkg_install "meld" # compare tool
 
   pkg_install "dtc" # Freedom (RSIC V)
   pkg_install "java java-devel"
