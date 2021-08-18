@@ -532,6 +532,7 @@ function pkg_nodejs() { # {{{2
   sudo yum install nodejs
   sudo npm install -g n
   sudo n lts
+  # use "n" commend to select node version
 }
 
 # Environment {{{1
