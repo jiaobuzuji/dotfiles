@@ -81,13 +81,10 @@ fi
 # echo
 # echo -e '\033[32m======= opencv配置与加载动态库 配置环境变量 ==========\033[0m'
 # echo
+
+# method 0
 # echo "${HOME}/.local/lib64" >> /etc/ld.so.conf.d/opencv.conf
 # # sudo ln -s ${HOME}/.local/lib64/pkgconfig/opencv4.pc /usr/share/pkgconfig/ # better
-# cat >> /etc/profile <<"EOF"
-# export PKG_CONFIG_PATH=${HOME}/.local/lib64/pkgconfig:$PKG_CONFIG_PATH
-# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${HOME}/.local/lib64
-# EOF
-# source /etc/profile
 # ldconfig
 # echo "====查询OpenCV版本===="
 # pkg-config --modversion opencv
@@ -96,6 +93,14 @@ fi
 # echo -e '\033[32m======= All done ==========\033[0m'
 # echo
 
+# method 1
+# cat >> /etc/profile <<"EOF"
+# export PKG_CONFIG_PATH=${HOME}/.local/lib64/pkgconfig:$PKG_CONFIG_PATH
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${HOME}/.local/lib64
+# EOF
+# source /etc/profile
+
+# method 2
 # cat >> ${HOME}/.bashrc <<"EOF" # for myself
 # export PKG_CONFIG_PATH=${HOME}/.local/lib64/pkgconfig:$PKG_CONFIG_PATH
 # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${HOME}/.local/lib64
