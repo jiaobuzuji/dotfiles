@@ -108,7 +108,7 @@ function tools_rg_ag() {
       # rg 1
       # sudo yum install snapd
       # sudo systemctl enable --now snapd.socket
-      # sudo ln -s /var/lib/snapd/snap /snap
+      # sudo ln -s /var/lib/snapd/snap /snap # NOTE !! Log Out for update "PATH"
       # sudo snap install ripgrep --classic
     else
       sudo apt install -y silversearcher-ag # Ubuntu
