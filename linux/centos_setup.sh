@@ -536,6 +536,15 @@ function pkg_nodejs() { # {{{2
   # use "n" commend to select node version
 }
 
+function pkg_cmake() { # {{{2
+  git clone --depth 1 -b release "https://${GITSRVURL}/Kitware/CMake" "${REPO_PATH}/CMake.git"
+  cd "${REPO_PATH}/CMake.git"
+  ./bootstrap
+  gmake
+  sudo gmake install
+  cd ${CURR_PATH}
+}
+
 # Environment {{{1
 [ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
 [ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
@@ -573,6 +582,7 @@ else
   pkg_bcompare
   pkg_iptux
   pkg_nodejs
+  pkg_cmake
 fi
 # pkg_clean
 
