@@ -582,7 +582,7 @@ else
   pkg_bcompare
   pkg_iptux
   pkg_nodejs
-  pkg_cmake
+  # pkg_cmake
 fi
 # pkg_clean
 
