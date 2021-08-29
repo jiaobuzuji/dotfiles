@@ -537,12 +537,16 @@ function pkg_nodejs() { # {{{2
 }
 
 function pkg_cmake() { # {{{2
-  git clone --depth 1 -b release "https://${GITSRVURL}/Kitware/CMake" "${REPO_PATH}/CMake.git"
-  cd "${REPO_PATH}/CMake.git"
-  ./bootstrap
-  gmake
-  sudo gmake install
-  cd ${CURR_PATH}
+  # # method 0
+  # git clone --depth 1 -b release "https://${GITSRVURL}/Kitware/CMake" "${REPO_PATH}/CMake.git"
+  # cd "${REPO_PATH}/CMake.git"
+  # ./bootstrap
+  # gmake
+  # sudo gmake install
+  # cd ${CURR_PATH}
+
+  # method 1
+  sudo ln -s /usr/bin/cmake3 /usr/bin/cmake
 }
 
 # Environment {{{1
