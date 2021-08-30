@@ -232,36 +232,42 @@ function pkg_clean() { # {{{2
 }
 
 function pkg_gcc() { # {{{2
-  read -n1 -p "Build gcc ? (y/N) " ans
-  if [[ $ans =~ [Yy] ]]; then
-    local pkg_version="5.5.0"
-    mkdir -p "${REPO_PATH}/gcc" && cd "${REPO_PATH}/gcc"
-    msg "Downloading gcc source!"
-    curl -OfSL "http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-${pkg_version}/gcc-${pkg_version}.tar.xz"
-    tar -Jxf "gcc-${pkg_version}.tar.xz"
-    cd "gcc-${pkg_version}"
+  # # method 0
+  # read -n1 -p "Build gcc ? (y/N) " ans
+  # if [[ $ans =~ [Yy] ]]; then
+  #   local pkg_version="5.5.0"
+  #   mkdir -p "${REPO_PATH}/gcc" && cd "${REPO_PATH}/gcc"
+  #   msg "Downloading gcc source!"
+  #   curl -OfSL "http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-${pkg_version}/gcc-${pkg_version}.tar.xz"
+  #   tar -Jxf "gcc-${pkg_version}.tar.xz"
+  #   cd "gcc-${pkg_version}"
 
-    pkg_install "libmpc-devel mpfr-devel gmp-devel zlib-devel"
-    pkg_install "texinfo flex"
+  #   pkg_install "libmpc-devel mpfr-devel gmp-devel zlib-devel"
+  #   pkg_install "texinfo flex"
 
-    ./contrib/download_prerequisites
-    sudo ldconfig
+  #   ./contrib/download_prerequisites
+  #   sudo ldconfig
 
-    mkdir -p "${HOME}/.opt/gnu"
-    mkdir -p ../gcc-build-${pkg_version} && cd ../gcc-build-${pkg_version}
+  #   mkdir -p "${HOME}/.opt/gnu"
+  #   mkdir -p ../gcc-build-${pkg_version} && cd ../gcc-build-${pkg_version}
 
-    sudo make uninstall # uninstall
-    sudo make clean distclean
+  #   sudo make uninstall # uninstall
+  #   sudo make clean distclean
 
-    ../gcc-${pkg_version}/configure --prefix=${HOME}/.opt/gnu/gcc-${pkg_version} --with-system-zlib --disable-multilib --enable-languages=c,c++,java
-    if [ $? -eq 0 ]; then
-      make -j4
-      make install
-    fi
-    cd ${CURR_PATH}
-  else
-    printf '\n' >&2
-  fi
+  #   ../gcc-${pkg_version}/configure --prefix=${HOME}/.opt/gnu/gcc-${pkg_version} --with-system-zlib --disable-multilib --enable-languages=c,c++,java
+  #   if [ $? -eq 0 ]; then
+  #     make -j4
+  #     make install
+  #   fi
+  #   cd ${CURR_PATH}
+  # else
+  #   printf '\n' >&2
+  # fi
+
+  # method 1
+  sudo yum install -y centos-release-scl
+  sudo yum install -y devtoolset-8
+  source /opt/rh/devtoolset-8/enable # temporary
 }
 
 function pkg_git() { # {{{2
