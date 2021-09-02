@@ -102,21 +102,27 @@ function tools_rg_ag() {
   if [ $? -ne 0 ]; then
     if [ -e "/etc/centos-release" ]; then # CentOS
       sudo yum install -y the_silver_searcher
-      # rg 0
+      # rg 0 (deprecated)
       # sudo yum install https://extras.getpagespeed.com/release-el7-latest.rpm # Install GetPageSpeed repository:
       # sudo yum install ripgrep --enablerepos= xxxx # Install ripgrep rpm package:
-      # rg 1
+      # rg 1 (recommend)
+      # curl -OfSL https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep-13.0.0-x86_64-unknown-linux-musl.tar.gz
+      # tar -xvf ripgrep-13.0.0-x86_64-unknown-linux-musl.tar.gz
+      # sudo mv ripgrep-13.0.0-x86_64-unknown-linux-musl/rg /usr/bin/
+      # rg 2
       # sudo yum install snapd
       # sudo systemctl enable --now snapd.socket
       # sudo ln -s /var/lib/snapd/snap /snap # NOTE !! Log Out for update "PATH"
       # sudo snap install ripgrep --classic
     else
       sudo apt install -y silversearcher-ag # Ubuntu
+      # curl -LO  https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
+      # sudo dpkg -i ripgrep_13.0.0_amd64.deb
     fi
   fi
 
-  which 'rg' > /dev/null 2>&1
-  [ $? -ne 0 ] && [ ! -e "/etc/centos-release" ] && sudo snap install rg # Ubuntu
+  # which 'rg' > /dev/null 2>&1
+  # [ $? -ne 0 ] && [ ! -e "/etc/centos-release" ] && sudo snap install rg # Ubuntu
 }
 
 
