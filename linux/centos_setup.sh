@@ -265,8 +265,7 @@ function pkg_gcc() { # {{{2
   # fi
 
   # method 1
-  sudo yum install -y centos-release-scl
-  sudo yum install -y devtoolset-8
+  sudo yum install -y centos-release-scl devtoolset-8
   source /opt/rh/devtoolset-8/enable # temporary
 }
 
