@@ -556,6 +556,30 @@ function pkg_cmake() { # {{{2
   sudo ln -s /usr/bin/cmake3 /usr/bin/cmake
 }
 
+function pkg_glibc() { # {{{2
+  cd "${REPO_PATH}/gnu"
+  wget http://ftp.gnu.org/gnu/glibc/glibc-2.19.tar.xz # 2.19 for clangd
+  tar xvf glibc-2.19.tar.xz
+  cd glibc-2.19
+  mkdir build
+  cd build
+  ../configure --prefix=${HOME}/.opt/gnu/glibc-2.19
+  make -j$(nproc)
+  make install
+  export LD_LIBRARY_PATH=/opt/glibc-2.19/lib
+  cd ${CURR_PATH}
+}
+
+function pkg_llvm() { # {{{2
+  git clone --depth 1 "https://gitee.com/mirrors/llvm-project" "${REPO_PATH}/gnu/llvm-project"
+  cd "$REPO_PATH/gnu/llvm-project"
+  mkdir build
+  cd build
+  cmake3 -j$(nproc) -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" ../llvm
+  make -j$(nproc)
+  sudo make install
+}
+
 # Environment {{{1
 [ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
 [ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
@@ -594,6 +618,8 @@ else
   pkg_iptux
   pkg_nodejs
   # pkg_cmake
+  # pkg_glibc
+  # pkg_llvm
 fi
 # pkg_clean
 
