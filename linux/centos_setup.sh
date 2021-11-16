@@ -48,7 +48,7 @@ function centos_xfce() { # {{{2
     # startxface4 # or `init 5`
 
     # https://wiki.xfce.org/recommendedapps
-    pkg_install "xfce4-about xarchiver xfce4-screenshooter xfce4-screenshooter-plugin"
+    pkg_install "xarchiver xfce4-screenshooter xfce4-screenshooter-plugin" # xfce4-about
     pkg_install "xfdashboard xfce4-mount-plugin"
     pkg_install "system-config-users system-config-language system-config-printer"
     pkg_install "xfce4-taskmanager gnome-system-monitor gnome-system-log" # monitor
