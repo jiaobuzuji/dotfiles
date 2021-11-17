@@ -184,10 +184,11 @@ msg ""
 
 
 # Awesome tools {{{2
+# tools_ranger # TODO
 tools_autojump
 tools_zsh
 tools_tmux
-tools_rg_ag
+tools_rg_ag_fd
 tools_fonts
 if [ -e "/etc/centos-release" ]; then # CentOS
   tools_rar

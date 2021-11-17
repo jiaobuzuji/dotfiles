@@ -97,7 +97,7 @@ function tools_tmux() {
   cd ${CURR_PATH}
 }
 
-function tools_rg_ag() {
+function tools_rg_ag_fd() {
   which 'ag' > /dev/null 2>&1
   if [ $? -ne 0 ]; then
     if [ -e "/etc/centos-release" ]; then # CentOS
@@ -114,8 +114,13 @@ function tools_rg_ag() {
       # sudo systemctl enable --now snapd.socket
       # sudo ln -s /var/lib/snapd/snap /snap # NOTE !! Log Out for update "PATH"
       # sudo snap install ripgrep --classic
-    else
-      sudo apt install -y silversearcher-ag # Ubuntu
+      # fd 1 (recommend)
+      # curl -OfSL https://github.com/sharkdp/fd/releases/download/v8.2.1/fd-v8.2.1-x86_64-unknown-linux-musl.tar.gz
+      # tar -xvf fd-v8.2.1-x86_64-unknown-linux-musl.tar.gz
+      # sudo mv fd-v8.2.1-x86_64-unknown-linux-musl.tar.gz /usr/bin/
+    else # Ubuntu
+      sudo apt install -y silversearcher-ag
+      sudo apt install -y fd-find
       # curl -LO  https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
       # sudo dpkg -i ripgrep_13.0.0_amd64.deb
     fi
