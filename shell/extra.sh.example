@@ -17,6 +17,7 @@ export    LIBRARY_PATH="${EDATOOLS}/gnu/gcc-4.9.3/lib64:${EDATOOLS}/gnu/gcc-4.9.
 alias which='which -a'
 # alias vncviewer="vncviewer -passwd ${HOME}/.vnc/passwd -compresslevel 0 -quality 0 -bgr233"
 alias ssh='ssh -YN'
+alias lg='lazygit'
 
 alias rbb='rabbitvcs browser &'
 alias rbl='rabbitvcs log &'
