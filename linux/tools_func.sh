@@ -97,6 +97,17 @@ function tools_tmux() {
   cd ${CURR_PATH}
 }
 
+function tools_lazygit() {
+  if [ -e "/etc/centos-release" ]; then # CentOS
+    # method 0 (copr package manager)
+    # sudo dnf copr enable atim/lazygit -y
+    # sudo dnf install lazygit
+    # method 1 (recommend)
+    # curl -OfSL https://github.com/jesseduffield/lazygit/releases/download/v0.31.4/lazygit_0.31.4_Linux_x86_64.tar.gz
+    # tar xvf lazygit_0.31.4_Linux_x86_64.tar.gz
+    # sudo mv lazygit_0.31.4_Linux_x86_64.tar.gz/lazygit /usr/bin/
+  fi
+}
 function tools_rg_ag_fd() {
   which 'ag' > /dev/null 2>&1
   if [ $? -ne 0 ]; then
@@ -106,8 +117,8 @@ function tools_rg_ag_fd() {
       # sudo yum install https://extras.getpagespeed.com/release-el7-latest.rpm # Install GetPageSpeed repository:
       # sudo yum install ripgrep --enablerepos= xxxx # Install ripgrep rpm package:
       # rg 1 (recommend)
-      # curl -OfSL https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep-13.0.0-x86_64-unknown-linux-musl.tar.gz
-      # tar -xvf ripgrep-13.0.0-x86_64-unknown-linux-musl.tar.gz
+      # curl -OfSL https://github.com.cnpmjs.org/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep-13.0.0-x86_64-unknown-linux-musl.tar.gz
+      # tar xvf ripgrep-13.0.0-x86_64-unknown-linux-musl.tar.gz
       # sudo mv ripgrep-13.0.0-x86_64-unknown-linux-musl/rg /usr/bin/
       # rg 2
       # sudo yum install snapd
@@ -115,13 +126,13 @@ function tools_rg_ag_fd() {
       # sudo ln -s /var/lib/snapd/snap /snap # NOTE !! Log Out for update "PATH"
       # sudo snap install ripgrep --classic
       # fd 1 (recommend)
-      # curl -OfSL https://github.com/sharkdp/fd/releases/download/v8.2.1/fd-v8.2.1-x86_64-unknown-linux-musl.tar.gz
-      # tar -xvf fd-v8.2.1-x86_64-unknown-linux-musl.tar.gz
+      # curl -OfSL https://github.com.cnpmjs.org/sharkdp/fd/releases/download/v8.2.1/fd-v8.2.1-x86_64-unknown-linux-musl.tar.gz
+      # tar xvf fd-v8.2.1-x86_64-unknown-linux-musl.tar.gz
       # sudo mv fd-v8.2.1-x86_64-unknown-linux-musl.tar.gz /usr/bin/
     else # Ubuntu
       sudo apt install -y silversearcher-ag
       sudo apt install -y fd-find
-      # curl -LO  https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
+      # curl -LO  https://github.com.cnpmjs.org/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
       # sudo dpkg -i ripgrep_13.0.0_amd64.deb
     fi
   fi
