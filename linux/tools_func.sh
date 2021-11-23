@@ -149,10 +149,11 @@ function tools_fonts() {
              "program_font"
 
   sudo ln -sfT  "${REPO_PATH}/program_font"   "/usr/share/fonts/program_font"
+  # ln -sfT  "${REPO_PATH}/program_font"   "~/.fonts/program_font" # for current user
   cd "/usr/share/fonts/program_font"
   # sudo mkfontscale
   # sudo mkfontdir
-  sudo fc-cache -fv
+  sudo fc-cache -fv # for all user. use 'fc-cache -fv' command for current user.
   cd ${CURR_PATH}
 }
 
