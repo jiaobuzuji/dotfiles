@@ -31,6 +31,7 @@ alias mv='mv -i'
 alias rm='rm -i'
 alias cp='cp -i'
 alias l.='ls .* -d'
+alias lg='lazygit'
 
 alias gv='gvim'
 alias v='vim'

@@ -103,7 +103,7 @@ function tools_lazygit() {
     # sudo dnf copr enable atim/lazygit -y
     # sudo dnf install lazygit
     # method 1 (recommend)
-    # curl -OfSL https://github.com/jesseduffield/lazygit/releases/download/v0.31.4/lazygit_0.31.4_Linux_x86_64.tar.gz
+    # curl -OfSL https://github.com.cnpmjs.org/jesseduffield/lazygit/releases/download/v0.31.4/lazygit_0.31.4_Linux_x86_64.tar.gz
     # tar xvf lazygit_0.31.4_Linux_x86_64.tar.gz
     # sudo mv lazygit_0.31.4_Linux_x86_64.tar.gz/lazygit /usr/bin/
   fi
