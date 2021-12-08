@@ -1,5 +1,5 @@
 ﻿###
-###  vlc 3.0.7.1
+###  vlc 3.0.16
 ###
 
 ###
@@ -465,9 +465,6 @@
 # Tone-mapping algorithm (integer)
 #tone-mapping=3
 
-# Tone-mapping desaturation coefficient (float)
-#tone-mapping-desat=0.500000
-
 # Tone-mapping parameter (float)
 #tone-mapping-param=0.000000
 
@@ -479,6 +476,9 @@
 
 # Dither depth override (0 = framebuffer depth) (integer)
 #dither-depth=0
+
+# Tone-mapping desaturation coefficient (float)
+#tone-mapping-desat=0.500000
 
 [xcb_x11] # X11 video output (XCB)
 
@@ -543,6 +543,11 @@
 # Chroma (string)
 #vmem-chroma=RV16
 
+[notify] # LibNotify Notification Plugin
+
+# Timeout (ms) (integer)
+#notify-timeout=4000
+
 [swscale] # Video scaling filter
 
 # Scaling mode (integer)
@@ -577,6 +582,14 @@
 
 # Pitch Shift (float)
 #pitch-shift=0.000000
+
+[spatialaudio] # Ambisonics renderer and binauralizer
+
+# Headphones mode (binaural) (boolean)
+#spatialaudio-headphones=0
+
+# HRTF file for the binauralization (string)
+#hrtf-file=
 
 [remap] # Audio channel remapper
 
@@ -810,7 +823,7 @@
 #prefetch-buffer-size=16384
 
 # Read size (integer)
-#prefetch-read-size=16384
+#prefetch-read-size=16777216
 
 # Seek threshold (integer)
 #prefetch-seek-threshold=16384
@@ -1236,7 +1249,7 @@
 #sout-avi-subject=
 
 # Encoder (string)
-#sout-avi-encoder=VLC Media Player - 3.0.7.1 Vetinari
+#sout-avi-encoder=VLC Media Player - 3.0.16 Vetinari
 
 # Keywords (string)
 #sout-avi-keywords=
@@ -1351,6 +1364,12 @@
 
 # Caching value (ms) (integer)
 #sout-rtp-caching=300
+
+# SRTP key (hexadecimal) (string)
+#sout-rtp-key=
+
+# SRTP salt (hexadecimal) (string)
+#sout-rtp-salt=
 
 # MP4A LATM (boolean)
 #sout-rtp-mp4a-latm=0
@@ -1614,6 +1633,64 @@
 # Video output URL (string)
 #sout-es-dst-video=
 
+[access_output_livehttp] # HTTP Live streaming output
+
+# Segment length (integer)
+#sout-livehttp-seglen=10
+
+# Number of segments (integer)
+#sout-livehttp-numsegs=0
+
+# Number of first segment (integer)
+#sout-livehttp-initial-segment-number=1
+
+# Split segments anywhere (boolean)
+#sout-livehttp-splitanywhere=0
+
+# Delete segments (boolean)
+#sout-livehttp-delsegs=1
+
+# Use muxers rate control mechanism (boolean)
+#sout-livehttp-ratecontrol=0
+
+# Allow cache (boolean)
+#sout-livehttp-caching=0
+
+# Use randomized IV for encryption (boolean)
+#sout-livehttp-generate-iv=0
+
+# Index file (string)
+#sout-livehttp-index=
+
+# Full URL to put in index file (string)
+#sout-livehttp-index-url=
+
+# AES key URI to place in playlist (string)
+#sout-livehttp-key-uri=
+
+# AES key file (string)
+#sout-livehttp-key-file=
+
+# File where vlc reads key-uri and keyfile-location (string)
+#sout-livehttp-key-loadfile=
+
+[access_output_rist] # RIST stream output
+
+# RIST target packet size (bytes) (integer)
+#sout-rist-packet-size=1328
+
+# RIST data output caching size (ms) (integer)
+#sout-rist-caching=50
+
+# RIST retry-buffer queue size (ms) (integer)
+#sout-rist-buffer-size=0
+
+# SSRC used in RTP output (default is random, i.e. 0) (integer)
+#sout-rist-ssrc=0
+
+# Stream name (string)
+#sout-rist-stream-name=
+
 [http] # HTTP stream output
 
 # Username (string)
@@ -1681,6 +1758,23 @@
 
 # Group packets (integer)
 #sout-udp-group=1
+
+[access_output_srt] # SRT stream output
+
+# SRT chunk size (bytes) (integer)
+#chunk-size=1316
+
+# Return poll wait after timeout milliseconds (-1 = infinite) (integer)
+#poll-timeout=100
+
+# SRT latency (ms) (integer)
+#latency=125
+
+# Password for stream encryption (string)
+#passphrase=
+
+# Crypto key length in bytes (integer)
+#key-length=16
 
 [podcast] # Podcasts
 
@@ -1807,6 +1901,23 @@
 
 # Follow the mouse (boolean)
 #screen-follow-mouse=0
+
+[access_srt] # SRT input
+
+# SRT chunk size (bytes) (integer)
+#chunk-size=1316
+
+# Return poll wait after timeout milliseconds (-1 = infinite) (integer)
+#poll-timeout=-1
+
+# SRT latency (ms) (integer)
+#latency=125
+
+# Password for stream encryption (string)
+#passphrase=
+
+# Crypto key length in bytes (integer)
+#key-length=16
 
 [filesystem] # File input
 
@@ -2094,6 +2205,12 @@
 # RTCP (local) port (integer)
 #rtcp-port=0
 
+# SRTP key (hexadecimal) (string)
+#srtp-key=
+
+# SRTP salt (hexadecimal) (string)
+#srtp-salt=
+
 # Maximum RTP sources (integer)
 #rtp-max-src=1
 
@@ -2119,6 +2236,35 @@
 
 # FTP account (string)
 #ftp-account=anonymous
+
+[rist] # RIST input
+
+# RIST maximum packet size (bytes) (integer)
+#packet-size=1472
+
+# RIST demux/decode maximum jitter (default is 5ms) (integer)
+#maximum-jitter=5
+
+# RIST latency (ms) (integer)
+#latency=1000
+
+# RIST nack retry interval (ms) (integer)
+#retry-interval=132
+
+# RIST reorder buffer (ms) (integer)
+#reorder-buffer=70
+
+# RIST maximum retry count (integer)
+#max-retries=10
+
+# RIST nack type, 0 = range, 1 = bitmask. Default is range (integer)
+#nack-type=0
+
+# Disable NACK output packets (boolean)
+#disable-nacks=0
+
+# Do not check for a valid rtcp message from the encoder (boolean)
+#mcast-blind-nacks=0
 
 [access_jack] # JACK audio input
 
@@ -2476,6 +2622,15 @@ qt-privacy-ask=0
 # Use regular HTTP modules (boolean)
 #adaptive-use-access=0
 
+# Live Playback delay (ms) (integer)
+#adaptive-livedelay=15000
+
+# Max buffering (ms) (integer)
+#adaptive-maxbuffer=30000
+
+# Low latency (integer)
+#adaptive-lowlatency=-1
+
 [rawvid] # Raw video demuxer
 
 # Frames per Second (string)
@@ -2815,6 +2970,32 @@ qt-privacy-ask=0
 # Interval between disappearance and appearance (integer)
 #subsdelay-min-stop-start=1000
 
+[remoteosd] # Remote-OSD over VNC
+
+# VNC Host (string)
+#rmtosd-host=myvdr
+
+# VNC Port (integer)
+#rmtosd-port=20001
+
+# VNC Password (string)
+#rmtosd-password=
+
+# VNC poll interval (integer)
+#rmtosd-update=1000
+
+# VNC polling (boolean)
+#rmtosd-vnc-polling=0
+
+# Mouse events (boolean)
+#rmtosd-mouse-events=0
+
+# Key events (boolean)
+#rmtosd-key-events=0
+
+# Alpha transparency value (default 255) (integer)
+#rmtosd-alpha=255
+
 [rss] # RSS and Atom feed display
 
 # Feed URLs (string)
@@ -2908,6 +3089,11 @@ qt-privacy-ask=0
 
 # Sync on Intra Frame (boolean)
 #packetizer-mpegvideo-sync-iframe=0
+
+[libass] # Subtitle renderers using libass
+
+# Additional fonts directory (string)
+#ssa-fontsdir=
 
 [fluidsynth] # FluidSynth MIDI synthesizer
 
@@ -3204,6 +3390,14 @@ qt-privacy-ask=0
 
 # A/52 dynamic range compression (boolean)
 #a52-dynrng=1
+
+[dav1d] # Dav1d video decoder
+
+# Frames Threads (integer)
+#dav1d-thread-frames=0
+
+# Tiles Threads (integer)
+#dav1d-thread-tiles=0
 
 [spudec] # DVD subtitles decoder
 
@@ -3989,7 +4183,7 @@ qt-privacy-ask=0
 #meta-url=
 
 # File caching (ms) (integer)
-#file-caching=300
+#file-caching=1000
 
 # Live capture caching (ms) (integer)
 #live-caching=300

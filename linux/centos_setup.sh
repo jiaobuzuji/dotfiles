@@ -575,7 +575,10 @@ function pkg_llvm() { # {{{2
   cd "$REPO_PATH/gnu/llvm-project"
   mkdir build
   cd build
-  cmake3 -j$(nproc) -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" ../llvm
+  # cmake3 -j$(nproc) -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" ../llvm   # NOTE!! all project
+  # clangd project
+  cmake3 -j$(nproc) -DCMAKE_INSTALL_PREFIX=/opt/llvm -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" ../llvm
+m
   make -j$(nproc)
   sudo make install
 }

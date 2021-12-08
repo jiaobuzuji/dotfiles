@@ -15,6 +15,7 @@
         <value type="int" value="9"/>
         <value type="int" value="11"/>
         <value type="int" value="13"/>
+        <value type="int" value="10"/>
         <value type="int" value="7"/>
         <value type="int" value="3"/>
         <value type="int" value="15"/>
@@ -49,6 +50,7 @@
         <value type="string" value="ibus-ui-gtk3"/>
         <value type="string" value="orage"/>
         <value type="string" value="seapplet"/>
+        <value type="string" value="sunloginclient"/>
         <value type="string" value="ktorrent"/>
         <value type="string" value="xfce4-power-manager"/>
         <value type="string" value="teamviewer"/>
@@ -77,6 +79,11 @@
     <property name="plugin-13" type="string" value="launcher">
       <property name="items" type="array">
         <value type="string" value="16197096102.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-10" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="16343060391.desktop"/>
       </property>
     </property>
   </property>
