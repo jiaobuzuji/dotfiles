@@ -33,12 +33,16 @@ alias cp='cp -i'
 alias l.='ls .* -d'
 alias lg='lazygit'
 
-alias gv='gvim'
-alias v='vim'
+# alias gv='gvim'
+# alias v='vim'
 # alias vi='vim -u NONE' # pure vim
 # alias gvi='gvim -u NONE'
-alias vi='nvim-qt'
-alias nv='nvim'
+# alias nq='nvim-qt'
+# alias nv='nvim'
+alias gv='nvim-qt'
+alias v='nvim'
+alias vi='vim'
+alias gvi='gvim'
 
 alias ssh='ssh -Y' # Enables trusted X11 forwarding
 # alias sshn='ssh -YN' # Just forwarding ports

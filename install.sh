@@ -185,6 +185,7 @@ msg ""
 
 # Awesome tools {{{2
 # tools_ranger # TODO
+# tools_dwm
 tools_autojump
 tools_zsh
 tools_tmux
