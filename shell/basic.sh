@@ -37,12 +37,10 @@ alias lg='lazygit'
 # alias v='vim'
 # alias vi='vim -u NONE' # pure vim
 # alias gvi='gvim -u NONE'
-# alias nq='nvim-qt'
-# alias nv='nvim'
-alias gv='nvim-qt'
-alias v='nvim'
 alias vi='vim'
-alias gvi='gvim'
+alias gv='gvim'
+alias v='nvim'
+alias nv='nvim-qt'
 
 alias ssh='ssh -Y' # Enables trusted X11 forwarding
 # alias sshn='ssh -YN' # Just forwarding ports
