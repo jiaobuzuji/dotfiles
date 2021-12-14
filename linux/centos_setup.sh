@@ -583,6 +583,11 @@ function pkg_llvm() { # {{{2
   sudo make install
 }
 
+function pkg_nvim() { # {{{2
+  curl -OfSL https://github.com.cnpmjs.org/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+  curl -OfSL https://github.com.cnpmjs.org/neovim/neovim/releases/download/nightly/nvim-win64.zip
+}
+
 # Environment {{{1
 [ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
 [ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
@@ -623,6 +628,7 @@ else
   # pkg_cmake
   # pkg_glibc
   # pkg_llvm
+  # pkg_nvim
 fi
 # pkg_clean
 
