@@ -190,7 +190,7 @@ tools_autojump
 tools_zsh
 tools_tmux
 tools_lazygit
-tools_rg_ag_fd
+tools_rg_ag_fd_bat
 tools_fonts
 if [ -e "/etc/centos-release" ]; then # CentOS
   tools_rar

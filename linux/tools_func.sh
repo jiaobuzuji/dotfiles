@@ -108,7 +108,7 @@ function tools_lazygit() {
     # sudo mv lazygit_0.31.4_Linux_x86_64.tar.gz/lazygit /usr/bin/
   fi
 }
-function tools_rg_ag_fd() {
+function tools_rg_ag_fd_bat() {
   which 'ag' > /dev/null 2>&1
   if [ $? -ne 0 ]; then
     if [ -e "/etc/centos-release" ]; then # CentOS
@@ -129,9 +129,13 @@ function tools_rg_ag_fd() {
       # curl -OfSL https://github.com.cnpmjs.org/sharkdp/fd/releases/download/v8.2.1/fd-v8.2.1-x86_64-unknown-linux-musl.tar.gz
       # tar xvf fd-v8.2.1-x86_64-unknown-linux-musl.tar.gz
       # sudo mv fd-v8.2.1-x86_64-unknown-linux-musl.tar.gz /usr/bin/
+      # bat
+      # curl -OfSL https://github.com.cnpmjs.org/sharkdp/bat/releases/download/v0.18.3/bat-v0.18.3-x86_64-pc-windows-msvc.zip
+      # curl -OfSL https://github.com.cnpmjs.org/sharkdp/bat/releases/download/v0.18.3/bat-v0.18.3-x86_64-unknown-linux-musl.tar.gz
     else # Ubuntu
       sudo apt install -y silversearcher-ag
       sudo apt install -y fd-find
+      sudo apt install bat && ln -s /usr/bin/batcat ~/.local/bin/bat
       # curl -LO  https://github.com.cnpmjs.org/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
       # sudo dpkg -i ripgrep_13.0.0_amd64.deb
     fi
