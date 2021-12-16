@@ -97,6 +97,14 @@ function tools_tmux() {
   cd ${CURR_PATH}
 }
 
+function tools_svlsp() {
+  curl -OfSL https://github.com.cnpmjs.org/dalance/svls/releases/download/v0.1.28/svls-v0.1.28-x86_64-lnx.zip
+  curl -OfSL https://github.com.cnpmjs.org/dalance/svls/releases/download/v0.1.28/svls-v0.1.28-x86_64-win.zip
+  curl -OfSL https://github.com.cnpmjs.org/dalance/svlint/releases/download/v0.4.18/svlint-v0.4.18-x86_64-lnx.zip
+  curl -OfSL https://github.com.cnpmjs.org/dalance/svlint/releases/download/v0.4.18/svlint-v0.4.18-x86_64-win.zip
+  # https://github.com/imc-trading/svlangserver
+}
+
 function tools_lazygit() {
   if [ -e "/etc/centos-release" ]; then # CentOS
     # method 0 (copr package manager)
