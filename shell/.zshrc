@@ -102,6 +102,8 @@ bindkey -M emacs '^N' history-substring-search-down
 # Like bash
 bindkey "^u" backward-kill-line
 
+# autosuggestions
+bindkey '\el' autosuggest-accept # Alt+l
 
 # aliases {{{1
 # -----------------------------------------------------------------
