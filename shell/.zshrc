@@ -72,6 +72,7 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(
   autojump history-substring-search command-not-found sudo
   git github git-flow svn web-search
+  zsh-completions zsh-autosuggestions zsh-syntax-highlighting
 )
 
 zmodload zsh/terminfo
