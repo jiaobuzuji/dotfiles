@@ -66,6 +66,9 @@ function tools_zsh() {
     "ohmyzsh.git"
   # cd ohmyzsh.git/tools && ./install.sh || ( echo "Error occurred!exit.";exit 3 )
   # curl -L git.io/antigen > antigen.zsh
+  git clone --depth=1 "https://${GITSRVURL}/zsh-users/zsh-completions" "${REPO_PATH}/ohmyzsh.git/custom/plugins"
+  git clone --depth=1 "https://${GITSRVURL}/zsh-users/zsh-autosuggestions" "${REPO_PATH}/ohmyzsh.git/custom/plugins"
+  git clone --depth=1 "https://${GITSRVURL}/zsh-users/zsh-syntax-highlighting" "${REPO_PATH}/ohmyzsh.git/custom/plugins"
   cd ${CURR_PATH}
 }
 
