@@ -187,7 +187,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "asciinema" # https://asciinema.org/
   pkg_install "meld" # compare tool
 
-  pkg_install "dtc" # Freedom (RSIC V)
+  pkg_install "dtc iverilog " # Freedom (RSIC V) && verilog
   pkg_install "java java-devel"
   pkg_install "perl perl-devel perl-Switch"
   pkg_install "tcl-devel"
