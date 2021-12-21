@@ -1,0 +1,2 @@
+XFCE="$(which startxfce4 2>/dev/null)"
+exec "$XFCE"

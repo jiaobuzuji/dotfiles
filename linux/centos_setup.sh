@@ -38,7 +38,7 @@ function centos_mirror() { # {{{2
 }
 
 function centos_xfce() { # {{{2
-  read -n1 -p "Install xface ? (y/N) " ans
+  read -n1 -p "Install xfce ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     # sudo yum install -y epel-release
     sudo yum group install -y "X Window system" Xfce
