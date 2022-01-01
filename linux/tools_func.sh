@@ -119,6 +119,16 @@ function tools_lazygit() {
     # sudo mv lazygit_0.31.4_Linux_x86_64.tar.gz/lazygit /usr/bin/
   fi
 }
+
+function tools_universal-ctags() {
+    # $ git clone https://github.com/universal-ctags/ctags.git
+    # $ cd ctags
+    # $ ./autogen.sh
+    # $ ./configure --prefix=/where/you/want # defaults to /usr/local
+    # $ make
+    # $ make install # may require extra privileges depending on where to install
+}
+
 function tools_rg_ag_fd_bat() {
   which 'ag' > /dev/null 2>&1
   if [ $? -ne 0 ]; then
