@@ -172,7 +172,7 @@ function pkg_install() { # {{{2
 
 function pkg_group_basic() { # {{{2
   # sudo yum groups install -y "Development Tools"
-  pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget ctags cscope clang csh ksh libgcc libcxx"
+  pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
   pkg_install "firefox vnc bzip2 ntfs-3g ntfs-3g tree xclip bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
@@ -329,7 +329,7 @@ function pkg_vim() { # {{{2
         libgnome-devel libgnomeui-devel gtk2-devel atk-devel libbonoboui-devel cairo-devel \
         libX11-devel ncurses-devel libXpm-devel libXt-devel libcxx \
         libsodium libsodium-devel \
-        gcc ctags cscope git
+        gcc cscope git
     curl -OfsSL "https://raw.githubusercontent.com/jiaobuzuji/vimrc/master/tools/build_vim.sh"
     source build_vim.sh
 
