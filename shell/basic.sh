@@ -13,11 +13,11 @@ umask 022
 
 # export {{{1
 export PATH="$HOME/.local/bin:$PATH"
-export EDITOR='vim'
-export SVN_EDITOR='vim'
+export EDITOR='nvim'
+export SVN_EDITOR='nvim'
 export TERM='xterm-256color'
 export MANPATH="/usr/local/man:$MANPATH"
-export MANPAGER="vim -c MANPAGER -"
+export MANPAGER="nvim -c MANPAGER -"
 export LANG=en_US.UTF-8
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
