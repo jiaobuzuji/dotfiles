@@ -66,6 +66,7 @@ function centos_xfce() { # {{{2
     pkg_install "gnome-disk-utility baobab" # disk modifier & analyzer (udisksctl, mkfs.ext4)
     pkg_install "gnome-calculator" # calculator
     pkg_install "cheese" # laptop camera
+    pkg_install "ImageMagick" # convert -density 300 -quality 100 xx.pdf xx.png # pdf2jpeg pdf2png
 
     pkg_install "xfdashboard-themes xfwm4-themes arc-theme arc-theme-plank" # themes https://www.xfce-look.org/
     # pkg_install "numix-gtk-theme numix-icon-theme"
