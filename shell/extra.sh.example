@@ -28,7 +28,7 @@ alias rbm='rabbitvcs merge &'
 
 alias nautilus='nautilus --no-desktop'
 
-alias tarc='tar -Jcvhf "hello.tar.xz" --exclude-vcs --exclude-vcs-ignores'
+alias tarc='tar Jcvhf "hello.tar.xz" --exclude-vcs'
 
 
 # misc {{{1
