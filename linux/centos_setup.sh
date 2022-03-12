@@ -188,6 +188,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "asciinema" # https://asciinema.org/
   pkg_install "meld" # compare tool
   pkg_install "i3 i3lock" # window manager
+  pkg_install "samba cifs-utils"
 
   pkg_install "dtc iverilog verilator gtkwave" # Freedom (RSIC V) && verilog
   pkg_install "java java-devel"
