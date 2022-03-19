@@ -459,7 +459,8 @@ function pkg_wps() { # {{{2
     # 在/usr/bin/wps /usr/bin/wpp /usr/bin/et
     # gedit/usr/bin/wps
     # 在#!/bin/bash下面添加如下配置：
-    # exportXMODIFIERS=”@im=ibus”
+    # export XMODIFIERS=”@im=ibus”
+    # export GTK_IM_MODULE="fcitx"
     # export QT_IM_MODULE=”ibus”
 
     # method 2
