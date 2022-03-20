@@ -426,7 +426,8 @@ function pkg_vbox() { # {{{2
     # Install USB 2.0/3.0 Controler
     cd ${HOME}/Downloads/
     msg "Downloading VBox Extension Pack !"
-    curl -fSLO "https://download.virtualbox.org/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
+    # curl -fSLO "https://download.virtualbox.org/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
+    curl -fSLO "https://mirrors.tuna.tsinghua.edu.cn/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
     VBoxManage extpack install --replace "Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
     cd ${CURR_PATH}
   else
@@ -460,7 +461,7 @@ function pkg_wps() { # {{{2
     # gedit/usr/bin/wps
     # 在#!/bin/bash下面添加如下配置：
     # export XMODIFIERS=”@im=ibus”
-    # export GTK_IM_MODULE="fcitx"
+    # export GTK_IM_MODULE="ibus"
     # export QT_IM_MODULE=”ibus”
 
     # method 2
