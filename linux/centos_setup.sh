@@ -492,6 +492,7 @@ function pkg_bcompare() { # {{{2
     curl -OfSL http://www.scootersoftware.com/bcompare-${pkg_version}.x86_64.rpm
     sudo rpm --import http://www.scootersoftware.com/RPM-GPG-KEY-scootersoftware
     sudo yum install -y bcompare-${pkg_version}.x86_64.rpm
+    sudo rpm -ivh bcompare-${pkg_version}.x86_64.rpm
 
     # crack
     # sudo mv /etc/yum.repos.d/scootersoftware.repo /etc/yum.repos.d/scootersoftware.repo.backup
