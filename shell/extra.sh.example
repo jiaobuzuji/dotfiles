@@ -8,6 +8,7 @@
 export EDATOOLS="/opt"
 [ -f "${EDATOOLS}/eda_env.sh" ] && source "${EDATOOLS}/eda_env.sh"
 
+export PYTHONPATH="${PYTHONPATH}:$HOME/.local/lib64/xxx/xxxxx"
 export C_INCLUDE_PATH="${EDATOOLS}/gnu/gcc-4.9.3/include"
 export LD_LIBRARY_PATH="${EDATOOLS}/gnu/gcc-4.9.3/lib64:${EDATOOLS}/gnu/gcc-4.9.3/lib:${EDATOOLS}/gnu/gcc-4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3:$LD_LIBRARY_PATH"
 export    LIBRARY_PATH="${EDATOOLS}/gnu/gcc-4.9.3/lib64:${EDATOOLS}/gnu/gcc-4.9.3/lib:${EDATOOLS}/gnu/gcc-4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3:$LIBRARY_PATH"
