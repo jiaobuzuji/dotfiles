@@ -429,6 +429,15 @@ function pkg_vbox() { # {{{2
     # curl -fSLO "https://download.virtualbox.org/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
     curl -fSLO "https://mirrors.tuna.tsinghua.edu.cn/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
     VBoxManage extpack install --replace "Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
+
+    # method 0
+    sudo usermod -a -G vboxusrs $(whoami) && reboot
+    # cat /etc/group | grep vboxusrs
+
+    # method 1
+    #vim /etc/group
+    #append your user name to vboxusrs
+
     cd ${CURR_PATH}
   else
     printf '\n' >&2
