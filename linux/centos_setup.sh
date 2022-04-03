@@ -625,6 +625,8 @@ centos_xfce
 centos_hostname
 
 mkdir -p "${HOME}/Downloads/"
+# download rpm and dependencies!!
+# yumdownloader meld --resolve --destdir =/home
 
 if [ $0 = "x" ]; then
   # pkg_clean
