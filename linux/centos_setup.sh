@@ -429,6 +429,15 @@ function pkg_vbox() { # {{{2
     # curl -fSLO "https://download.virtualbox.org/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
     curl -fSLO "https://mirrors.tuna.tsinghua.edu.cn/virtualbox/$pkg_version/Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
     VBoxManage extpack install --replace "Oracle_VM_VirtualBox_Extension_Pack-$pkg_version.vbox-extpack"
+
+    # method 0
+    sudo usermod -a -G vboxusrs $(whoami) && reboot
+    # cat /etc/group | grep vboxusrs
+
+    # method 1
+    #vim /etc/group
+    #append your user name to vboxusrs
+
     cd ${CURR_PATH}
   else
     printf '\n' >&2
@@ -492,6 +501,7 @@ function pkg_bcompare() { # {{{2
     curl -OfSL http://www.scootersoftware.com/bcompare-${pkg_version}.x86_64.rpm
     sudo rpm --import http://www.scootersoftware.com/RPM-GPG-KEY-scootersoftware
     sudo yum install -y bcompare-${pkg_version}.x86_64.rpm
+    sudo rpm -ivh bcompare-${pkg_version}.x86_64.rpm
 
     # crack
     # sudo mv /etc/yum.repos.d/scootersoftware.repo /etc/yum.repos.d/scootersoftware.repo.backup
