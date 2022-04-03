@@ -422,7 +422,7 @@ function pkg_vbox() { # {{{2
   read -n1 -p "Install VirtualBox ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     local pkg_version="6.1.16" # TODO 20201118
-    pkg_install "dkms akmod-VirtualBox VirtualBox-6.1" # NOTE!
+    pkg_install "dkms akmod-VirtualBox VirtualBox-6.1 VirtualBox-guest-additions" # NOTE!
     # Install USB 2.0/3.0 Controler
     cd ${HOME}/Downloads/
     msg "Downloading VBox Extension Pack !"
