@@ -189,7 +189,6 @@ function pkg_group_basic() { # {{{2
   pkg_install "meld" # compare tool
   pkg_install "i3 i3lock" # window manager
   pkg_install "samba cifs-utils"
-  pkg_install "poppler-utils" # pdftotext, for BeyondCompare !!
 
   pkg_install "dtc iverilog verilator gtkwave" # Freedom (RSIC V) && verilog
   pkg_install "java java-devel"
@@ -501,6 +500,7 @@ function pkg_bcompare() { # {{{2
     msg "Downloading BeyondCompare !"
     curl -OfSL http://www.scootersoftware.com/bcompare-${pkg_version}.x86_64.rpm
     sudo rpm --import http://www.scootersoftware.com/RPM-GPG-KEY-scootersoftware
+    pkg_install "poppler-utils" # pdftotext, for BeyondCompare !!
     sudo yum install -y bcompare-${pkg_version}.x86_64.rpm
     sudo rpm -ivh bcompare-${pkg_version}.x86_64.rpm
 
@@ -518,6 +518,9 @@ function pkg_bcompare() { # {{{2
 
     # uninstall
     # sudo yum remove bcompare
+
+    # svn/git merge
+    # bcompare mine.file theirs.file base.file merged.file
   else
     printf '\n' >&2
   fi
