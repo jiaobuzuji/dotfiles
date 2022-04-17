@@ -135,6 +135,28 @@ ECHO_END
 
 }
 
+function rocky_dwm_st() { # {{{2
+  pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel' # x11 headers
+
+  git clone --depth 1 https://git.suckless.org/dwm "${REPO_PATH}/dwm.git"
+  cd "${REPO_PATH}/dwm.git"
+  sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
+         -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
+         config.mk
+  cp -a config.def.h config.h
+  sudo make clean install
+
+  git clone --depth 1 https://git.suckless.org/dmenu "${REPO_PATH}/dmenu.git"
+
+  git clone --depth 1 https://git.suckless.org/st "${REPO_PATH}/st.git"
+  cd "${REPO_PATH}/st.git"
+  sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
+         -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
+         config.mk
+  cp -a config.def.h config.h
+  sudo make clean install
+
+}
 
 function rocky_repos() { # {{{2
   # sudo dnf install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
@@ -643,6 +665,7 @@ sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
 
 pkg_group_basic
 rocky_xfce
+rocky_dwm_st
 rocky_hostname
 
 mkdir -p "${HOME}/Downloads/"
@@ -654,7 +677,7 @@ if [ $0 = "x" ]; then
   exit 1
 else
   # pkg_gcc
-  pkg_git
+  # pkg_git
   pkg_vim
   # pkg_vlc
   pkg_vbox
