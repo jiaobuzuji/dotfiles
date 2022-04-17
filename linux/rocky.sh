@@ -25,9 +25,9 @@ function pkg_install() { # {{{2
 function rocky_mirror() { # {{{2
   read -n1 -p "yum.repos mirror ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    sudo dnf remove -y epel-release
+    # sudo dnf remove -y epel-release
     sudo dnf clean all
-    # sudo rm -rf /var/cache/dnf /var/cache/yum
+    sudo rm -rf /var/cache/dnf /var/cache/yum
 
     sudo sed -e 's|^mirrorlist=|#mirrorlist=|g' \
              -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.sjtug.sjtu.edu.cn/rocky|g' \
@@ -53,13 +53,13 @@ function rocky_mirror() { # {{{2
 function rocky_xfce() { # {{{2
   read -n1 -p "Install xfce ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    # sudo yum install -y epel-release
-    sudo yum group install -y "X Window system" Xfce
+    # sudo dnf install -y epel-release
+    sudo dnf group install -y Xfce
     # sudo systemctl set-default multi-user.target # command login
     sudo systemctl set-default graphical.target # ui login
     # sudo systemctl isolate graphical.target # start ui now
     # startxface4 # or `init 5`
-
+///////////////////////////////////////////////////////////////
     # https://wiki.xfce.org/recommendedapps
     pkg_install "xarchiver xfce4-screenshooter xfce4-screenshooter-plugin" # xfce4-about
     pkg_install "xfdashboard xfce4-mount-plugin"
@@ -137,10 +137,10 @@ ECHO_END
 
 
 function rocky_repos() { # {{{2
-  # sudo yum install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
+  # sudo dnf install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
 
-  # sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm # epel-release TODO CentOS 7
-  # sudo yum install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm # vlc TODO CentOS 7
+  # sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm # epel-release TODO CentOS 7
+  # sudo dnf install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm # vlc TODO CentOS 7
 
   # rpm -i http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-xxxx.rpm # Fail !!
   # rpm -Uvh http://download.fedoraproject.org/pub/epel/xxxx.rpm
@@ -151,22 +151,27 @@ function rocky_repos() { # {{{2
 function pkg_update() { # {{{2
   read -n1 -p "Update system ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    # sudo yum remove -y epel-release
-    sudo yum clean all
-    sudo rm -rf /var/cache/yum
-    sudo yum makecache
-    sudo yum -y update
-    # sudo yum -y upgrade
+    sudo dnf clean all
+    sudo rm -rf /var/cache/dnf /var/cache/yum
+    sudo dnf makecache
+    sudo dnf -y update
+    # sudo dnf -y upgrade
     # yum --enablerepo=rpmforge-extras update # use rpmforge source
     sudo rm -f /tmp/yum_save_tx* # clean log
-    # sudo yum install -y epel-release
   else
     printf '\n' >&2
   fi
 }
 
 function pkg_group_basic() { # {{{2
-  # sudo yum groups install -y "Development Tools"
+  # sudo dnf groups list"
+  # sudo dnf groups install -y "Development Tools"
+
+  # Support chinese language
+  # 'locale -a' will list all langpacks
+  pkg_install "langpacks-zh_CN langpacks-ja langpacks-ko"
+  # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf TODO
+
   pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
   pkg_install "firefox vnc bzip2 ntfs-3g ntfs-3g tree xclip bison mlocate"
@@ -181,7 +186,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "compat-libtiff3" # lc_shell
   pkg_install "asciinema" # https://asciinema.org/
   pkg_install "meld" # compare tool
-  pkg_install "i3 i3lock" # window manager
+  # pkg_install "i3 i3lock" # window manager
   pkg_install "samba cifs-utils"
 
   pkg_install "dtc iverilog verilator gtkwave" # Freedom (RSIC V) && verilog
@@ -190,11 +195,11 @@ function pkg_group_basic() { # {{{2
   pkg_install "tcl-devel"
   # pkg_install "lua lua-devel luajit luajit-devel"
   # pkg_install "ruby ruby-devel"
-  pkg_install "python36 python36-devel" # python3-pip" # TODO CentOS 7
-  sudo ln -sf /usr/bin/python3.6 /usr/bin/python3 # TODO CentOS 7
+  # pkg_install "python36 python36-devel" # python3-pip" # TODO CentOS 7
+  # sudo ln -sf /usr/bin/python3.6 /usr/bin/python3 # TODO CentOS 7
 
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
-  pkg_install "cjkuni-ukai-fonts " # fonts and font tools
+  # pkg_install "cjkuni-ukai-fonts " # fonts and font tools
 
   # command is not "7zip" or "p7zip", but "7za"!!
   pkg_install "zip p7zip p7zip-doc p7zip-gui p7zip-plugins unar" # archive tools
@@ -202,6 +207,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "im-chooser imsettings-gsettings" # imsettings-xim" # input method setting
 
   # pkg_install "gtk2-immodules gtk3-immodules gtk2-immodule-xim gtk3-immodule-xim" # input method
+  pkg_install "ibus-libpinyin ibus-table-chinese-wubi-jidian"
   # pkg_install "ibus ibus-qt ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # ibus
   # ibus-setup # config ibus
   # imsettings-switch ibus
@@ -222,7 +228,7 @@ function pkg_clean() { # {{{2
   read -n1 -p "Clean old kernel ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
     local old_kernels=$(rpm -q kernel kernel-devel kernel-headers | egrep -v $(uname -r))
-    [ ! -z "$old_kernels" ] && sudo yum remove -y $old_kernels
+    [ ! -z "$old_kernels" ] && sudo dnf remove -y $old_kernels
   else
     printf '\n' >&2
   fi
@@ -262,9 +268,9 @@ function pkg_gcc() { # {{{2
   # fi
 
   # method 1
-  # sudo yum install -y centos-release-scl devtoolset-8 # error
-  sudo yum install -y centos-release-scl
-  sudo yum install -y devtoolset-8
+  # sudo dnf install -y centos-release-scl devtoolset-8 # error
+  sudo dnf install -y centos-release-scl
+  sudo dnf install -y devtoolset-8
   source /opt/rh/devtoolset-8/enable # temporary
 }
 
@@ -289,7 +295,7 @@ function pkg_git() { # {{{2
       which git > /dev/null 2>&1
       if [ $? -eq 0 ]; then
         read -n1 -p "'git' has already in system. Do you want to reinstall it ? (y/N) " ans
-        [[ $ans =~ [Yy] ]] && sudo yum remove git -y || return 1
+        [[ $ans =~ [Yy] ]] && sudo dnf remove git -y || return 1
       fi
       sudo make prefix=/usr install install-doc install-html install-info
     fi
@@ -305,7 +311,7 @@ function pkg_vim() { # {{{2
     which vim > /dev/null 2>&1
     if [ $? -eq 0 ]; then
       read -n1 -p "'vim' has already in system. Do you want to reinstall it ? (y/N) " ans
-      [[ $ans =~ [Yy] ]] && sudo yum remove -y vim gvim vim-runtime vim-common vim-enhanced || return 1
+      [[ $ans =~ [Yy] ]] && sudo dnf remove -y vim gvim vim-runtime vim-common vim-enhanced || return 1
     fi
 
     if [ ! -e "${REPO_PATH}/vim.git" ]; then
@@ -315,7 +321,7 @@ function pkg_vim() { # {{{2
         cd "${REPO_PATH}/vim.git" && git pull
     fi
 
-    sudo yum install -y \
+    sudo dnf install -y \
         ruby ruby-devel lua lua-devel luajit luajit-devel \
         python python-devel python3 python3-devel python36 python36-devel \
         perl perl-devel perl-ExtUtils-ParseXS \
@@ -431,6 +437,9 @@ function pkg_vbox() { # {{{2
     sudo curl -OfSL "https://mirrors.tuna.tsinghua.edu.cn/virtualbox/rpm/el8/$rpm_vbox"
     sudo dnf install -y $rpm_vbox
 
+    # mount virtualbox guest additions
+    # sudo mount -t iso9660 /dev/cdrom /mnt/cdrom # or sudo mount /dev/cdrom /mnt/cdrom
+
     # Install USB 2.0/3.0 Controler
     cd ${HOME}/Downloads/
     msg "Downloading VBox Extension Pack !"
@@ -460,16 +469,16 @@ function pkg_wps() { # {{{2
     # local patch_version="6757" # TODO 20181008
     # curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/${patch_version}/wps-office-${pkg_version}.${patch_version}-1.x86_64.rpm
     # curl -OfSL http://kdl.cc.ksosoft.com/wps-community/download/fonts/wps-office-fonts-1.0-1.noarch.rpm
-    # sudo yum install -y wps-office-${pkg_version}.${patch_version}-1.x86_64.rpm
-    # sudo yum install -y wps-office-fonts-1.0-1.noarch.rpm
+    # sudo dnf install -y wps-office-${pkg_version}.${patch_version}-1.x86_64.rpm
+    # sudo dnf install -y wps-office-fonts-1.0-1.noarch.rpm
 
     curl -OfSL "https://wdl1.cache.wps.cn/wps/download/ep/Linux2019/10161/wps-office-11.1.0.10161-1.x86_64.rpm"
-    sudo yum install -y wps-office-11.1.0.10161-1.x86_64.rpm
+    sudo dnf install -y wps-office-11.1.0.10161-1.x86_64.rpm
     cd ${CURR_PATH}
     # View -> Eye Protection Mode
 
     # uninstall
-    # sudo yum remove wps-office wps-office-fonts
+    # sudo dnf remove wps-office wps-office-fonts
 
     # method 1
     # 在/usr/bin/wps /usr/bin/wpp /usr/bin/et
@@ -490,8 +499,8 @@ function pkg_wps() { # {{{2
 function pkg_teamviewer() { # {{{2
   read -n1 -p "Install TeamViewer ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    # sudo yum install -y https://download.teamviewer.com/download/linux/teamviewer-host.x86_64.rpm # teamviewer
-    sudo yum install -y https://download.teamviewer.com/download/linux/teamviewer.x86_64.rpm # teamviewer
+    # sudo dnf install -y https://download.teamviewer.com/download/linux/teamviewer-host.x86_64.rpm # teamviewer
+    sudo dnf install -y https://download.teamviewer.com/download/linux/teamviewer.x86_64.rpm # teamviewer
     sudo systemctl disable teamviewerd
   else
     printf '\n' >&2
@@ -507,7 +516,7 @@ function pkg_bcompare() { # {{{2
     curl -OfSL http://www.scootersoftware.com/bcompare-${pkg_version}.x86_64.rpm
     sudo rpm --import http://www.scootersoftware.com/RPM-GPG-KEY-scootersoftware
     pkg_install "poppler-utils" # pdftotext, for BeyondCompare !!
-    sudo yum install -y bcompare-${pkg_version}.x86_64.rpm
+    sudo dnf install -y bcompare-${pkg_version}.x86_64.rpm
     sudo rpm -ivh bcompare-${pkg_version}.x86_64.rpm
 
     # crack
@@ -523,7 +532,7 @@ function pkg_bcompare() { # {{{2
     cd ${CURR_PATH}
 
     # uninstall
-    # sudo yum remove bcompare
+    # sudo dnf remove bcompare
 
     # svn/git merge
     # bcompare mine.file theirs.file base.file merged.file
@@ -562,7 +571,7 @@ function pkg_iptux() { # {{{2
 }
 
 function pkg_nodejs() { # {{{2
-  sudo yum install nodejs
+  sudo dnf install nodejs
   sudo npm install -g n
   sudo n lts
   # use "n" commend to select node version
@@ -627,9 +636,11 @@ function pkg_nvim() { # {{{2
 rocky_repos
 rocky_mirror
 # pkg_update
+
 sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
                /etc/default/grub # Waiting time
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
+
 pkg_group_basic
 rocky_xfce
 rocky_hostname
