@@ -143,8 +143,13 @@ function rocky_dwm_st() { # {{{2
   sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
          -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
          config.mk
+  # patch : alpha fullscreen hide_vacant_tags viewontag
+  # actualfullscreen fixborders noborderfloatingfix
+
   cp -a config.def.h config.h
   sudo make clean install
+
+  # slstatus xbacklight acpilight acpi xsetroot
 
   git clone --depth 1 https://git.suckless.org/dmenu "${REPO_PATH}/dmenu.git"
 
@@ -153,6 +158,7 @@ function rocky_dwm_st() { # {{{2
   sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
          -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
          config.mk
+  # patch : alpha
   cp -a config.def.h config.h
   sudo make clean install
 
