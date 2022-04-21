@@ -138,7 +138,7 @@ ECHO_END
 function rocky_dwm() { # {{{2
   pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel' # x11 headers
 
-  # sddm lightdm
+  # sddm lightdm gdm(gnome)
 
   git clone --depth 1 https://git.suckless.org/dwm "${REPO_PATH}/dwm.git"
   cd "${REPO_PATH}/dwm.git"
