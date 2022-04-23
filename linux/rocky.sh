@@ -6,7 +6,12 @@
 # Abstract : bootstrap functions
 # -----------------------------------------------------------------
 
-# SETUP FUNCTIONS {{{1
+# Environment {{{1
+[ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
+[ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
+[ -z "${GITSRVURL}" ] && GITSRVURL="github.com" # mirror0: github.com.cnpmjs.org   mirror1: gitee.com(not work)
+
+# Setup Functions {{{1
 # -----------------------------------------------------------------
 function msg() { # {{{2
     printf '%b\n' "$1" >&2
@@ -59,7 +64,7 @@ function rocky_xfce() { # {{{2
     sudo systemctl set-default graphical.target # ui login
     # sudo systemctl isolate graphical.target # start ui now
     # startxface4 # or `init 5`
-///////////////////////////////////////////////////////////////
+
     # https://wiki.xfce.org/recommendedapps
     pkg_install "xarchiver xfce4-screenshooter xfce4-screenshooter-plugin" # xfce4-about
     pkg_install "xfdashboard xfce4-mount-plugin"
@@ -135,21 +140,43 @@ ECHO_END
 
 }
 
-function rocky_dwm_st() { # {{{2
-  pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel' # x11 headers
+function rocky_dwm() { # {{{2
+  # sddm lightdm gdm
+  # pkg_install 'gdm' # too heavy
+  pkg_install 'xorg-x11-proto-devel xorg-x11-xinit libX11-devel libXft-devel libXinerama-devel' # x11 headers
+  pkg_install 'patch ranger'
+  # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
+  sudo dnf install ./lightdm-gtk-common*.rpm
+  sudo dnf install ./lightdm-gtk-1*.rpm
+  pkg_install 'lightdm'
+  sudo systemctl disable gdm;
+  sudo systemctl enable lightdm;
+
+  sudo systemctl set-default graphical.target # ui login
+  sudo cp -i ${REPO_PATH}/dotfiles/dwm/dwm.desktop /usr/share/xsessions/
+
+  # sudo sed -i -e 's/ Adwaita-dark' /etc/lightdm/lightdm-gtk-greeter.conf
+  # sudo sed -i -e 's/' Adwaita-dark
 
   git clone --depth 1 https://git.suckless.org/dwm "${REPO_PATH}/dwm.git"
   cd "${REPO_PATH}/dwm.git"
   sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
          -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
          config.mk
-  # patch : alpha fullscreen hide_vacant_tags viewontag
-  # actualfullscreen fixborders noborderfloatingfix
+  # patch : alpha fullscreen actualfullscreen fixborders noborderfloatingfix
+  # hide_vacant_tags viewontag
 
   cp -a config.def.h config.h
   sudo make clean install
-
   # slstatus xbacklight acpilight acpi xsetroot
+
+# git clone https://git.suckless.org/slstatus
+
+# git clone git://git.suckless.org/dwmstatus
+# cd dwmstatus
+# make
+# make PREFIX=/usr/local/ install
+# # add »dwmstatus 2>&1 >/dev/null &« to your .xinitrc
 
   git clone --depth 1 https://git.suckless.org/dmenu "${REPO_PATH}/dmenu.git"
 
@@ -161,6 +188,8 @@ function rocky_dwm_st() { # {{{2
   # patch : alpha
   cp -a config.def.h config.h
   sudo make clean install
+
+  git clone https://git.suckless.org/surf
 
 }
 
@@ -650,11 +679,6 @@ function pkg_nvim() { # {{{2
   curl -OfSL https://github.com.cnpmjs.org/neovim/neovim/releases/download/nightly/nvim-win64.zip
 }
 
-# Environment {{{1
-[ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
-[ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
-[ -z "${GITSRVURL}" ] && GITSRVURL="github.com" # mirror0: github.com.cnpmjs.org   mirror1: gitee.com(not work)
-
 # Install Packages {{{1
 # -----------------------------------------------------------------
 # If you are minimal CentOS, you must make internet work first.
@@ -670,8 +694,8 @@ sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
 
 pkg_group_basic
-rocky_xfce
-rocky_dwm_st
+# rocky_xfce
+rocky_dwm
 rocky_hostname
 
 mkdir -p "${HOME}/Downloads/"
