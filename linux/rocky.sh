@@ -141,10 +141,13 @@ ECHO_END
 }
 
 function rocky_dwm() { # {{{2
+  # install x11 and tools
+  pkg_install 'xorg-x11-proto-devel xorg-x11-xinit libX11-devel libXft-devel libXinerama-devel' # x11 headers
+  pkg_install 'xsetroot xbacklight acpilight acpi'
+  pkg_install 'patch ranger'
+
   # sddm lightdm gdm
   # pkg_install 'gdm' # too heavy
-  pkg_install 'xorg-x11-proto-devel xorg-x11-xinit libX11-devel libXft-devel libXinerama-devel' # x11 headers
-  pkg_install 'patch ranger'
   # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
   sudo dnf install ./lightdm-gtk-common*.rpm
   sudo dnf install ./lightdm-gtk-1*.rpm
@@ -163,12 +166,40 @@ function rocky_dwm() { # {{{2
   sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
          -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
          config.mk
-  # patch : alpha fullscreen actualfullscreen fixborders noborderfloatingfix
+
+  # patch : fullscreen actualfullscreen alpha fixborders noborder noborderfloatingfix
   # hide_vacant_tags viewontag
+
+  curl -fSLO "https://dwm.suckless.org/patches/fullscreen/dwm-fullscreen-6.2.diff"
+  curl -fSLO "https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20211013-cb3f58a.diff"
+  curl -fSLO "https://dwm.suckless.org/patches/alpha/dwm-alpha-20201019-61bb8b2.diff"
+  curl -fSLO "https://dwm.suckless.org/patches/alpha/dwm-fixborders-6.2.diff"
+  curl -fSLO "https://dwm.suckless.org/patches/noborder/dwm-noborder-6.2.diff"
+  curl -fSLO "https://dwm.suckless.org/patches/noborder/dwm-noborderfloatingfix-6.2.diff"
+  curl -fSLO "https://dwm.suckless.org/patches/xresources/dwm-xresources-20210827-138b405.diff"
+  curl -fSLO "https://dwm.suckless.org/patches/systray/dwm-systray-6.3.diff"
+  curl -fSLO "https://dwm.suckless.org/patches/tatami/dwm-tatami-6.2.diff"
+  curl -fSLO "https://dwm.suckless.org/patches/focusmaster/dwm-focusmaster-20210804-138b405.diff"
+  curl -fSLO "https://dwm.suckless.org/patches/focusmaster/dwm-focusmaster-return-20210804-138b405.diff"
+  curl -fSLO "https://dwm.suckless.org/patches/dwmc/dwm-dwmc-6.2.diff"
+
+  git apply -3 "dwm-fullscreen-6.2.diff" "dwm-actualfullscreen-20211013-cb3f58a.diff"
+  "dwm-alpha-20201019-61bb8b2.diff"
+  "dwm-fixborders-6.2.diff"
+  "dwm-noborder-6.2.diff"
+  "dwm-noborderfloatingfix-6.2.diff"
+  "dwm-xresources-20210827-138b405.diff"
+  "dwm-systray-6.3.diff"
+  "dwm-tatami-6.2.diff"
+  "dwm-focusmaster-20210804-138b405.diff"
+  "dwm-focusmaster-return-20210804-138b405.diff"
+  "dwm-dwmc-6.2.diff"
+
 
   cp -a config.def.h config.h
   sudo make clean install
-  # slstatus xbacklight acpilight acpi xsetroot
+
+  # 
 
 # git clone https://git.suckless.org/slstatus
 
