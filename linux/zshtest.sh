@@ -93,3 +93,14 @@
 # let test02="$test00/$test01"
 # echo $test02
 
+# ------------------------------------------------------------
+for i in {0..10..1}
+do
+  echo 'haha'
+done
+
+for ((i=0; i<=10; i++))
+do
+  echo 'haha'
+done
+
