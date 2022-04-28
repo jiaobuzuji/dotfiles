@@ -41,6 +41,7 @@ alias vi='vim'
 alias gv='gvim'
 alias v='nvim'
 alias nv='nvim-qt'
+alias c='bcompare'
 
 alias ssh='ssh -Y' # Enables trusted X11 forwarding
 # alias sshn='ssh -YN' # Just forwarding ports
