@@ -6,7 +6,12 @@
 # Abstract : bootstrap functions
 # -----------------------------------------------------------------
 
-# SETUP FUNCTIONS {{{1
+# Environment {{{1
+[ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
+[ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
+[ -z "${GITSRVURL}" ] && GITSRVURL="github.com" # mirror0: github.com.cnpmjs.org(not work)   mirror1: gitee.com(not work)
+
+# Setup Functions {{{1
 # -----------------------------------------------------------------
 function msg() { # {{{2
     printf '%b\n' "$1" >&2
@@ -50,65 +55,92 @@ function rocky_mirror() { # {{{2
   fi
 }
 
+function rocky_dwm() { # {{{2
+  pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel' # x11 headers
+
+  # sddm lightdm gdm(gnome)
+
+  git clone --depth 1 https://git.suckless.org/dwm "${REPO_PATH}/dwm.git"
+  cd "${REPO_PATH}/dwm.git"
+  sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
+         -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
+         config.mk
+  # patch : alpha fullscreen hide_vacant_tags viewontag
+  # actualfullscreen fixborders noborderfloatingfix
+
+  cp -a config.def.h config.h
+  sudo make clean install
+
+  # slstatus acpilight acpi xbacklight xsetroot
+
+  git clone --depth 1 https://git.suckless.org/dmenu "${REPO_PATH}/dmenu.git"
+
+  git clone --depth 1 https://git.suckless.org/st "${REPO_PATH}/st.git"
+  cd "${REPO_PATH}/st.git"
+  sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
+         -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
+         config.mk
+  # patch : alpha
+  cp -a config.def.h config.h
+  sudo make clean install
+
+}
+
 function rocky_xfce() { # {{{2
-  read -n1 -p "Install xfce ? (y/N) " ans
-  if [[ $ans =~ [Yy] ]]; then
-    # sudo dnf install -y epel-release
-    sudo dnf group install -y Xfce
-    # sudo systemctl set-default multi-user.target # command login
-    sudo systemctl set-default graphical.target # ui login
-    # sudo systemctl isolate graphical.target # start ui now
-    # startxface4 # or `init 5`
-///////////////////////////////////////////////////////////////
     # https://wiki.xfce.org/recommendedapps
-    pkg_install "xarchiver xfce4-screenshooter xfce4-screenshooter-plugin" # xfce4-about
-    pkg_install "xfdashboard xfce4-mount-plugin"
-    pkg_install "system-config-users system-config-language system-config-printer"
-    pkg_install "xfce4-taskmanager gnome-system-monitor gnome-system-log" # monitor
-    pkg_install "xfce4-battery-plugin xbacklight" # power, brightness
-    pkg_install "xfce4-notifyd" # notify
 
-    pkg_install "usermode-gtk" # users information
-    # pkg_install "evince" # pdf (WPS PDF instead)
-    pkg_install "ristretto" # xfce image viewer
-    pkg_install "gimp" # xfce image editor
-    # pkg_install "eog" # gnome image viewer
-    pkg_install "firewall-config setroubleshoot"
-    pkg_install "vinagre remmina" # remote desktop viewer
-    pkg_install "seahorse" # key manager
-    pkg_install "gnome-disk-utility baobab" # disk modifier & analyzer (udisksctl, mkfs.ext4)
-    pkg_install "gnome-calculator" # calculator
-    pkg_install "cheese" # laptop camera
-    pkg_install "ghostscript ImageMagick" # convert -density 300 -quality 100 xx.pdf xx.png # pdf2jpeg pdf2png
+  # sudo dnf install -y epel-release
+  sudo dnf group install -y Xfce
+  # sudo systemctl set-default multi-user.target # command login
+  sudo systemctl set-default graphical.target # ui login
+  # sudo systemctl isolate graphical.target # start ui now
+  # startxface4 # or `init 5`
+///////////////////////////////////////////////////////////////
+  pkg_install "xarchiver xfce4-screenshooter xfce4-screenshooter-plugin" # xfce4-about
+  pkg_install "xfdashboard xfce4-mount-plugin"
+  pkg_install "system-config-users system-config-language system-config-printer"
+  pkg_install "xfce4-taskmanager gnome-system-monitor gnome-system-log" # monitor
+  pkg_install "xfce4-battery-plugin xbacklight" # power, brightness
+  pkg_install "xfce4-notifyd" # notify
 
-    pkg_install "xfdashboard-themes xfwm4-themes arc-theme arc-theme-plank" # themes https://www.xfce-look.org/
-    # pkg_install "numix-gtk-theme numix-icon-theme"
+  pkg_install "usermode-gtk" # users information
+  # pkg_install "evince" # pdf (WPS PDF instead)
+  pkg_install "ristretto" # xfce image viewer
+  # pkg_install "gimp" # xfce image editor
+  # pkg_install "eog" # gnome image viewer
+  pkg_install "firewall-config setroubleshoot"
+  pkg_install "vinagre remmina" # remote desktop viewer
+  pkg_install "seahorse" # key manager
+  pkg_install "gnome-disk-utility baobab" # disk modifier & analyzer (udisksctl, mkfs.ext4)
+  pkg_install "gnome-calculator" # calculator
+  pkg_install "cheese" # laptop camera
+  pkg_install "ghostscript ImageMagick" # convert -density 300 -quality 100 xx.pdf xx.png # pdf2jpeg pdf2png
 
-    sudo xbacklight -set 8 # for laptop
-    sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
-                   /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
+  pkg_install "xfdashboard-themes xfwm4-themes arc-theme arc-theme-plank" # themes https://www.xfce-look.org/
+  # pkg_install "numix-gtk-theme numix-icon-theme"
 
-    # xfce4-session-settings
-    # Select Application Autostart
-    # SSH Key Agent (GNOME Keyring:SSH agent)
-    # Select Advanced
-    # Check Launch GNOME services on startup
+  sudo xbacklight -set 8 # for laptop
+  sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
+                  /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
 
-    cat << ECHO_END
-    # GDM (GNOME Display Manage) autologin
-    # vi /etc/gdm/custom.conf
-    # [daemon]
-    # AutomaticLoginEnable=True
-    # AutomaticLogin=MyName  # user name
+  # xfce4-session-settings
+  # Select Application Autostart
+  # SSH Key Agent (GNOME Keyring:SSH agent)
+  # Select Advanced
+  # Check Launch GNOME services on startup
 
-    # Diable WIFI on boot
-    # nm-applet(network-manager-applet)
-    # top-right corner. logo -> right click -> disable WIFI
+  cat << ECHO_END
+  # GDM (GNOME Display Manage) autologin
+  # vi /etc/gdm/custom.conf
+  # [daemon]
+  # AutomaticLoginEnable=True
+  # AutomaticLogin=MyName  # user name
+
+  # Diable WIFI on boot
+  # nm-applet(network-manager-applet)
+  # top-right corner. logo -> right click -> disable WIFI
 ECHO_END
 
-  else
-    printf '\n' >&2
-  fi
 }
 
 function rocky_hostname() { # {{{2
@@ -132,37 +164,6 @@ function rocky_hostname() { # {{{2
   # method 5 # temporary
   # hostname MY_NAME
 ECHO_END
-
-}
-
-function rocky_dwm() { # {{{2
-  pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel' # x11 headers
-
-  # sddm lightdm gdm(gnome)
-
-  git clone --depth 1 https://git.suckless.org/dwm "${REPO_PATH}/dwm.git"
-  cd "${REPO_PATH}/dwm.git"
-  sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
-         -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
-         config.mk
-  # patch : alpha fullscreen hide_vacant_tags viewontag
-  # actualfullscreen fixborders noborderfloatingfix
-
-  cp -a config.def.h config.h
-  sudo make clean install
-
-  # slstatus xbacklight acpilight acpi xsetroot
-
-  git clone --depth 1 https://git.suckless.org/dmenu "${REPO_PATH}/dmenu.git"
-
-  git clone --depth 1 https://git.suckless.org/st "${REPO_PATH}/st.git"
-  cd "${REPO_PATH}/st.git"
-  sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
-         -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
-         config.mk
-  # patch : alpha
-  cp -a config.def.h config.h
-  sudo make clean install
 
 }
 
@@ -194,13 +195,13 @@ function pkg_update() { # {{{2
 }
 
 function pkg_group_basic() { # {{{2
-  # sudo dnf groups list"
+  # sudo dnf groups list" # dnf grp list
   # sudo dnf groups install -y "Development Tools"
 
   # Support chinese language
   # 'locale -a' will list all langpacks
   pkg_install "langpacks-zh_CN langpacks-ja langpacks-ko"
-  # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf TODO
+  # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf # DEPRECATED TODO
 
   pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
@@ -215,7 +216,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "libXScrnSaver" # verdi
   pkg_install "compat-libtiff3" # lc_shell
   pkg_install "asciinema" # https://asciinema.org/
-  pkg_install "meld" # compare tool
+  # pkg_install "meld" # compare tool
   # pkg_install "i3 i3lock" # window manager
   pkg_install "samba cifs-utils"
 
@@ -243,7 +244,7 @@ function pkg_group_basic() { # {{{2
   # imsettings-switch ibus
   # im-chooser
 
-  pkg_install "fcitx fcitx-configtool fcitx-table-chinese" # fcitx
+  # pkg_install "fcitx fcitx-configtool fcitx-table-chinese" # fcitx
   # pkg_install "fcitx fcitx-qt4 fcitx-qt5 fcitx-configtool fcitx-table-chinese" # fcitx
   # imsettings-switch fcitx # current user
   # im-chooser
@@ -652,11 +653,6 @@ function pkg_nvim() { # {{{2
   curl -OfSL https://github.com.cnpmjs.org/neovim/neovim/releases/download/nightly/nvim-win64.zip
 }
 
-# Environment {{{1
-[ -z "${REPO_PATH}" ] && REPO_PATH="${HOME}/repos"
-[ -z "${CURR_PATH}" ] && CURR_PATH=$(pwd)
-[ -z "${GITSRVURL}" ] && GITSRVURL="github.com" # mirror0: github.com.cnpmjs.org   mirror1: gitee.com(not work)
-
 # Install Packages {{{1
 # -----------------------------------------------------------------
 # If you are minimal CentOS, you must make internet work first.
@@ -672,8 +668,8 @@ sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
 
 pkg_group_basic
-rocky_xfce
 rocky_dwm
+rocky_xfce
 rocky_hostname
 
 mkdir -p "${HOME}/Downloads/"
