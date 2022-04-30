@@ -62,18 +62,17 @@ function rocky_dwm() { # {{{2
   # sddm lightdm gdm(gnome)
   # sudo systemctl set-default multi-user.target # command login
   sudo systemctl set-default graphical.target # ui login
-  # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
-  sudo dnf install -y ${REPO_PATH}/dotfiles/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm
-  sudo dnf install -y ${REPO_PATH}/dotfiles/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm
+  # # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
+  # sudo dnf install -y ${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm
+  # sudo dnf install -y ${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm
   pkg_install 'lightdm' # pkg_install 'gdm'
-  sudo systemctl disable gdm
-  sudo systemctl enable lightdm
-  sudo cp ${REPO_PATH}/dotfiles/suckless/linux.jpg /usr/share/backgrounds/
+  sudo systemctl enable lightdm # sudo systemctl disable gdm
+  sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/linux.jpg /usr/share/backgrounds/
   sudo sed -e 's#^\#background=#background=/usr/share/backgrounds/linux.jpg' \
       -e 's#^\#theme-name=#theme-name=Adwaita-dark' \
       -e 's#^\#icon-theme-name=#icon-theme-name=Adwaita-dark' \
       -i /etc/lightdm/lightdm-gtk-greeter.conf
-  sudo cp -i ${REPO_PATH}/dotfiles/suckless/dwm.desktop /usr/share/xsessions/
+  sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/dwm.desktop /usr/share/xsessions/
 
   # dwm st dmenu surf slstatus dwmstatus slock dwm-bar
   # git clone --depth 1 https://git.suckless.org/dwm "${REPO_PATH}/dwm.git"
