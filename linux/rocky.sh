@@ -202,17 +202,18 @@ function pkg_group_basic() { # {{{2
   pkg_install "langpacks-zh_CN langpacks-ja langpacks-ko"
   # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf # DEPRECATED TODO
 
-  pkg_install 'patch ranger'
+  pkg_install 'ranger zsh tmux autojump'
+  # pkg_install "texinfo texi2html" # zsh
+  # pkg_install "libevent-devel" # tmux
+
   pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
-  pkg_install "firefox vnc bzip2 ntfs-3g ntfs-3g tree xclip bison mlocate"
+  pkg_install "firefox vnc bzip2 ntfs-3g ntfs-3g tree xclip patch bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
   pkg_install "ocl-icd opencl-headers" # opencl
   # pkg_install "glibc.i686 zlib.i686 libXext.i686 libXtst.i686" # i686 libraries (bad ELF interpreter: No such file or directory)
   pkg_install "libgnome-devel libgnomeui-devel gtk3-devel gtk2-devel" # ui dependencies
-  # pkg_install "texinfo texi2html" # zsh
   pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
-  pkg_install "libevent-devel" # tmux
   pkg_install "libXScrnSaver" # verdi
   pkg_install "compat-libtiff3" # lc_shell
   # pkg_install "asciinema" # https://asciinema.org/
