@@ -56,46 +56,49 @@ function rocky_mirror() { # {{{2
 }
 
 function rocky_dwm() { # {{{2
-  pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel xbacklight xsetroot' # x11 headers
+  pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel libXinerama-devel'
+  pkg_install 'xbacklight xsetroot' # x11 headers
 
   # sddm lightdm gdm(gnome)
-  lightdm-gtk-1.8.5-19.el7.x86_64.rpm
-  lightdm-gtk-common-1.8.5-19.el7.noarch.rpm
+  # sudo systemctl set-default multi-user.target # command login
+  sudo systemctl set-default graphical.target # ui login
+  # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
+  sudo dnf install -y ${REPO_PATH}/dotfiles/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm
+  sudo dnf install -y ${REPO_PATH}/dotfiles/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm
+  pkg_install 'lightdm' # pkg_install 'gdm'
+  sudo systemctl disable gdm
+  sudo systemctl enable lightdm
+  sudo cp ${REPO_PATH}/dotfiles/suckless/linux.jpg /usr/share/backgrounds/
+  sudo sed -e 's#^\#background=#background=/usr/share/backgrounds/linux.jpg' \
+      -e 's#^\#theme-name=#theme-name=Adwaita-dark' \
+      -e 's#^\#icon-theme-name=#icon-theme-name=Adwaita-dark' \
+      -i /etc/lightdm/lightdm-gtk-greeter.conf
+  sudo cp -i ${REPO_PATH}/dotfiles/suckless/dwm.desktop /usr/share/xsessions/
 
-  git clone --depth 1 https://git.suckless.org/dwm "${REPO_PATH}/dwm.git"
-  cd "${REPO_PATH}/dwm.git"
+  # dwm st dmenu surf slstatus dwmstatus slock dwm-bar
+  # git clone --depth 1 https://git.suckless.org/dwm "${REPO_PATH}/dwm.git"
+  # git clone --depth 1 https://git.suckless.org/dmenu "${REPO_PATH}/dmenu.git"
+  # git clone --depth 1 https://git.suckless.org/st "${REPO_PATH}/st.git"
+  # git clone --depth 1 https://git.suckless.org/slstatus
+  # git clone --depth 1 https://git.suckless.org/dwmstatus
+  # git clone --depth 1 https://git.suckless.org/surf
+  # cd "${REPO_PATH}/dwm.git"
   # sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
   #        -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
   #        config.mk
-
-  cp -a config.def.h config.h
-  sudo make clean install
-
-  # acpilight acpi
-
-  git clone --depth 1 https://git.suckless.org/dmenu "${REPO_PATH}/dmenu.git"
-
-  git clone --depth 1 https://git.suckless.org/st "${REPO_PATH}/st.git"
-  cd "${REPO_PATH}/st.git"
-  # sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
-  #        -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
-  #        config.mk
-  # patch : alpha
-  cp -a config.def.h config.h
-  sudo make clean install
+  # sudo make clean install
 
 }
 
 function rocky_xfce() { # {{{2
-    # https://wiki.xfce.org/recommendedapps
+  # https://wiki.xfce.org/recommendedapps
 
-  # sudo dnf install -y epel-release
   sudo dnf group install -y Xfce
   # sudo systemctl set-default multi-user.target # command login
   sudo systemctl set-default graphical.target # ui login
   # sudo systemctl isolate graphical.target # start ui now
   # startxface4 # or `init 5`
-///////////////////////////////////////////////////////////////
+
   pkg_install "xarchiver xfce4-screenshooter xfce4-screenshooter-plugin" # xfce4-about
   pkg_install "xfdashboard xfce4-mount-plugin"
   pkg_install "system-config-users system-config-language system-config-printer"
@@ -118,10 +121,6 @@ function rocky_xfce() { # {{{2
 
   pkg_install "xfdashboard-themes xfwm4-themes arc-theme arc-theme-plank" # themes https://www.xfce-look.org/
   # pkg_install "numix-gtk-theme numix-icon-theme"
-
-  sudo xbacklight -set 8 # for laptop
-  sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
-                  /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
 
   # xfce4-session-settings
   # Select Application Autostart
@@ -203,19 +202,20 @@ function pkg_group_basic() { # {{{2
   pkg_install "langpacks-zh_CN langpacks-ja langpacks-ko"
   # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf # DEPRECATED TODO
 
+  pkg_install 'patch ranger'
   pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
   pkg_install "firefox vnc bzip2 ntfs-3g ntfs-3g tree xclip bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
   pkg_install "ocl-icd opencl-headers" # opencl
-  pkg_install "glibc.i686 zlib.i686 libXext.i686 libXtst.i686" # i686 libraries (bad ELF interpreter: No such file or directory)
+  # pkg_install "glibc.i686 zlib.i686 libXext.i686 libXtst.i686" # i686 libraries (bad ELF interpreter: No such file or directory)
   pkg_install "libgnome-devel libgnomeui-devel gtk3-devel gtk2-devel" # ui dependencies
-  pkg_install "texinfo texi2html" # zsh
+  # pkg_install "texinfo texi2html" # zsh
   pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
   pkg_install "libevent-devel" # tmux
   pkg_install "libXScrnSaver" # verdi
   pkg_install "compat-libtiff3" # lc_shell
-  pkg_install "asciinema" # https://asciinema.org/
+  # pkg_install "asciinema" # https://asciinema.org/
   # pkg_install "meld" # compare tool
   # pkg_install "i3 i3lock" # window manager
   pkg_install "samba cifs-utils"
@@ -671,6 +671,10 @@ pkg_group_basic
 rocky_dwm
 rocky_xfce
 rocky_hostname
+
+sudo xbacklight -set 8 # for laptop
+sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
+                /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
 
 mkdir -p "${HOME}/Downloads/"
 # download rpm and dependencies!!

@@ -10,3 +10,15 @@ curl -OfSL https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscree
 
 cd ..
 
+  # curl -fSLO "https://dwm.suckless.org/patches/fullscreen/dwm-fullscreen-6.2.diff"
+  # curl -fSLO "https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20211013-cb3f58a.diff"
+  # curl -fSLO "https://dwm.suckless.org/patches/alpha/dwm-alpha-20201019-61bb8b2.diff"
+  # curl -fSLO "https://dwm.suckless.org/patches/alpha/dwm-fixborders-6.2.diff"
+  # curl -fSLO "https://dwm.suckless.org/patches/noborder/dwm-noborder-6.2.diff"
+  # curl -fSLO "https://dwm.suckless.org/patches/noborder/dwm-noborderfloatingfix-6.2.diff"
+  # curl -fSLO "https://dwm.suckless.org/patches/xresources/dwm-xresources-20210827-138b405.diff"
+  # curl -fSLO "https://dwm.suckless.org/patches/systray/dwm-systray-6.3.diff"
+  # curl -fSLO "https://dwm.suckless.org/patches/tatami/dwm-tatami-6.2.diff"
+  # curl -fSLO "https://dwm.suckless.org/patches/focusmaster/"
+  # curl -fSLO "https://dwm.suckless.org/patches/dwmc/dwm-dwmc-6.2.diff"
+
