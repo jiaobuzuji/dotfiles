@@ -8,4 +8,7 @@
     <property name="height" type="uint" value="737"/>
     <property name="width" type="uint" value="681"/>
   </property>
+  <property name="desktop" type="empty">
+    <property name="type" type="string" value="xfce"/>
+  </property>
 </channel>

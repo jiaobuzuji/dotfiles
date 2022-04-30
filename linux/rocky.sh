@@ -56,30 +56,30 @@ function rocky_mirror() { # {{{2
 }
 
 function rocky_dwm() { # {{{2
-  pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel' # x11 headers
+  pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel xbacklight xsetroot' # x11 headers
 
   # sddm lightdm gdm(gnome)
+  lightdm-gtk-1.8.5-19.el7.x86_64.rpm
+  lightdm-gtk-common-1.8.5-19.el7.noarch.rpm
 
   git clone --depth 1 https://git.suckless.org/dwm "${REPO_PATH}/dwm.git"
   cd "${REPO_PATH}/dwm.git"
-  sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
-         -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
-         config.mk
-  # patch : alpha fullscreen hide_vacant_tags viewontag
-  # actualfullscreen fixborders noborderfloatingfix
+  # sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
+  #        -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
+  #        config.mk
 
   cp -a config.def.h config.h
   sudo make clean install
 
-  # slstatus acpilight acpi xbacklight xsetroot
+  # acpilight acpi
 
   git clone --depth 1 https://git.suckless.org/dmenu "${REPO_PATH}/dmenu.git"
 
   git clone --depth 1 https://git.suckless.org/st "${REPO_PATH}/st.git"
   cd "${REPO_PATH}/st.git"
-  sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
-         -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
-         config.mk
+  # sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
+  #        -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
+  #        config.mk
   # patch : alpha
   cp -a config.def.h config.h
   sudo make clean install
