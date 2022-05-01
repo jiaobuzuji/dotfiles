@@ -69,7 +69,7 @@ function rocky_dwm() { # {{{2
   pkg_install 'lightdm' # pkg_install 'gdm'
   sudo systemctl enable lightdm # sudo systemctl disable gdm
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/linux.jpg /usr/share/backgrounds/
-  sudo sed -e 's|^#background=|background=/usr/share/backgrounds/linux.jpg|g' \
+  sudo sed -e 's|^background=.*|background=/usr/share/backgrounds/linux.jpg|g' \
       -e 's|^#theme-name=|theme-name=Adwaita-dark|g' \
       -e 's|^#icon-theme-name=|icon-theme-name=Adwaita-dark|g' \
       -i /etc/lightdm/lightdm-gtk-greeter.conf
