@@ -87,13 +87,13 @@ function rocky_dwm() { # {{{2
   #        -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
   #        config.mk
   ln -sfT "${REPO_PATH}/dotfiles.git/suckless/dwm/patches.sh" "patches.sh"
+  ln -sfT "${REPO_PATH}/dotfiles.git/suckless/dwm/autostart.sh" "${HOME}/.dwm/autostart.sh"
   source "patches.sh"
   sudo make clean install
   cd "${REPO_PATH}/suckless.git/dmenu"
   sudo make clean install
   cd "${REPO_PATH}/suckless.git/st"
   sudo make clean install
-
 }
 
 function rocky_xfce() { # {{{2
@@ -237,7 +237,8 @@ function pkg_group_basic() { # {{{2
   # sudo ln -sf /usr/bin/python3.6 /usr/bin/python3 # TODO CentOS 7
 
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
-  # pkg_install "cjkuni-ukai-fonts " # fonts and font tools
+  # pkg_install "fontawesome-fonts" # fonts
+  # pkg_install "cjkuni-ukai-fonts " # fonts
 
   # command is not "7zip" or "p7zip", but "7za"!!
   pkg_install "unzip zip p7zip p7zip-doc p7zip-gui p7zip-plugins unar" # archive tools
