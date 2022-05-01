@@ -56,16 +56,16 @@ function rocky_mirror() { # {{{2
 }
 
 function rocky_dwm() { # {{{2
+  pkg_install 'xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xdg-desktop-portal xsetroot'
   pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel libXinerama-devel'
-  pkg_install 'xsetroot' # x11 headers
   # xbacklight TODO
 
   # sddm lightdm gdm(gnome)
   # sudo systemctl set-default multi-user.target # command login
   sudo systemctl set-default graphical.target # ui login
   # # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
-  sudo dnf install -y ${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm
-  sudo dnf install -y ${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm
+  pkg_install '${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm'
+  pkg_install '${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm'
   pkg_install 'lightdm' # pkg_install 'gdm'
   sudo systemctl enable lightdm # sudo systemctl disable gdm
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/linux.jpg /usr/share/backgrounds/
@@ -240,7 +240,7 @@ function pkg_group_basic() { # {{{2
   # pkg_install "cjkuni-ukai-fonts " # fonts and font tools
 
   # command is not "7zip" or "p7zip", but "7za"!!
-  pkg_install "zip p7zip p7zip-doc p7zip-gui p7zip-plugins unar" # archive tools
+  pkg_install "unzip zip p7zip p7zip-doc p7zip-gui p7zip-plugins unar" # archive tools
 
   pkg_install "im-chooser imsettings-gsettings" # imsettings-xim" # input method setting
 
