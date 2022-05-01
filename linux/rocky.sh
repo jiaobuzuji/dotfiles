@@ -64,8 +64,8 @@ function rocky_dwm() { # {{{2
   # sudo systemctl set-default multi-user.target # command login
   sudo systemctl set-default graphical.target # ui login
   # # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
-  pkg_install '${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm'
-  pkg_install '${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm'
+  pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm"
+  pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm"
   pkg_install 'lightdm' # pkg_install 'gdm'
   sudo systemctl enable lightdm # sudo systemctl disable gdm
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/linux.jpg /usr/share/backgrounds/
