@@ -76,17 +76,23 @@ function rocky_dwm() { # {{{2
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/dwm.desktop /usr/share/xsessions/
 
   # dwm st dmenu surf slstatus dwmstatus slock dwm-bar
-  # git clone --depth 1 git://git.suckless.org/dwm "${REPO_PATH}/dwm.git"
-  # git clone --depth 1 git://git.suckless.org/dmenu "${REPO_PATH}/dmenu.git"
-  # git clone --depth 1 git://git.suckless.org/st "${REPO_PATH}/st.git"
-  # git clone --depth 1 git://git.suckless.org/slstatus
-  # git clone --depth 1 git://git.suckless.org/dwmstatus
-  # git clone --depth 1 git://git.suckless.org/surf
-  # cd "${REPO_PATH}/dwm.git"
+  git clone --depth 1 git://git.suckless.org/dwm       "${REPO_PATH}/suckless.git/dwm"
+  git clone --depth 1 git://git.suckless.org/dmenu     "${REPO_PATH}/suckless.git/dmenu"
+  git clone --depth 1 git://git.suckless.org/st        "${REPO_PATH}/suckless.git/st"
+  git clone --depth 1 git://git.suckless.org/slstatus  "${REPO_PATH}/suckless.git/slstatus"
+  git clone --depth 1 git://git.suckless.org/dwmstatus "${REPO_PATH}/suckless.git/dwmstatus"
+  git clone --depth 1 git://git.suckless.org/surf      "${REPO_PATH}/suckless.git/surf"
+  cd "${REPO_PATH}/suckless.git/dwm"
   # sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
   #        -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
   #        config.mk
-  # sudo make clean install
+  ln -sfT "${REPO_PATH}/dotfiles.git/suckless/dwm/patches.sh" "patches.sh"
+  source "patches.sh"
+  sudo make clean install
+  cd "${REPO_PATH}/suckless.git/dmenu"
+  sudo make clean install
+  cd "${REPO_PATH}/suckless.git/st"
+  sudo make clean install
 
 }
 
