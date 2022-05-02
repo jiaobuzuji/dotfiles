@@ -210,7 +210,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "langpacks-zh_CN langpacks-ja langpacks-ko"
   # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf # DEPRECATED TODO
 
-  pkg_install 'ranger zsh tmux autojump'
+  pkg_install 'ranger tig zsh tmux autojump'
   # pkg_install "texinfo texi2html" # zsh
   # pkg_install "libevent-devel" # tmux
 
