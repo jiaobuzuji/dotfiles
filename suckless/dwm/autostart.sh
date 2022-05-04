@@ -1,5 +1,9 @@
 #! /usr/bin/env bash
 
-slstatus &
+fcitx &
+# ibus &
 
+slstatus &
 # dwmstatus &
+
+
