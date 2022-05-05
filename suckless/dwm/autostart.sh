@@ -1,9 +1,6 @@
 #! /usr/bin/env bash
 
-fcitx &
-# ibus &
-
-slstatus &
-# dwmstatus &
-
-
+slstatus & # dwmstatus &
+fcitx & # ibus &
+nm-applet &
+xfce4-power-manager &
