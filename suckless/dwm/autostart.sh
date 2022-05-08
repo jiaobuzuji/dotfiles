@@ -2,7 +2,7 @@
 
 slstatus & # dwmstatus &
 # picom -o 0.95 -i 0.88 --detect-rounded-corners --vsync --blur-background-fixed -f -D 5 -c -b &
-picom -b &
+# picom -b
 fcitx & # ibus &
 nm-applet &
 xfce4-power-manager &
