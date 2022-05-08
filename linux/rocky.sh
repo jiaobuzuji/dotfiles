@@ -83,6 +83,8 @@ function rocky_dwm() { # {{{2
   # git clone --depth 1 git://git.suckless.org/slstatus  "${REPO_PATH}/suckless.git/slstatus"
   # git clone --depth 1 git://git.suckless.org/dwmstatus "${REPO_PATH}/suckless.git/dwmstatus"
   git clone --depth 1 git://git.suckless.org/surf      "${REPO_PATH}/suckless.git/surf"
+  pkg_install "webkitgtk4-devel gcr-devel"
+
   cd "${REPO_PATH}/suckless.git/dwm"
   # sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
   #        -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
@@ -217,7 +219,7 @@ function pkg_group_basic() { # {{{2
 
   pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
-  pkg_install "firefox vnc bzip2 ntfs-3g ntfs-3g tree xclip patch bison mlocate"
+  pkg_install "firefox vnc bzip2 ntfs-3g tree xclip patch bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
   pkg_install "ocl-icd opencl-headers" # opencl
   # pkg_install "glibc.i686 zlib.i686 libXext.i686 libXtst.i686" # i686 libraries (bad ELF interpreter: No such file or directory)
