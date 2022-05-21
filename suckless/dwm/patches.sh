@@ -14,8 +14,11 @@ curl -fSLO "https://dwm.suckless.org/patches/awesomebar/dwm-awesomebar-20200907-
 curl -fSLO "https://dwm.suckless.org/patches/pertag/dwm-pertag-20200914-61bb8b2.diff"
 curl -fSLO "https://dwm.suckless.org/patches/scratchpad/dwm-scratchpad-6.2.diff"
 curl -fSLO "https://dwm.suckless.org/patches/noborder/dwm-noborder-6.2.diff"
+curl -fSLO "https://dwm.suckless.org/patches/focusonclick/dwm-focusonclick-20200110-61bb8b2.diff"
 # curl -fSLO "https://dwm.suckless.org/patches/fullscreen/dwm-fullscreen-6.2.diff"
 # curl -fSLO "https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20211013-cb3f58a.diff"
+# curl -fSLO "https://dwm.suckless.org/patches/focusmonmouse/dwm-focusmonmouse-6.2.diff"
+# curl -fSLO "https://dwm.suckless.org/patches/focusmaster/"
 
 cd ..
 
@@ -23,6 +26,5 @@ cd ..
 # curl -fSLO "https://dwm.suckless.org/patches/noborder/dwm-noborderfloatingfix-6.2.diff"
 # curl -fSLO "https://dwm.suckless.org/patches/xresources/dwm-xresources-20210827-138b405.diff"
 # curl -fSLO "https://dwm.suckless.org/patches/tatami/dwm-tatami-6.2.diff"
-# curl -fSLO "https://dwm.suckless.org/patches/focusmaster/"
 # curl -fSLO "https://dwm.suckless.org/patches/dwmc/dwm-dwmc-6.2.diff"
 

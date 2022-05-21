@@ -212,6 +212,7 @@ function pkg_group_basic() { # {{{2
   # 'locale -a' will list all langpacks
   pkg_install "langpacks-zh_CN langpacks-ja langpacks-ko"
   # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf # DEPRECATED TODO
+  # sudo dnf grp install fonts
 
   pkg_install 'ranger tig zsh tmux autojump'
   # pkg_install "texinfo texi2html" # zsh
@@ -219,7 +220,7 @@ function pkg_group_basic() { # {{{2
 
   pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
-  pkg_install "firefox vnc bzip2 ntfs-3g tree xclip patch bison mlocate"
+  pkg_install "firefox vnc tar bzip2 ntfs-3g tree xclip patch bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
   pkg_install "ocl-icd opencl-headers" # opencl
   # pkg_install "glibc.i686 zlib.i686 libXext.i686 libXtst.i686" # i686 libraries (bad ELF interpreter: No such file or directory)
@@ -465,6 +466,8 @@ function pkg_vlc() { # {{{2
 function pkg_vbox() { # {{{2
   read -n1 -p "Install VirtualBox ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
+    pkg_install "elfutils-libelf-devel"
+
     local vbox_version = "6.1.32"
     local rpm_vbox="VirtualBox-6.1-6.1.32_149290_el8-1.x86_64.rpm"
     local rpm_extpack="Oracle_VM_VirtualBox_Extension_Pack-$vbox_version.vbox-extpack"
@@ -688,6 +691,8 @@ rocky_hostname
 sudo xbacklight -set 8 # for laptop
 sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                 /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
+sudo sed -i -e "s/#*HandleLidSwitch=.*/HandleLidSwitch=lock/g"  /etc/systemd/logind.conf
+# systemctl restart systemd-logind # active now
 
 mkdir -p "${HOME}/Downloads/"
 # download rpm and dependencies!!
