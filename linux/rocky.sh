@@ -109,7 +109,7 @@ function rocky_dwm() { # {{{2
   git clone --depth 1 git://git.suckless.org/dwm       "${REPO_PATH}/suckless.git/dwm"
   git clone --depth 1 git://git.suckless.org/dmenu     "${REPO_PATH}/suckless.git/dmenu"
   git clone --depth 1 git://git.suckless.org/st        "${REPO_PATH}/suckless.git/st"
-  # git clone --depth 1 git://git.suckless.org/slstatus  "${REPO_PATH}/suckless.git/slstatus"
+  git clone --depth 1 git://git.suckless.org/slstatus  "${REPO_PATH}/suckless.git/slstatus"
   # git clone --depth 1 git://git.suckless.org/dwmstatus "${REPO_PATH}/suckless.git/dwmstatus"
   git clone --depth 1 git://git.suckless.org/surf      "${REPO_PATH}/suckless.git/surf"
   pkg_install "webkitgtk4-devel gcr-devel"

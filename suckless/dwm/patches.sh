@@ -8,9 +8,12 @@ curl -fSLO "https://dwm.suckless.org/patches/hide_vacant_tags/dwm-hide_vacant_ta
 curl -fSLO "https://dwm.suckless.org/patches/pertag/dwm-pertag-20200914-61bb8b2.diff"
 curl -fSLO "https://dwm.suckless.org/patches/scratchpad/dwm-scratchpad-6.2.diff"
 # curl -fSLO "https://dwm.suckless.org/patches/focusmonmouse/dwm-focusmonmouse-6.2.diff"
+curl -fSLO "https://dwm.suckless.org/patches/focusadjacenttag/dwm-focusadjacenttag-6.3.diff"
+curl -fSLO "https://dwm.suckless.org/patches/viewontag/dwm-viewontag-20210312-61bb8b2.diff"
+curl -fSLO "https://dwm.suckless.org/patches/rotatestack/dwm-rotatestack-20161021-ab9571b.diff"
+curl -fSLO "https://dwm.suckless.org/patches/movestack/dwm-movestack-20211115-a786211.diff"
 
-# patch : fullscreen viewontag
-# actualfullscreen fixborders noborderfloatingfix
+# curl -fSLO "https://dwm.suckless.org/patches/stackmfact/dwm-6.0-smfact.diff"
 # curl -fSLO "https://dwm.suckless.org/patches/alpha/dwm-alpha-20201019-61bb8b2.diff"
 # curl -fSLO "https://dwm.suckless.org/patches/alpha/dwm-fixborders-6.2.diff"
 curl -fSLO "https://dwm.suckless.org/patches/awesomebar/dwm-awesomebar-20200907-6.2.diff"

@@ -6,4 +6,4 @@ slstatus & # dwmstatus &
 fcitx -d # ibus &
 nm-applet &
 xfce4-power-manager &
-#xfce4-volumed-pulse &
+xfce4-volumed-pulse &
