@@ -23,6 +23,14 @@ function success() { # {{{2
     fi
 }
 
+function lnif() {
+    if [ -e "$1" ]; then
+        ln -sfT "$1" "$2"
+    fi
+    ret="$?"
+    debug
+}
+
 function pkg_install() { # {{{2
   sudo dnf install -y $1
 }
@@ -53,6 +61,29 @@ function rocky_mirror() { # {{{2
   else
     printf '\n' >&2
   fi
+}
+
+function rocky_xinput() { # {{{2
+  sudo mkdir -p /etc/X11/xinit/xinput.d/
+  lnif "${REPO_PATH}/dotfiles.git/linux/fcitx.conf"   "/etc/X11/xinit/xinput.d/fcitx.conf"
+  lnif "${REPO_PATH}/dotfiles.git/linux/fcitx.conf"   "/etc/X11/xinit/xinput.d/none.conf"
+  sudo update-alternatives --install /etc/X11/xinit/xinputrc xinputrc /etc/X11/xinit/xinput.d/fcitx.conf 1
+  sudo update-alternatives --set xinputrc /etc/X11/xinit/xinput.d/fcitx.conf
+
+  # 而ibus会造成fcitx无法正常启动, so we remove ibus first
+  pkg_install "im-chooser imsettings-gsettings" # imsettings-xim" # input method setting
+  pkg_install "gtk3-immodules gtk3-immodule-xim" # input method
+
+  # pkg_install "ibus-libpinyin ibus-table-chinese-wubi-jidian"
+  # pkg_install "ibus ibus-qt ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # ibus
+  # ibus-setup # config ibus
+  # imsettings-switch ibus
+  # im-chooser
+
+  pkg_install "fcitx fcitx-configtool fcitx-table-chinese" # fcitx
+  # pkg_install "fcitx fcitx-qt5 fcitx-configtool fcitx-table-chinese" # fcitx
+  # imsettings-switch fcitx # current user
+  # im-chooser
 }
 
 function rocky_dwm() { # {{{2
@@ -211,8 +242,12 @@ function pkg_group_basic() { # {{{2
   # Support chinese language
   # 'locale -a' will list all langpacks
   pkg_install "langpacks-zh_CN langpacks-ja langpacks-ko"
-  # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf # DEPRECATED TODO
+  # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf # DEPRECATED
   # sudo dnf grp install fonts
+  pkg_install "google-cjk...." #TODO
+  pkg_install "fontconfig mkfontscale mkfontdir" # font tools
+  # pkg_install "fontawesome-fonts" # fonts
+  # pkg_install "cjkuni-ukai-fonts " # fonts
 
   pkg_install 'ranger tig zsh tmux autojump'
   # pkg_install "texinfo texi2html" # zsh
@@ -242,26 +277,9 @@ function pkg_group_basic() { # {{{2
   # pkg_install "python36 python36-devel" # python3-pip" # TODO CentOS 7
   # sudo ln -sf /usr/bin/python3.6 /usr/bin/python3 # TODO CentOS 7
 
-  pkg_install "fontconfig mkfontscale mkfontdir" # font tools
-  # pkg_install "fontawesome-fonts" # fonts
-  # pkg_install "cjkuni-ukai-fonts " # fonts
-
   # command is not "7zip" or "p7zip", but "7za"!!
   pkg_install "unzip zip p7zip p7zip-doc p7zip-gui p7zip-plugins unar" # archive tools
 
-  pkg_install "im-chooser imsettings-gsettings" # imsettings-xim" # input method setting
-
-  # pkg_install "gtk2-immodules gtk3-immodules gtk2-immodule-xim gtk3-immodule-xim" # input method
-  # pkg_install "ibus-libpinyin ibus-table-chinese-wubi-jidian"
-  # pkg_install "ibus ibus-qt ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # ibus
-  # ibus-setup # config ibus
-  # imsettings-switch ibus
-  # im-chooser
-
-  # pkg_install "fcitx fcitx-configtool fcitx-table-chinese" # fcitx
-  # pkg_install "fcitx fcitx-qt4 fcitx-qt5 fcitx-configtool fcitx-table-chinese" # fcitx
-  # imsettings-switch fcitx # current user
-  # im-chooser
 
   pkg_install "dia" # alternative visio
   # pkg_install "flash-plugin"
