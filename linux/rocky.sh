@@ -66,7 +66,7 @@ function rocky_mirror() { # {{{2
 function rocky_xinput() { # {{{2
   sudo mkdir -p /etc/X11/xinit/xinput.d/
   lnif "${REPO_PATH}/dotfiles.git/linux/fcitx.conf"   "/etc/X11/xinit/xinput.d/fcitx.conf"
-  lnif "${REPO_PATH}/dotfiles.git/linux/fcitx.conf"   "/etc/X11/xinit/xinput.d/none.conf"
+  lnif "/etc/X11/xinit/xinput.d/fcitx.conf"   "/etc/X11/xinit/xinput.d/none.conf"
   sudo update-alternatives --install /etc/X11/xinit/xinputrc xinputrc /etc/X11/xinit/xinput.d/fcitx.conf 1
   sudo update-alternatives --set xinputrc /etc/X11/xinit/xinput.d/fcitx.conf
 
@@ -80,10 +80,8 @@ function rocky_xinput() { # {{{2
   # imsettings-switch ibus
   # im-chooser
 
-  pkg_install "fcitx fcitx-configtool fcitx-table-chinese" # fcitx
+  pkg_install "fcitx fcitx-table-chinese" # fcitx
   # pkg_install "fcitx fcitx-qt5 fcitx-configtool fcitx-table-chinese" # fcitx
-  # imsettings-switch fcitx # current user
-  # im-chooser
 }
 
 function rocky_dwm() { # {{{2
@@ -244,10 +242,12 @@ function pkg_group_basic() { # {{{2
   pkg_install "langpacks-zh_CN langpacks-ja langpacks-ko"
   # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf # DEPRECATED
   # sudo dnf grp install fonts
-  pkg_install "google-cjk...." #TODO
+  # pkg_install "google-cjk...." #TODO
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
   # pkg_install "fontawesome-fonts" # fonts
   # pkg_install "cjkuni-ukai-fonts " # fonts
+  pkg_install "liberation-fonts liberation-fonts-common liberation-mono-fonts liberation-narrow-fonts liberation-sans-fonts liberation-serif-fonts" # Microsoft fonts
+  # pkg_install "libwps libvisio" # Microsoft
 
   pkg_install 'ranger tig zsh tmux autojump'
   # pkg_install "texinfo texi2html" # zsh
@@ -280,7 +280,7 @@ function pkg_group_basic() { # {{{2
   # command is not "7zip" or "p7zip", but "7za"!!
   pkg_install "unzip zip p7zip p7zip-doc p7zip-gui p7zip-plugins unar" # archive tools
 
-
+  pkg_install "libxslt libtool-ltdl" # wps
   pkg_install "dia" # alternative visio
   # pkg_install "flash-plugin"
   pkg_install "vlc ffmpeg ffmpeg-devel ffmpeg-libs x264 x265"
@@ -526,6 +526,11 @@ function pkg_vbox() { # {{{2
 
 function pkg_wps() { # {{{2
   read -n1 -p "Install WPS Office ? (y/N) " ans
+
+  # wps wpp et wpspdf
+  pkg_install "libxslt libtool-ltdl" # wps, et
+  # Change window manage mode -> All-in-One mode
+
   if [[ $ans =~ [Yy] ]]; then
     cd ${HOME}/Downloads/
     msg "Download and Install WPS Office !"
@@ -696,6 +701,7 @@ function pkg_nvim() { # {{{2
 rocky_repos
 rocky_mirror
 # pkg_update
+# dnf reinstall xxxx
 
 sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
                /etc/default/grub # Waiting time
