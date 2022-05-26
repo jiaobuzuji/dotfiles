@@ -1,6 +1,23 @@
 *.swp
 install.log
 
+# suckless
+/suckless/st/st
+/suckless/st/*.o
+/suckless/st/*.orig
+/suckless/st/*.rej
+
+/suckless/dwm/dwm
+/suckless/dwm/*.o
+/suckless/dwm/*.orig
+/suckless/dwm/*.rej
+
+/suckless/dmenu/stest
+/suckless/dmenu/dmenu
+/suckless/dmenu/*.o
+/suckless/dmenu/*.orig
+/suckless/dmenu/*.rej
+
 shell/extra.sh
 
 xfce.config/
