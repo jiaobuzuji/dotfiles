@@ -127,7 +127,7 @@ function rocky_dwm() { # {{{2
   sudo make clean install
   cd "${REPO_PATH}/suckless.git/st"
   sudo make clean install
-  pkg_install "xfce4-panel"
+  # pkg_install "xfce4-panel"
 }
 
 function rocky_xfce() { # {{{2
