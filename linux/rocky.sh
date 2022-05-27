@@ -87,7 +87,7 @@ function rocky_xinput() { # {{{2
 function rocky_dwm() { # {{{2
   pkg_install 'xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xdg-desktop-portal xsetroot'
   pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel libXinerama-devel'
-  pkg_install 'network-manager-applet xfce4-power-manager' # NetworkManager 
+  pkg_install 'network-manager-applet xfce4-power-manager xfce4-volumed-pulse' # NetworkManager
   # xbacklight TODO
 
   # sddm lightdm gdm(gnome)
