@@ -38,18 +38,24 @@ function pkg_install() { # {{{2
 function rocky_mirror() { # {{{2
   read -n1 -p "yum.repos mirror ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
+    # https://mirror.nju.edu.cn/rocky/
+    # https://mirror.nju.edu.cn/epel/ # 's|^#baseurl=https://download.example/pub|baseurl=https://mirror.nju.edu.cn|g'
+    # https://mirrors.sjtug.sjtu.edu.cn/rocky
+    # https://mirror.sjtu.edu.cn/fedora # 's|^#baseurl=https://download.example/pub|baseurl=https://mirror.sjtu.edu.cn/fedora|g'
+    # https://mirrors.sdu.edu.cn/rocky/
+
     # sudo dnf remove -y epel-release
     sudo dnf clean all
     sudo rm -rf /var/cache/dnf /var/cache/yum
 
     sudo sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-             -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.sjtug.sjtu.edu.cn/rocky|g' \
+             -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirror.nju.edu.cn/rocky|g' \
              -i.bak \
              /etc/yum.repos.d/Rocky-*.repo
 
     sudo dnf install -y epel-release
     sudo sed -e 's|^metalink=|#metalink=|g' \
-             -e 's|^#baseurl=https://download.example/pub|baseurl=https://mirror.sjtu.edu.cn/fedora|g' \
+             -e 's|^#baseurl=https://download.example/pub|baseurl=https://mirror.nju.edu.cn|g' \
              -i.bak \
              /etc/yum.repos.d/epel*.repo
 
@@ -58,6 +64,7 @@ function rocky_mirror() { # {{{2
     # sudo dnf -y upgrade
 
     sudo rm -f /tmp/yum_save_tx* # clean log
+    sudo rm -f /tmp/dnf_save_tx* # clean log
   else
     printf '\n' >&2
   fi
@@ -228,6 +235,7 @@ function pkg_update() { # {{{2
     # sudo dnf -y upgrade
     # yum --enablerepo=rpmforge-extras update # use rpmforge source
     sudo rm -f /tmp/yum_save_tx* # clean log
+    sudo rm -f /tmp/dnf_save_tx* # clean log
   else
     printf '\n' >&2
   fi
@@ -253,6 +261,7 @@ function pkg_group_basic() { # {{{2
   # pkg_install "texinfo texi2html" # zsh
   # pkg_install "libevent-devel" # tmux
 
+  # pkg_install "yum-utils" # yumdownloader # dnf --downloadonly xxxx
   pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
   pkg_install "firefox vnc tar bzip2 ntfs-3g tree xclip patch bison mlocate"
@@ -695,8 +704,31 @@ function pkg_nvim() { # {{{2
 # Install Packages {{{1
 # -----------------------------------------------------------------
 # If you are minimal CentOS, you must make internet work first.
+# NetworkManager NetworkManager-wifi
+# ```
+# su root
+# cd ~; mkdir udisk
+# mount /dev/sdb1 udisk
+# cd /etc/yum.repos.d/
+# sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+#     -e 's|^#baseurl=.*|baseurl=file:///root/udisk/BaseOS/|g' \
+#     -i.bak \
+#     /etc/yum.repos.d/Rocky-BaseOS.repo
+# dnf --repo=baseos -y install NetworkManager-wifi
+# systemctl restart NetworkManager
+# ```
+
+# DEPRECATED
+# # Command `ip addr` to list IP address.
+# # ip link set wlp5s0 up
+# # ip link
+# # nmcli general
+# # nmcli dev wifi connect WIFI名称 password WIFI密码 wep-key-type key ifname wlp5s0
+# # Command `nmcli r wifi on` to eable wifi
+
+# Recommended !!!
 # Command `nmcli d` to display ethernet status.
-# Command `nmtui` to activate ethernet.
+# Command `nmtui` to activate ethernet. 
 
 rocky_repos
 rocky_mirror
