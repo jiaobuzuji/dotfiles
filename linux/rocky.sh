@@ -72,10 +72,6 @@ function rocky_mirror() { # {{{2
 
 function rocky_xinput() { # {{{2
   sudo mkdir -p /etc/X11/xinit/xinput.d/
-  lnif "${REPO_PATH}/dotfiles.git/linux/fcitx.conf"   "/etc/X11/xinit/xinput.d/fcitx.conf"
-  lnif "/etc/X11/xinit/xinput.d/fcitx.conf"   "/etc/X11/xinit/xinput.d/none.conf"
-  sudo update-alternatives --install /etc/X11/xinit/xinputrc xinputrc /etc/X11/xinit/xinput.d/fcitx.conf 1
-  sudo update-alternatives --set xinputrc /etc/X11/xinit/xinput.d/fcitx.conf
 
   # 而ibus会造成fcitx无法正常启动, so we remove ibus first
   pkg_install "im-chooser imsettings-gsettings" # imsettings-xim" # input method setting
@@ -89,52 +85,57 @@ function rocky_xinput() { # {{{2
 
   pkg_install "fcitx fcitx-table-chinese" # fcitx
   # pkg_install "fcitx fcitx-qt5 fcitx-configtool fcitx-table-chinese" # fcitx
+
+  lnif "${REPO_PATH}/dotfiles.git/linux/fcitx.conf"   "/etc/X11/xinit/xinput.d/fcitx.conf"
+  lnif "/etc/X11/xinit/xinput.d/fcitx.conf"   "/etc/X11/xinit/xinput.d/none.conf"
+  sudo update-alternatives --install /etc/X11/xinit/xinputrc xinputrc /etc/X11/xinit/xinput.d/fcitx.conf 1
+  sudo update-alternatives --set xinputrc /etc/X11/xinit/xinput.d/fcitx.conf
 }
 
 function rocky_dwm() { # {{{2
   pkg_install 'xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xdg-desktop-portal xsetroot'
   pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel libXinerama-devel'
   pkg_install 'network-manager-applet xfce4-power-manager' # NetworkManager
-  # xbacklight xfce4-volumed-pulse TODO
+  # xfce4-volumed-pulse TODO
 
   # sddm lightdm gdm(gnome)
   # sudo systemctl set-default multi-user.target # command login
   sudo systemctl set-default graphical.target # ui login
   # # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
-  pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm"
-  pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm"
+  # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm" # just for Rocky8.5
+  # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm" # just for Rocky8.5
   pkg_install 'lightdm' # pkg_install 'gdm'
   sudo systemctl enable lightdm # sudo systemctl disable gdm
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/linux.jpg /usr/share/backgrounds/
   sudo sed -e 's|^background=.*|background=/usr/share/backgrounds/linux.jpg|g' \
-      -e 's|^#theme-name=|theme-name=Adwaita-dark|g' \
-      -e 's|^#icon-theme-name=|icon-theme-name=Adwaita-dark|g' \
+      -e 's|^#theme-name=|theme-name=Adwaita-dark|g' \ # /usr/share/themes/
+      -e 's|^#icon-theme-name=|icon-theme-name=Adwaita-dark|g' \ #/usr/share/icons/
       -i /etc/lightdm/lightdm-gtk-greeter.conf
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/dwm.desktop /usr/share/xsessions/
 
   # dwm st dmenu surf slstatus dwmstatus slock dwm-bar
-  git clone --depth 1 git://git.suckless.org/dwm       "${REPO_PATH}/suckless.git/dwm"
-  git clone --depth 1 git://git.suckless.org/dmenu     "${REPO_PATH}/suckless.git/dmenu"
-  git clone --depth 1 git://git.suckless.org/st        "${REPO_PATH}/suckless.git/st"
-  git clone --depth 1 git://git.suckless.org/slstatus  "${REPO_PATH}/suckless.git/slstatus"
+  # git clone --depth 1 git://git.suckless.org/dwm       "${REPO_PATH}/suckless.git/dwm"
+  # git clone --depth 1 git://git.suckless.org/dmenu     "${REPO_PATH}/suckless.git/dmenu"
+  # git clone --depth 1 git://git.suckless.org/st        "${REPO_PATH}/suckless.git/st"
+  # git clone --depth 1 git://git.suckless.org/slstatus  "${REPO_PATH}/suckless.git/slstatus"
   # git clone --depth 1 git://git.suckless.org/dwmstatus "${REPO_PATH}/suckless.git/dwmstatus"
-  git clone --depth 1 git://git.suckless.org/surf      "${REPO_PATH}/suckless.git/surf"
+  # git clone --depth 1 git://git.suckless.org/surf      "${REPO_PATH}/suckless.git/surf"
   pkg_install "webkitgtk4-devel gcr-devel"
 
-  cd "${REPO_PATH}/suckless.git/dwm"
-  # sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
-  #        -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
-  #        config.mk
-  ln -sfT "${REPO_PATH}/dotfiles.git/suckless/dwm/patches.sh" "patches.sh"
+  # cd "${REPO_PATH}/suckless.git/dwm"
+  # # sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
+  # #        -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
+  # #        config.mk
+  # ln -sfT "${REPO_PATH}/dotfiles.git/suckless/dwm/patches.sh" "patches.sh"
   mkdir -p "${HOME}/.local/share/dwm/"
   ln -sfT "${REPO_PATH}/dotfiles.git/suckless/dwm/autostart.sh" "${HOME}/.local/share/dwm/autostart.sh"
-  source "patches.sh"
-  sudo make clean install
-  cd "${REPO_PATH}/suckless.git/dmenu"
-  sudo make clean install
-  cd "${REPO_PATH}/suckless.git/st"
-  sudo make clean install
-  # pkg_install "xfce4-panel"
+  # source "patches.sh"
+  # sudo make clean install
+  # cd "${REPO_PATH}/suckless.git/dmenu"
+  # sudo make clean install
+  # cd "${REPO_PATH}/suckless.git/st"
+  # sudo make clean install
+  # # pkg_install "xfce4-panel"
 }
 
 function rocky_xfce() { # {{{2
@@ -150,7 +151,7 @@ function rocky_xfce() { # {{{2
   pkg_install "xfdashboard xfce4-mount-plugin"
   pkg_install "system-config-users system-config-language system-config-printer"
   pkg_install "xfce4-taskmanager gnome-system-monitor gnome-system-log" # monitor
-  pkg_install "xfce4-battery-plugin xbacklight" # power, brightness
+  pkg_install "xfce4-battery-plugin" # power, brightness
   pkg_install "xfce4-notifyd" # notify
 
   pkg_install "usermode-gtk" # users information
@@ -214,12 +215,12 @@ ECHO_END
 }
 
 function rocky_repos() { # {{{2
+  sudo dnf install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm # Rocky 8
+
   # sudo dnf install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
-
-  # sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm # epel-release TODO CentOS 7
-  # sudo dnf install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm # vlc TODO CentOS 7
-
   # rpm -i http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-xxxx.rpm # Fail !!
+
+  # sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm # DEPRECATED
   # rpm -Uvh http://download.fedoraproject.org/pub/epel/xxxx.rpm
 
   cd ${CURR_PATH}
@@ -257,14 +258,15 @@ function pkg_group_basic() { # {{{2
   pkg_install "liberation-fonts liberation-fonts-common liberation-mono-fonts liberation-narrow-fonts liberation-sans-fonts liberation-serif-fonts" # Microsoft fonts
   # pkg_install "libwps libvisio" # Microsoft
 
-  pkg_install 'ranger tig zsh tmux autojump'
+  pkg_install 'make ranger git tig zsh tmux autojump'
   # pkg_install "texinfo texi2html" # zsh
   # pkg_install "libevent-devel" # tmux
 
   # pkg_install "yum-utils" # yumdownloader # dnf --downloadonly xxxx
   pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
-  pkg_install "firefox vnc tar bzip2 ntfs-3g tree xclip patch bison mlocate"
+  pkg_install "ntfs-3g cifs fuse3 fuse-exfat"
+  pkg_install "firefox vnc tar bzip2 tree xclip patch bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
   pkg_install "ocl-icd opencl-headers" # opencl
   # pkg_install "glibc.i686 zlib.i686 libXext.i686 libXtst.i686" # i686 libraries (bad ELF interpreter: No such file or directory)
@@ -741,10 +743,10 @@ sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
 
 pkg_group_basic
 rocky_dwm
-rocky_xfce
+# rocky_xfce
+rocky_xinput
 rocky_hostname
 
-sudo xbacklight -set 8 # for laptop
 sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                 /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
 sudo sed -i -e "s/#*HandleLidSwitch=.*/HandleLidSwitch=lock/g"  /etc/systemd/logind.conf

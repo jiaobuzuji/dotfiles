@@ -18,6 +18,11 @@ install.log
 /suckless/dmenu/*.orig
 /suckless/dmenu/*.rej
 
+/suckless/slstatus/slstatus
+/suckless/slstatus/*.o
+/suckless/slstatus/*.orig
+/suckless/slstatus/*.rej
+
 shell/extra.sh
 
 xfce.config/
