@@ -38,26 +38,33 @@ function pkg_install() { # {{{2
 function rocky_mirror() { # {{{2
   read -n1 -p "yum.repos mirror ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
+    # DEPRECATED
     # https://mirror.nju.edu.cn/rocky/
-    # https://mirror.nju.edu.cn/epel/ # 's|^#baseurl=https://download.example/pub|baseurl=https://mirror.nju.edu.cn|g'
-    # https://mirrors.sjtug.sjtu.edu.cn/rocky
-    # https://mirror.sjtu.edu.cn/fedora # 's|^#baseurl=https://download.example/pub|baseurl=https://mirror.sjtu.edu.cn/fedora|g'
+    # https://mirrors.sjtug.sjtu.edu.cn/rocky/
     # https://mirrors.sdu.edu.cn/rocky/
+    # https://mirrors.163.com/rocky/
+    # https://mirrors.tuna.tsinghua.edu.cn
 
     # sudo dnf remove -y epel-release
     sudo dnf clean all
     sudo rm -rf /var/cache/dnf /var/cache/yum
 
     sudo sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-             -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirror.nju.edu.cn/rocky|g' \
+             -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.aliyun.com/rockylinux|g' \
              -i.bak \
              /etc/yum.repos.d/Rocky-*.repo
 
     sudo dnf install -y epel-release
     sudo sed -e 's|^metalink=|#metalink=|g' \
-             -e 's|^#baseurl=https://download.example/pub|baseurl=https://mirror.nju.edu.cn|g' \
+             -e 's|^#baseurl=https://download.example/pub|baseurl=https://mirrors.aliyun.com|g' \
              -i.bak \
              /etc/yum.repos.d/epel*.repo
+
+    sudo dnf install -y https://mirrors.aliyun.com/rpmfusion/free/el/rpmfusion-free-release-8.noarch.rpm # Rocky 8
+    sudo sed -e 's|^metalink=|#metalink=|g' \
+             -e 's|^#baseurl=https://download1.rpmfusion.org|baseurl=https://mirrors.aliyun.com/rpmfusion|g' \
+             -i.bak \
+             /etc/yum.repos.d/rpmfusion*.repo
 
     sudo dnf makecache
     sudo dnf -y update
@@ -73,9 +80,8 @@ function rocky_mirror() { # {{{2
 function rocky_xinput() { # {{{2
   sudo mkdir -p /etc/X11/xinit/xinput.d/
 
-  # 而ibus会造成fcitx无法正常启动, so we remove ibus first
-  pkg_install "im-chooser imsettings-gsettings" # imsettings-xim" # input method setting
-  pkg_install "gtk3-immodules gtk3-immodule-xim" # input method
+  pkg_install "im-chooser imsettings-xim" # imsettings-xim" # input method setting
+  pkg_install "gtk3-immodule-xim" # input method
 
   # pkg_install "ibus-libpinyin ibus-table-chinese-wubi-jidian"
   # pkg_install "ibus ibus-qt ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # ibus
@@ -83,8 +89,8 @@ function rocky_xinput() { # {{{2
   # imsettings-switch ibus
   # im-chooser
 
-  pkg_install "fcitx fcitx-table-chinese" # fcitx
-  # pkg_install "fcitx fcitx-qt5 fcitx-configtool fcitx-table-chinese" # fcitx
+  pkg_install "ibus fcitx fcitx-table-chinese" # fcitx
+  pkg_install "fcitx-qt5 fcitx-gtk3 fcitx-ui-light"
 
   lnif "${REPO_PATH}/dotfiles.git/linux/fcitx.conf"   "/etc/X11/xinit/xinput.d/fcitx.conf"
   lnif "/etc/X11/xinit/xinput.d/fcitx.conf"   "/etc/X11/xinit/xinput.d/none.conf"
@@ -95,8 +101,8 @@ function rocky_xinput() { # {{{2
 function rocky_dwm() { # {{{2
   pkg_install 'xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xdg-desktop-portal xsetroot'
   pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel libXinerama-devel'
-  pkg_install 'network-manager-applet xfce4-power-manager' # NetworkManager
-  # xfce4-volumed-pulse TODO
+  pkg_install 'plasma-pa network-manager-applet xfce4-power-manager' # NetworkManager
+  # pulseaudio
 
   # sddm lightdm gdm(gnome)
   # sudo systemctl set-default multi-user.target # command login
@@ -214,18 +220,6 @@ ECHO_END
 
 }
 
-function rocky_repos() { # {{{2
-  sudo dnf install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm # Rocky 8
-
-  # sudo dnf install -y http://linuxdownload.adobe.com/linux/x86_64/adobe-release-x86_64-1.0-1.noarch.rpm # flash player
-  # rpm -i http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-xxxx.rpm # Fail !!
-
-  # sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm # DEPRECATED
-  # rpm -Uvh http://download.fedoraproject.org/pub/epel/xxxx.rpm
-
-  cd ${CURR_PATH}
-}
-
 function pkg_update() { # {{{2
   read -n1 -p "Update system ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
@@ -250,11 +244,10 @@ function pkg_group_basic() { # {{{2
   # 'locale -a' will list all langpacks
   pkg_install "langpacks-zh_CN langpacks-ja langpacks-ko"
   # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf # DEPRECATED
-  # sudo dnf grp install fonts
-  # pkg_install "google-cjk...." #TODO
+  # sudo dnf grp install fonts # DEPRECATED
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
   # pkg_install "fontawesome-fonts" # fonts
-  # pkg_install "cjkuni-ukai-fonts " # fonts
+  pkg_install "google-noto-cjk-fonts-common google-noto-sans-cjk-ttc-fonts google-noto-serif-cjk-ttc-fonts" # cjk: Chinese Japanese korean
   pkg_install "liberation-fonts liberation-fonts-common liberation-mono-fonts liberation-narrow-fonts liberation-sans-fonts liberation-serif-fonts" # Microsoft fonts
   # pkg_install "libwps libvisio" # Microsoft
 
@@ -264,7 +257,7 @@ function pkg_group_basic() { # {{{2
 
   # pkg_install "yum-utils" # yumdownloader # dnf --downloadonly xxxx
   pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
-  pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
+  pkg_install "htop redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
   pkg_install "ntfs-3g cifs fuse3 fuse-exfat"
   pkg_install "firefox vnc tar bzip2 tree xclip patch bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
@@ -732,7 +725,6 @@ function pkg_nvim() { # {{{2
 # Command `nmcli d` to display ethernet status.
 # Command `nmtui` to activate ethernet. 
 
-rocky_repos
 rocky_mirror
 # pkg_update
 # dnf reinstall xxxx

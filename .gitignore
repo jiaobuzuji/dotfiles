@@ -22,6 +22,7 @@ install.log
 /suckless/slstatus/*.o
 /suckless/slstatus/*.orig
 /suckless/slstatus/*.rej
+/suckless/slstatus/components/*.o
 
 shell/extra.sh
 
