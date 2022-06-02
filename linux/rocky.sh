@@ -38,32 +38,34 @@ function pkg_install() { # {{{2
 function rocky_mirror() { # {{{2
   read -n1 -p "yum.repos mirror ? (y/N) " ans
   if [[ $ans =~ [Yy] ]]; then
-    # DEPRECATED
-    # https://mirror.nju.edu.cn/rocky/
-    # https://mirrors.sjtug.sjtu.edu.cn/rocky/
-    # https://mirrors.sdu.edu.cn/rocky/
-    # https://mirrors.163.com/rocky/
+    # Mirrors
+    # https://mirrors.nju.edu.cn
+    # https://mirrors.sjtug.sjtu.edu.cn
+    # https://mirrors.sdu.edu.cn
+    # https://mirrors.163.com
     # https://mirrors.tuna.tsinghua.edu.cn
+    # https://mirrors.ustc.edu.cn
+    # https://mirrors.huaweicloud.com
 
     # sudo dnf remove -y epel-release
     sudo dnf clean all
     sudo rm -rf /var/cache/dnf /var/cache/yum
 
     sudo sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-             -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.aliyun.com/rockylinux|g' \
+             -e 's|^#baseurl=https\?://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.ustc.edu.cn/rocky|g' \
              -i.bak \
              /etc/yum.repos.d/Rocky-*.repo
 
     sudo dnf install -y epel-release
     sudo sed -e 's|^metalink=|#metalink=|g' \
-             -e 's|^#baseurl=https://download.example/pub|baseurl=https://mirrors.aliyun.com|g' \
-             -i.bak \
+             -e 's|^#baseurl=https\?://download.example/pub|baseurl=https://mirrors.ustc.edu.cn|g' \
+             -i \
              /etc/yum.repos.d/epel*.repo
 
-    sudo dnf install -y https://mirrors.aliyun.com/rpmfusion/free/el/rpmfusion-free-release-8.noarch.rpm # Rocky 8
-    sudo sed -e 's|^metalink=|#metalink=|g' \
-             -e 's|^#baseurl=https://download1.rpmfusion.org|baseurl=https://mirrors.aliyun.com/rpmfusion|g' \
-             -i.bak \
+    sudo dnf install -y https://mirrors.ustc.edu.cn/rpmfusion/free/el/rpmfusion-free-release-8.noarch.rpm # Rocky 8
+    sudo sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+             -e 's|^#baseurl=https\?://download1.rpmfusion.org|baseurl=https://mirrors.ustc.edu.cn/rpmfusion|g' \
+             -i \
              /etc/yum.repos.d/rpmfusion*.repo
 
     sudo dnf makecache
