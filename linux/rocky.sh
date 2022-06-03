@@ -144,6 +144,10 @@ function rocky_dwm() { # {{{2
   # cd "${REPO_PATH}/suckless.git/st"
   # sudo make clean install
   # # pkg_install "xfce4-panel"
+
+  # tools
+  # pkg_install "gnome-calculator" # calculator
+  pkg_install "cheese" # laptop camera
 }
 
 function rocky_xfce() { # {{{2
