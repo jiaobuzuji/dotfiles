@@ -82,7 +82,7 @@ function rocky_mirror() { # {{{2
 function rocky_xinput() { # {{{2
   sudo mkdir -p /etc/X11/xinit/xinput.d/
 
-  pkg_install "im-chooser imsettings-xim" # imsettings-xim" # input method setting
+  # pkg_install "im-chooser imsettings-xim" # imsettings-xim" # input method setting
   pkg_install "gtk3-immodule-xim" # input method
 
   # pkg_install "ibus-libpinyin ibus-table-chinese-wubi-jidian"
@@ -91,11 +91,11 @@ function rocky_xinput() { # {{{2
   # imsettings-switch ibus
   # im-chooser
 
-  pkg_install "ibus fcitx fcitx-table-chinese" # fcitx
+  pkg_install "fcitx fcitx-table-chinese" # fcitx
   pkg_install "fcitx-qt5 fcitx-gtk3 fcitx-ui-light"
 
-  lnif "${REPO_PATH}/dotfiles.git/linux/fcitx.conf"   "/etc/X11/xinit/xinput.d/fcitx.conf"
-  lnif "/etc/X11/xinit/xinput.d/fcitx.conf"   "/etc/X11/xinit/xinput.d/none.conf"
+  # lnif "${REPO_PATH}/dotfiles.git/linux/fcitx.conf"   "/etc/X11/xinit/xinput.d/fcitx.conf"
+  # lnif "/etc/X11/xinit/xinput.d/fcitx.conf"   "/etc/X11/xinit/xinput.d/none.conf"
   sudo update-alternatives --install /etc/X11/xinit/xinputrc xinputrc /etc/X11/xinit/xinput.d/fcitx.conf 1
   sudo update-alternatives --set xinputrc /etc/X11/xinit/xinput.d/fcitx.conf
 }
