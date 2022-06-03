@@ -47,7 +47,7 @@ function rocky_mirror() { # {{{2
     # https://mirrors.ustc.edu.cn
     # https://mirrors.huaweicloud.com
 
-    # sudo dnf remove -y epel-release
+    sudo dnf remove -y epel-release rpmfusion-free-release
     sudo dnf clean all
     sudo rm -rf /var/cache/dnf /var/cache/yum
 
