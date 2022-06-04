@@ -105,6 +105,7 @@ function rocky_xinput() { # {{{2
   # lnif "/etc/X11/xinit/xinput.d/fcitx.conf"   "/etc/X11/xinit/xinput.d/none.conf"
   sudo update-alternatives --install /etc/X11/xinit/xinputrc xinputrc /etc/X11/xinit/xinput.d/fcitx.conf 1
   sudo update-alternatives --set xinputrc /etc/X11/xinit/xinput.d/fcitx.conf
+  fcitx -d # start fcitx for generating config files
   sed -e 's|#SkinType=.*|SkinType=dark|' -i "${HOME}/.config/fcitx/conf/fcitx-classic-ui.config" # ui
   sed -e 's|,pinyin:False|,pinyin:True|' -e 's|,wubi:False|,wubi:True|' \
       -i "${HOME}/.config/fcitx/profile" # no 'fcitx-configtool' rpm for Rocky8
@@ -121,15 +122,16 @@ function rocky_dwm() { # {{{2
   # # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
   # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm" # just for Rocky8.5
   # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm" # just for Rocky8.5
-  pkg_install 'lightdm' # pkg_install 'gdm'
+  pkg_install 'lightdm lightdm-gtk-common lightdm-gtk' # pkg_install 'gdm'
   pkg_install 'light-locker' # TODO
-  sudo systemctl enable lightdm # sudo systemctl disable gdm
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/linux.jpg /usr/share/backgrounds/
+  # /usr/share/themes/ #/usr/share/icons/
   sudo sed -e 's|^background=.*|background=/usr/share/backgrounds/linux.jpg|g' \
-      -e 's|^#theme-name=|theme-name=Adwaita-dark|g' \ # /usr/share/themes/
-      -e 's|^#icon-theme-name=|icon-theme-name=Adwaita-dark|g' \ #/usr/share/icons/
+      -e 's|^#theme-name=|theme-name=Adwaita-dark|g' \
+      -e 's|^#icon-theme-name=|icon-theme-name=Adwaita-dark|g' \
       -i /etc/lightdm/lightdm-gtk-greeter.conf
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/dwm.desktop /usr/share/xsessions/
+  sudo systemctl enable lightdm # sudo systemctl disable gdm
   # sudo systemctl set-default multi-user.target # command login
   sudo systemctl set-default graphical.target # ui login
   # sudo systemctl restart systemd-logind # active now
@@ -746,7 +748,7 @@ rocky_mirror
 rocky_syscfg
 
 pkg_group_basic
-rocky_dwm
+# rocky_dwm
 # rocky_xfce
 rocky_xinput
 rocky_hostname
@@ -756,26 +758,26 @@ mkdir -p "${HOME}/Downloads/"
 # yumdownloader meld --resolve --destdir =/home
 # dnf reinstall xxxx
 
-if [ $0 = "x" ]; then
-  # pkg_clean
-  exit 1
-else
-  # pkg_gcc
-  # pkg_git
-  pkg_vim
-  # pkg_vlc
-  pkg_vbox
-  pkg_wps
-  # pkg_teamviewer
-  pkg_bcompare
-  pkg_iptux
-  pkg_nodejs
-  # pkg_cmake
-  # pkg_glibc
-  # pkg_llvm
-  # pkg_nvim
-fi
-# pkg_clean
+# if [ $0 = "x" ]; then
+#   # pkg_clean
+#   exit 1
+# else
+#   # pkg_gcc
+#   # pkg_git
+#   pkg_vim
+#   # pkg_vlc
+#   pkg_vbox
+#   pkg_wps
+#   # pkg_teamviewer
+#   pkg_bcompare
+#   pkg_iptux
+#   pkg_nodejs
+#   # pkg_cmake
+#   # pkg_glibc
+#   # pkg_llvm
+#   # pkg_nvim
+# fi
+pkg_clean
 
 # -----------------------------------------------------------------
 # vim:fdm=marker
