@@ -79,6 +79,15 @@ function rocky_mirror() { # {{{2
   fi
 }
 
+function rocky_syscfg() { # {{{2
+  sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
+                /etc/default/grub # Waiting time
+  sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
+  sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
+                  /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
+  sudo sed -i -e "s/#*HandleLidSwitch=.*/HandleLidSwitch=lock/g"  /etc/systemd/logind.conf
+}
+
 function rocky_xinput() { # {{{2
   sudo mkdir -p /etc/X11/xinit/xinput.d/
 
@@ -121,6 +130,7 @@ function rocky_dwm() { # {{{2
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/dwm.desktop /usr/share/xsessions/
   # sudo systemctl set-default multi-user.target # command login
   sudo systemctl set-default graphical.target # ui login
+# systemctl restart systemd-logind # active now
 
   # dwm st dmenu surf slstatus dwmstatus slock dwm-bar
   # git clone --depth 1 git://git.suckless.org/dwm       "${REPO_PATH}/suckless.git/dwm"
@@ -261,7 +271,7 @@ function pkg_group_basic() { # {{{2
 
   pkg_install 'vim htop ranger git tig zsh tmux autojump tar tree xclip patch meld' # Base Tools
   pkg_install 'gcc gcc-c++ make automake autoconf cmake' # cmake3 # Base Development Tools
-  pkg_install "ntfs-3g cifs fuse3 fuse-exfat" # FileSystem
+  pkg_install "ntfs-3g fuse3 fuse-exfat" # FileSystem
 
   # pkg_install "yum-utils" # yumdownloader # dnf --downloadonly xxxx
   pkg_install "wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
@@ -732,11 +742,7 @@ function pkg_nvim() { # {{{2
 
 rocky_mirror
 # pkg_update
-# dnf reinstall xxxx
-
-sudo sed -i -e "s#GRUB_TIMEOUT=.*#GRUB_TIMEOUT=1#g" \
-               /etc/default/grub # Waiting time
-sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
+rocky_syscfg
 
 pkg_group_basic
 rocky_dwm
@@ -744,12 +750,10 @@ rocky_dwm
 rocky_xinput
 rocky_hostname
 
-sudo sed -i -e "s/#*HandleLidSwitch=.*/HandleLidSwitch=lock/g"  /etc/systemd/logind.conf
-# systemctl restart systemd-logind # active now
-
 mkdir -p "${HOME}/Downloads/"
 # download rpm and dependencies!!
 # yumdownloader meld --resolve --destdir =/home
+# dnf reinstall xxxx
 
 if [ $0 = "x" ]; then
   # pkg_clean
