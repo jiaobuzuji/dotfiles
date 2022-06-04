@@ -254,11 +254,12 @@ function pkg_group_basic() { # {{{2
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
   # sudo dnf grp install fonts # DEPRECATED
   # pkg_install "fontawesome-fonts" # fonts
+  pkg_install "google-noto-fonts-common google-noto-emoji-fonts"
   pkg_install "google-noto-cjk-fonts-common google-noto-sans-cjk-ttc-fonts google-noto-serif-cjk-ttc-fonts" # cjk: Chinese Japanese korean
   pkg_install "liberation-fonts liberation-fonts-common liberation-mono-fonts liberation-narrow-fonts liberation-sans-fonts liberation-serif-fonts" # Microsoft fonts
   # pkg_install "libwps libvisio" # Microsoft
 
-  pkg_install 'htop ranger git tig zsh tmux autojump tar tree xclip patch meld' # Base Tools
+  pkg_install 'vim htop ranger git tig zsh tmux autojump tar tree xclip patch meld' # Base Tools
   pkg_install 'gcc gcc-c++ make automake autoconf cmake' # cmake3 # Base Development Tools
   pkg_install "ntfs-3g cifs fuse3 fuse-exfat" # FileSystem
 
@@ -743,8 +744,6 @@ rocky_dwm
 rocky_xinput
 rocky_hostname
 
-sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
-                /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
 sudo sed -i -e "s/#*HandleLidSwitch=.*/HandleLidSwitch=lock/g"  /etc/systemd/logind.conf
 # systemctl restart systemd-logind # active now
 
