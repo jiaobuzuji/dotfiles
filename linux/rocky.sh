@@ -122,7 +122,7 @@ function rocky_dwm() { # {{{2
   # # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
   # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm" # just for Rocky8.5
   # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm" # just for Rocky8.5
-  pkg_install 'lightdm lightdm-gtk-common lightdm-gtk' # pkg_install 'gdm'
+  pkg_install 'lightdm lightdm-gtk' # pkg_install 'gdm'
   pkg_install 'light-locker' # TODO
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/linux.jpg /usr/share/backgrounds/
   # /usr/share/themes/ #/usr/share/icons/
