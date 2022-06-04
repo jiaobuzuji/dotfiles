@@ -92,8 +92,8 @@ function rocky_syscfg() { # {{{2
 function rocky_xinput() { # {{{2
   # sudo mkdir -p /etc/X11/xinit/xinput.d/
 
-  # pkg_install "im-chooser imsettings-xim" # imsettings-xim" # input method setting
-  pkg_install "gtk3-immodule-xim" # input method
+  # pkg_install "im-chooser imsettings-xim" # imsettings-xim" # input method setting (IM selection)
+  pkg_install "gtk3-immodule-xim" # input method 这个是输入法候选字显示UI。
   # pkg_install "ibus-libpinyin ibus-table-chinese-wubi-jidian"
   # pkg_install "ibus-qt ibus-gtk2 ibus-gtk3" # ibus
   # ibus-setup # config ibus
@@ -168,7 +168,7 @@ function rocky_dwm() { # {{{2
 function rocky_xfce() { # {{{2
   # https://wiki.xfce.org/recommendedapps
 
-  sudo dnf group install -y Xfce
+  sudo dnf grp install -y Xfce
   # sudo systemctl set-default multi-user.target # command login
   sudo systemctl set-default graphical.target # ui login
   # sudo systemctl isolate graphical.target # start ui now
@@ -259,6 +259,7 @@ function pkg_update() { # {{{2
 
 function pkg_group_basic() { # {{{2
   # sudo dnf groups list" # dnf grp list
+  # sudo dnf groups install -y "X Window System"
   # sudo dnf groups install -y "Development Tools"
 
   # Support chinese language
@@ -277,7 +278,7 @@ function pkg_group_basic() { # {{{2
   pkg_install 'gcc gcc-c++ make automake autoconf cmake' # cmake3 # Base Development Tools
   pkg_install "ntfs-3g fuse3 fuse-exfat" # FileSystem
   pkg_install "firefox ffmpeg vlc" # Video
-  pkg_install 'pavucontrol' # plasma-pa pulseaudio alsa-utils # Audio
+  pkg_install 'pavucontrol pulseaudio alsa-utils' # plasma-pa alsa-firmware # Audio
   pkg_install "" # Image
 
   # pkg_install "yum-utils" # yumdownloader # dnf --downloadonly xxxx
@@ -749,7 +750,7 @@ rocky_mirror
 rocky_syscfg
 
 pkg_group_basic
-# git clone --depth=1 https://gitee.com/jiaobuzuji/dotfiles ${HOME}/repos/dotfiles.git
+# git clone --depth=1 https://${GITSRVURL}/jiaobuzuji/dotfiles ${HOME}/repos/dotfiles.git
 # rocky_dwm
 # rocky_xfce
 rocky_xinput
