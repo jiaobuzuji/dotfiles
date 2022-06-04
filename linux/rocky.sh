@@ -55,6 +55,7 @@ function rocky_mirror() { # {{{2
              -e 's|^#baseurl=https\?://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.ustc.edu.cn/rocky|g' \
              -i.bak \
              /etc/yum.repos.d/Rocky-*.repo
+    sudo sed -e 's|^enabled=0|enabled=1|' -i /etc/yum.repos.d/Rocky-PowerTools.repo # enable PowerTools repository
 
     sudo dnf install -y epel-release
     sudo sed -e 's|^metalink=|#metalink=|g' \
@@ -89,38 +90,39 @@ function rocky_syscfg() { # {{{2
 }
 
 function rocky_xinput() { # {{{2
-  sudo mkdir -p /etc/X11/xinit/xinput.d/
+  # sudo mkdir -p /etc/X11/xinit/xinput.d/
 
   # pkg_install "im-chooser imsettings-xim" # imsettings-xim" # input method setting
   pkg_install "gtk3-immodule-xim" # input method
-
   # pkg_install "ibus-libpinyin ibus-table-chinese-wubi-jidian"
-  # pkg_install "ibus ibus-qt ibus-gtk2 ibus-gtk3 ibus-table-chinese-wubi-jidian" # ibus
+  # pkg_install "ibus-qt ibus-gtk2 ibus-gtk3" # ibus
   # ibus-setup # config ibus
   # imsettings-switch ibus
-  # im-chooser
 
   pkg_install "fcitx fcitx-table-chinese"
-  pkg_install "fcitx-qt5 fcitx-gtk3" # fcitx-ui-light
-
+  pkg_install "fcitx-qt5 fcitx-gtk3" # fcitx-configtool
   # lnif "${REPO_PATH}/dotfiles.git/linux/fcitx.conf"   "/etc/X11/xinit/xinput.d/fcitx.conf"
   # lnif "/etc/X11/xinit/xinput.d/fcitx.conf"   "/etc/X11/xinit/xinput.d/none.conf"
   sudo update-alternatives --install /etc/X11/xinit/xinputrc xinputrc /etc/X11/xinit/xinput.d/fcitx.conf 1
   sudo update-alternatives --set xinputrc /etc/X11/xinit/xinput.d/fcitx.conf
+  sed -e 's|#SkinType=.*|SkinType=dark|' -i "${HOME}/.config/fcitx/conf/fcitx-classic-ui.config" # ui
+  sed -e 's|,pinyin:False|,pinyin:True|' -e 's|,wubi:False|,wubi:True|' \
+      -i "${HOME}/.config/fcitx/profile" # no 'fcitx-configtool' rpm for Rocky8
+  imsettings-switch fcitx
 }
 
 function rocky_dwm() { # {{{2
   pkg_install 'xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xdg-desktop-portal xsetroot'
   pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel libXinerama-devel'
-  pkg_install 'plasma-pa network-manager-applet xfce4-power-manager' # NetworkManager
+  pkg_install 'network-manager-applet xfce4-power-manager' # NetworkManager
   pkg_install "webkitgtk4-devel gcr-devel" # surf
-  # pulseaudio alsa-utils # TODO
 
   # sddm lightdm gdm(gnome)
   # # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
   # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm" # just for Rocky8.5
   # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm" # just for Rocky8.5
   pkg_install 'lightdm' # pkg_install 'gdm'
+  pkg_install 'light-locker' # TODO
   sudo systemctl enable lightdm # sudo systemctl disable gdm
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/linux.jpg /usr/share/backgrounds/
   sudo sed -e 's|^background=.*|background=/usr/share/backgrounds/linux.jpg|g' \
@@ -130,7 +132,7 @@ function rocky_dwm() { # {{{2
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/dwm.desktop /usr/share/xsessions/
   # sudo systemctl set-default multi-user.target # command login
   sudo systemctl set-default graphical.target # ui login
-# systemctl restart systemd-logind # active now
+  # sudo systemctl restart systemd-logind # active now
 
   # dwm st dmenu surf slstatus dwmstatus slock dwm-bar
   # git clone --depth 1 git://git.suckless.org/dwm       "${REPO_PATH}/suckless.git/dwm"
@@ -272,6 +274,8 @@ function pkg_group_basic() { # {{{2
   pkg_install 'vim htop ranger git tig zsh tmux autojump tar tree xclip patch meld' # Base Tools
   pkg_install 'gcc gcc-c++ make automake autoconf cmake' # cmake3 # Base Development Tools
   pkg_install "ntfs-3g fuse3 fuse-exfat" # FileSystem
+  pkg_install "ffmpeg vlc" # Video
+  pkg_install 'pavucontrol' # plasma-pa pulseaudio alsa-utils # Audio
 
   # pkg_install "yum-utils" # yumdownloader # dnf --downloadonly xxxx
   pkg_install "wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
@@ -301,9 +305,6 @@ function pkg_group_basic() { # {{{2
   pkg_install "unzip zip p7zip p7zip-doc p7zip-gui p7zip-plugins unar" # archive tools
 
   pkg_install "dia" # alternative visio
-  # pkg_install "flash-plugin"
-  pkg_install "vlc ffmpeg ffmpeg-devel ffmpeg-libs x264 x265"
-
 }
 
 function pkg_clean() { # {{{2
