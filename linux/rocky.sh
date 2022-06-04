@@ -276,13 +276,14 @@ function pkg_group_basic() { # {{{2
   pkg_install 'vim htop ranger git tig zsh tmux autojump tar tree xclip patch meld' # Base Tools
   pkg_install 'gcc gcc-c++ make automake autoconf cmake' # cmake3 # Base Development Tools
   pkg_install "ntfs-3g fuse3 fuse-exfat" # FileSystem
-  pkg_install "ffmpeg vlc" # Video
+  pkg_install "firefox ffmpeg vlc" # Video
   pkg_install 'pavucontrol' # plasma-pa pulseaudio alsa-utils # Audio
+  pkg_install "" # Image
 
   # pkg_install "yum-utils" # yumdownloader # dnf --downloadonly xxxx
   pkg_install "wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
   pkg_install "redhat-lsb kernel-devel openssh-server network-manager-applet" # net-tools # System
-  pkg_install "firefox vnc bzip2 bison mlocate"
+  pkg_install "vnc bzip2 bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
   pkg_install "ocl-icd opencl-headers" # opencl
   # pkg_install "glibc.i686 zlib.i686 libXext.i686 libXtst.i686" # i686 libraries (bad ELF interpreter: No such file or directory)
@@ -748,6 +749,7 @@ rocky_mirror
 rocky_syscfg
 
 pkg_group_basic
+# git clone --depth=1 https://gitee.com/jiaobuzuji/dotfiles ${HOME}/repos/dotfiles.git
 # rocky_dwm
 # rocky_xfce
 rocky_xinput
