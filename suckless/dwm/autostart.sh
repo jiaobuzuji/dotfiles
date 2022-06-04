@@ -7,5 +7,4 @@ fcitx -d
 # ibus-daemon -r --xim &
 nm-applet &
 xfce4-power-manager &
-xfce4-notfyd &
 # xfce4-volumed-pulse & # TODO

@@ -91,8 +91,8 @@ function rocky_xinput() { # {{{2
   # imsettings-switch ibus
   # im-chooser
 
-  pkg_install "fcitx fcitx-table-chinese" # fcitx
-  pkg_install "fcitx-qt5 fcitx-gtk3 fcitx-ui-light"
+  pkg_install "fcitx fcitx-table-chinese"
+  pkg_install "fcitx-qt5 fcitx-gtk3" # fcitx-ui-light
 
   # lnif "${REPO_PATH}/dotfiles.git/linux/fcitx.conf"   "/etc/X11/xinit/xinput.d/fcitx.conf"
   # lnif "/etc/X11/xinit/xinput.d/fcitx.conf"   "/etc/X11/xinit/xinput.d/none.conf"
@@ -104,11 +104,10 @@ function rocky_dwm() { # {{{2
   pkg_install 'xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xdg-desktop-portal xsetroot'
   pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel libXinerama-devel'
   pkg_install 'plasma-pa network-manager-applet xfce4-power-manager' # NetworkManager
-  # pulseaudio
+  pkg_install "webkitgtk4-devel gcr-devel" # surf
+  # pulseaudio alsa-utils # TODO
 
   # sddm lightdm gdm(gnome)
-  # sudo systemctl set-default multi-user.target # command login
-  sudo systemctl set-default graphical.target # ui login
   # # https://netsarang.atlassian.net/wiki/spaces/ENSUP/pages/326697004/RHEL+8.x+XDMCP+Configuration+RHEL+8.0+RHEL+8.1
   # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm" # just for Rocky8.5
   # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm" # just for Rocky8.5
@@ -120,6 +119,8 @@ function rocky_dwm() { # {{{2
       -e 's|^#icon-theme-name=|icon-theme-name=Adwaita-dark|g' \ #/usr/share/icons/
       -i /etc/lightdm/lightdm-gtk-greeter.conf
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/dwm.desktop /usr/share/xsessions/
+  # sudo systemctl set-default multi-user.target # command login
+  sudo systemctl set-default graphical.target # ui login
 
   # dwm st dmenu surf slstatus dwmstatus slock dwm-bar
   # git clone --depth 1 git://git.suckless.org/dwm       "${REPO_PATH}/suckless.git/dwm"
@@ -128,24 +129,24 @@ function rocky_dwm() { # {{{2
   # git clone --depth 1 git://git.suckless.org/slstatus  "${REPO_PATH}/suckless.git/slstatus"
   # git clone --depth 1 git://git.suckless.org/dwmstatus "${REPO_PATH}/suckless.git/dwmstatus"
   # git clone --depth 1 git://git.suckless.org/surf      "${REPO_PATH}/suckless.git/surf"
-  pkg_install "webkitgtk4-devel gcr-devel"
 
   # cd "${REPO_PATH}/suckless.git/dwm"
   # # sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
   # #        -e 's#X11LIB = .*#X11LIB = /usr/include#g' \
   # #        config.mk
   # ln -sfT "${REPO_PATH}/dotfiles.git/suckless/dwm/patches.sh" "patches.sh"
+  # source "patches.sh"
+
   mkdir -p "${HOME}/.local/share/dwm/"
   ln -sfT "${REPO_PATH}/dotfiles.git/suckless/dwm/autostart.sh" "${HOME}/.local/share/dwm/autostart.sh"
-  # source "patches.sh"
-  # sudo make clean install
-  # cd "${REPO_PATH}/suckless.git/dmenu"
-  # sudo make clean install
-  # cd "${REPO_PATH}/suckless.git/st"
-  # sudo make clean install
-  # # pkg_install "xfce4-panel"
+  cd "${REPO_PATH}/dotfiles.git/suckless/dwm" && sudo make clean install
+  cd "${REPO_PATH}/dotfiles.git/suckless/dmenu" && sudo make clean install
+  cd "${REPO_PATH}/dotfiles.git/suckless/st" && sudo make clean install
+  cd "${REPO_PATH}/dotfiles.git/suckless/slstatus" && sudo make clean install
 
   # tools
+  # pkg_install "xfce4-panel"
+  pkg_install "xfce4-notifyd" # notify
   # pkg_install "gnome-calculator" # calculator
   pkg_install "cheese" # laptop camera
 }
@@ -250,22 +251,21 @@ function pkg_group_basic() { # {{{2
   # 'locale -a' will list all langpacks
   pkg_install "langpacks-zh_CN langpacks-ja langpacks-ko"
   # sed -i -e 's#LANG=.*#LANG="zh_CN.UTF-8"#g' /etc/locale.conf # DEPRECATED
-  # sudo dnf grp install fonts # DEPRECATED
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
+  # sudo dnf grp install fonts # DEPRECATED
   # pkg_install "fontawesome-fonts" # fonts
   pkg_install "google-noto-cjk-fonts-common google-noto-sans-cjk-ttc-fonts google-noto-serif-cjk-ttc-fonts" # cjk: Chinese Japanese korean
   pkg_install "liberation-fonts liberation-fonts-common liberation-mono-fonts liberation-narrow-fonts liberation-sans-fonts liberation-serif-fonts" # Microsoft fonts
   # pkg_install "libwps libvisio" # Microsoft
 
-  pkg_install 'make ranger git tig zsh tmux autojump'
-  # pkg_install "texinfo texi2html" # zsh
-  # pkg_install "libevent-devel" # tmux
+  pkg_install 'htop ranger git tig zsh tmux autojump tar tree xclip patch meld' # Base Tools
+  pkg_install 'gcc gcc-c++ make automake autoconf cmake' # cmake3 # Base Development Tools
+  pkg_install "ntfs-3g cifs fuse3 fuse-exfat" # FileSystem
 
   # pkg_install "yum-utils" # yumdownloader # dnf --downloadonly xxxx
-  pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
-  pkg_install "htop redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
-  pkg_install "ntfs-3g cifs fuse3 fuse-exfat"
-  pkg_install "firefox vnc tar bzip2 tree xclip patch bison mlocate"
+  pkg_install "wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
+  pkg_install "redhat-lsb kernel-devel openssh-server network-manager-applet" # net-tools # System
+  pkg_install "firefox vnc bzip2 bison mlocate"
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
   pkg_install "ocl-icd opencl-headers" # opencl
   # pkg_install "glibc.i686 zlib.i686 libXext.i686 libXtst.i686" # i686 libraries (bad ELF interpreter: No such file or directory)
@@ -274,7 +274,6 @@ function pkg_group_basic() { # {{{2
   pkg_install "libXScrnSaver" # verdi
   pkg_install "compat-libtiff3" # lc_shell
   # pkg_install "asciinema" # https://asciinema.org/
-  # pkg_install "meld" # compare tool
   # pkg_install "i3 i3lock" # window manager
   pkg_install "samba cifs-utils"
 
@@ -290,7 +289,6 @@ function pkg_group_basic() { # {{{2
   # command is not "7zip" or "p7zip", but "7za"!!
   pkg_install "unzip zip p7zip p7zip-doc p7zip-gui p7zip-plugins unar" # archive tools
 
-  pkg_install "libxslt libtool-ltdl" # wps
   pkg_install "dia" # alternative visio
   # pkg_install "flash-plugin"
   pkg_install "vlc ffmpeg ffmpeg-devel ffmpeg-libs x264 x265"
