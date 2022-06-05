@@ -54,6 +54,7 @@ function centos_xfce() { # {{{2
     pkg_install "xfce4-taskmanager gnome-system-monitor gnome-system-log" # monitor
     pkg_install "xfce4-battery-plugin xbacklight" # power, brightness
     pkg_install "xfce4-notifyd" # notify
+    pkg_install 'xlockmore' # Locker, xflock4
 
     pkg_install "usermode-gtk" # users information
     # pkg_install "evince" # pdf (WPS PDF instead)
