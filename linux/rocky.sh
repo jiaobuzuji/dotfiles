@@ -278,7 +278,7 @@ function pkg_group_basic() { # {{{2
   pkg_install 'gcc gcc-c++ make automake autoconf cmake' # cmake3 # Base Development Tools
   pkg_install "ntfs-3g fuse3 fuse-exfat" # FileSystem
   pkg_install "firefox ffmpeg vlc" # Video
-  pkg_install 'pavucontrol pulseaudio alsa-utils' # plasma-pa alsa-firmware # Audio
+  pkg_install 'pavucontrol pulseaudio alsa-utils' # alsa-firmware # Audio
   pkg_install "" # Image
 
   # pkg_install "yum-utils" # yumdownloader # dnf --downloadonly xxxx
