@@ -114,13 +114,13 @@ export PATH="$PATH:$MATLAB_HOME/bin"
 #
 # source $EDATOOLS/Xilinx/14.7/ISE_DS/settings64.sh > /dev/null
 # export XKEYSYMDB=/usr/share/X11/XKeysymDB
-# source $EDATOOLS/Xilinx/Vivado/2018.1/settings64.sh > /dev/null
-# export LM_LICENSE_FILE="$LM_LICENSE_FILE:$EDATOOLS/license/xilinx_ise14.lic:$EDATOOLS/license/Vivado.lic"
-# if [ -n "$LD_LIBRARY_PATH" ]; then
-#   export LD_LIBRARY_PATH="/lib64:/usr/lib64:$LD_LIBRARY_PATH"
-# else
-#   export LD_LIBRARY_PATH="/lib64:/usr/lib64"
-# fi
+source $EDATOOLS/Xilinx/Vivado/2017.4/settings64.sh > /dev/null
+export LM_LICENSE_FILE="$LM_LICENSE_FILE:$EDATOOLS/license/Vivado.lic"
+if [ -n "$LD_LIBRARY_PATH" ]; then
+  export LD_LIBRARY_PATH="/lib64:/usr/lib64:$LD_LIBRARY_PATH"
+else
+  export LD_LIBRARY_PATH="/lib64:/usr/lib64"
+fi
 
 #---------------------------------------------------------
 # ARM compiler

@@ -68,6 +68,13 @@ static const char *termcmd[]  = { "st", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 
+static const char *upvol[]   = { "(notify-sent 'vol up')",  NULL };
+static const char *downvol[] = { "(notify-sent 'vol down')",  NULL };
+static const char *mutevol[] = { "(notify-sent 'vol toggle')",  NULL };
+
+// /usr/bin/amixer -qM set Master 5%- umute
+// /usr/bin/amixer set Master toggle
+
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -112,6 +119,9 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ 0,                   XF86XK_AudioLowerVolume, spawn,     {.v = downvol } },
+	{ 0,                   XF86XK_AudioMute,        spawn,     {.v = mutevol } },
+	{ 0,                   XF86XK_AudioRaiseVolume, spawn,     {.v = upvol   } },
 };
 
 /* button definitions */

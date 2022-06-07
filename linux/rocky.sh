@@ -87,6 +87,7 @@ function rocky_syscfg() { # {{{2
   sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                   /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
   sudo sed -i -e "s/#*HandleLidSwitch=.*/HandleLidSwitch=lock/g"  /etc/systemd/logind.conf
+  # sudo systemctl restart systemd-logind
 }
 
 function rocky_xinput() { # {{{2
@@ -279,7 +280,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "ntfs-3g fuse3 fuse-exfat" # FileSystem
   pkg_install "firefox ffmpeg vlc" # Video
   pkg_install 'pavucontrol pulseaudio alsa-utils' # alsa-firmware # Audio
-  pkg_install "" # Image
+  pkg_install "" # Image TODO
 
   # pkg_install "yum-utils" # yumdownloader # dnf --downloadonly xxxx
   pkg_install "wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
