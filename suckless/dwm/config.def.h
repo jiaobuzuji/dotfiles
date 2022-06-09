@@ -68,12 +68,15 @@ static const char *termcmd[]  = { "st", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 
-static const char *upvol[]   = { "(notify-sent 'vol up')",  NULL };
-static const char *downvol[] = { "(notify-sent 'vol down')",  NULL };
-static const char *mutevol[] = { "(notify-sent 'vol toggle')",  NULL };
+static const char *upvol[]   = { "pactl", "set-sink-volume", "0", "+3%", NULL };
+static const char *downvol[] = { "pactl", "set-sink-volume", "0", "-3%", NULL };
+static const char *mutevol[] = { "pactl", "set-sink-mute", "0", "toggle", NULL };
 
 // /usr/bin/amixer -qM set Master 5%- umute
 // /usr/bin/amixer set Master toggle
+// pactl set-sink-volume 0 +3%
+// pactl set-sink-volume 0 -3%
+// pactl set-sink-mute 0 toggle
 
 #include "movestack.c"
 static Key keys[] = {
