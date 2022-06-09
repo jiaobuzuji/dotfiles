@@ -68,15 +68,10 @@ static const char *termcmd[]  = { "st", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 
-static const char *upvol[]   = { "pactl", "set-sink-volume", "0", "+3%", NULL };
-static const char *downvol[] = { "pactl", "set-sink-volume", "0", "-3%", NULL };
-static const char *mutevol[] = { "pactl", "set-sink-mute", "0", "toggle", NULL };
-
-// /usr/bin/amixer -qM set Master 5%- umute
-// /usr/bin/amixer set Master toggle
-// pactl set-sink-volume 0 +3%
-// pactl set-sink-volume 0 -3%
-// pactl set-sink-mute 0 toggle
+static const char *upvol[]   = { "pactl", "set-sink-volume", "0", "+5%", NULL };
+static const char *downvol[] = { "pactl", "set-sink-volume", "0", "-5%", NULL }; // /usr/bin/amixer -qM set Master 5%- umute
+static const char *mutevol[] = { "pactl", "set-sink-mute",   "0", "toggle", NULL }; // /usr/bin/amixer set Master toggle
+static const char *mutemic[] = { "pactl", "set-source-mute", "1", "toggle", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
@@ -125,6 +120,7 @@ static Key keys[] = {
 	{ 0,                   XF86XK_AudioLowerVolume, spawn,     {.v = downvol } },
 	{ 0,                   XF86XK_AudioMute,        spawn,     {.v = mutevol } },
 	{ 0,                   XF86XK_AudioRaiseVolume, spawn,     {.v = upvol   } },
+	{ 0,                   XF86XK_AudioMicMute,     spawn,     {.v = mutemic } },
 };
 
 /* button definitions */
