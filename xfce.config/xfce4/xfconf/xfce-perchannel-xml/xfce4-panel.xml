@@ -74,9 +74,6 @@
         <value type="string" value="15393301094.desktop"/>
       </property>
     </property>
-    <property name="plugin-8" type="string" value="pulseaudio">
-      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
-    </property>
     <property name="plugin-13" type="string" value="launcher">
       <property name="items" type="array">
         <value type="string" value="16197096102.desktop"/>
@@ -86,6 +83,9 @@
       <property name="items" type="array">
         <value type="string" value="16343060391.desktop"/>
       </property>
+    </property>
+    <property name="plugin-8" type="string" value="pulseaudio">
+      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
     </property>
   </property>
 </channel>

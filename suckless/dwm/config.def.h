@@ -68,12 +68,8 @@ static const char *termcmd[]  = { "st", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 
-static const char *upvol[]   = { "pactl", "set-sink-volume", "0", "+5%", NULL };
-static const char *downvol[] = { "pactl", "set-sink-volume", "0", "-5%", NULL }; // /usr/bin/amixer -qM set Master 5%- umute
-static const char *mutevol[] = { "pactl", "set-sink-mute",   "0", "toggle", NULL }; // /usr/bin/amixer set Master toggle
-static const char *mutemic[] = { "pactl", "set-source-mute", "1", "toggle", NULL };
-
 #include "movestack.c"
+#include "panotify.c" // pulseaudio controller and notify
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
@@ -117,10 +113,10 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ 0,                   XF86XK_AudioLowerVolume, spawn,     {.v = downvol } },
-	{ 0,                   XF86XK_AudioMute,        spawn,     {.v = mutevol } },
-	{ 0,                   XF86XK_AudioRaiseVolume, spawn,     {.v = upvol   } },
-	{ 0,                   XF86XK_AudioMicMute,     spawn,     {.v = mutemic } },
+	// { 0,                 XF86XK_AudioLowerVolume, pulseaudiovol,    {.i = -5 } },
+	// { 0,                 XF86XK_AudioMute,        pulseaudiomut,    {0} },
+	// { 0,                 XF86XK_AudioRaiseVolume, pulseaudiovol,    {.i = -5 } },
+	// { 0,                 XF86XK_AudioMicMute,     pulseaudiomicmut, {0} },
 };
 
 /* button definitions */

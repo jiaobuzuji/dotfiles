@@ -555,6 +555,7 @@ cleanup(void)
 		XDestroyWindow(dpy, systray->win);
 		free(systray);
 	}
+  pulseaudio_notify_finalize (panotify);
 
     for (i = 0; i < CurLast; i++)
 		drw_cur_free(drw, cursor[i]);
@@ -1910,6 +1911,8 @@ setup(void)
 	/* init bars */
 	updatebars();
 	updatestatus();
+	/* init pulseaudio notification */
+	pulseaudio_notify_init(panotify);
 	/* supporting window for NetWMCheck */
 	wmcheckwin = XCreateSimpleWindow(dpy, root, 0, 0, 1, 1, 0, 0, 0);
 	XChangeProperty(dpy, wmcheckwin, netatom[NetWMCheck], XA_WINDOW, 32,
