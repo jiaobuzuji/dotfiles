@@ -113,10 +113,10 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	// { 0,                 XF86XK_AudioLowerVolume, pulseaudiovol,    {.i = -5 } },
-	// { 0,                 XF86XK_AudioMute,        pulseaudiomut,    {0} },
-	// { 0,                 XF86XK_AudioRaiseVolume, pulseaudiovol,    {.i = -5 } },
-	// { 0,                 XF86XK_AudioMicMute,     pulseaudiomicmut, {0} },
+  { 0,                 XF86XK_AudioLowerVolume, pulseaudiovol, {.i = -5 } },
+  { 0,                 XF86XK_AudioMute,        pulseaudiovol, {.i =  0 } },
+  { 0,                 XF86XK_AudioRaiseVolume, pulseaudiovol, {.i = +5 } },
+  { 0,                 XF86XK_AudioMicMute,     pulseaudiovolmic, {.i =  0 } },
 };
 
 /* button definitions */

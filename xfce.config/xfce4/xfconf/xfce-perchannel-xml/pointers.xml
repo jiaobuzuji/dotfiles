@@ -29,6 +29,6 @@
     <property name="Threshold" type="int" value="5"/>
     <property name="Acceleration" type="double" value="5.000000"/>
   </property>
-  <property name="DisableTouchpadWhileTyping" type="bool" value="true"/>
+  <property name="DisableTouchpadWhileTyping" type="bool" value="false"/>
   <property name="DisableTouchpadDuration" type="double" value="2.000000"/>
 </channel>

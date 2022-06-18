@@ -153,8 +153,9 @@ function rocky_dwm() { # {{{2
   # ln -sfT "${REPO_PATH}/dotfiles.git/suckless/dwm/patches.sh" "patches.sh"
   # source "patches.sh"
 
-  mkdir -p "${HOME}/.local/share/dwm/"
+  mkdir -p "${HOME}/.local/share/dwm/" "${HOME}/.config/picom/"
   ln -sfT "${REPO_PATH}/dotfiles.git/suckless/dwm/autostart.sh" "${HOME}/.local/share/dwm/autostart.sh"
+  ln -sfT "${REPO_PATH}/dotfiles.git/linux/picom.conf" "${HOME}/.config/picom/picom.conf"
   cd "${REPO_PATH}/dotfiles.git/suckless/dwm" && sudo make clean install
   cd "${REPO_PATH}/dotfiles.git/suckless/dmenu" && sudo make clean install
   cd "${REPO_PATH}/dotfiles.git/suckless/st" && sudo make clean install
