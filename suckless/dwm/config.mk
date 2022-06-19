@@ -26,11 +26,11 @@ GLIBINCS = $(shell pkg-config --cflags glib-2.0)
 GLIBLIBS = $(shell pkg-config --libs glib-2.0)
 GLIBINCS += -I/usr/include/gdk-pixbuf-2.0/
 NOTIFYLIBS = -lnotify -lgobject-2.0 -lm
-PULSEAUDIOLIBS = -lpulse -lpulse-simple -lpulse-mainloop-glib
+# PULSEAUDIOLIBS = -lpulse -lpulse-simple -lpulse-mainloop-glib
 
 # includes and libs
 INCS = -I${X11INC} -I${FREETYPEINC} ${GLIBINCS}
-LIBS = -L${X11LIB} -lX11 ${XINERAMALIBS} ${FREETYPELIBS} ${GLIBLIBS} ${NOTIFYLIBS} ${PULSEAUDIOLIBS}
+LIBS = -L${X11LIB} -lX11 ${XINERAMALIBS} ${FREETYPELIBS} ${GLIBLIBS} ${NOTIFYLIBS} # ${PULSEAUDIOLIBS}
 
 # flags
 CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -DVERSION=\"${VERSION}\" ${XINERAMAFLAGS}

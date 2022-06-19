@@ -117,7 +117,7 @@ function rocky_dwm() { # {{{2
   pkg_install 'xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xdg-desktop-portal xsetroot'
   pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel libXinerama-devel'
   pkg_install 'network-manager-applet xfce4-power-manager' # NetworkManager
-  pkg_install "libnotify-devel pulseaudio-libs-devel glib2-devel" # Audio panotify.c
+  pkg_install "libnotify-devel " # pulseaudio-libs-devel glib2-devel
   pkg_install "webkitgtk4-devel gcr-devel" # surf
 
   # sddm lightdm gdm(gnome)
