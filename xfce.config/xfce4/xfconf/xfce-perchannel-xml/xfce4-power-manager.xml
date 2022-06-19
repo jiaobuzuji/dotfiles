@@ -18,6 +18,6 @@
     <property name="logind-handle-lid-switch" type="bool" value="true"/>
     <property name="lid-action-on-ac" type="uint" value="3"/>
     <property name="inactivity-sleep-mode-on-battery" type="uint" value="2"/>
-    <property name="inactivity-on-ac" type="uint" value="60"/>
+    <property name="inactivity-on-ac" type="uint" value="61"/>
   </property>
 </channel>

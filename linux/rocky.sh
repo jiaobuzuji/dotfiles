@@ -86,7 +86,7 @@ function rocky_syscfg() { # {{{2
   sudo grub2-mkconfig -o /boot/grub2/grub.cfg # out of date command : update-grub
   sudo sed -i -e "s#ONBOOT=.*#ONBOOT=yes#g" \
                   /etc/sysconfig/network-scripts/ifcfg-e* # Activate ethernet while booting
-  sudo sed -i -e "s/#*HandleLidSwitch=.*/HandleLidSwitch=lock/g"  /etc/systemd/logind.conf
+  sudo sed -i -e "s/#*HandleLidSwitch=.*/HandleLidSwitch=lock/g"  /etc/systemd/logind.conf # TODO suspend
   # sudo systemctl restart systemd-logind
 }
 
@@ -116,7 +116,8 @@ function rocky_xinput() { # {{{2
 function rocky_dwm() { # {{{2
   pkg_install 'xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xdg-desktop-portal xsetroot'
   pkg_install 'xorg-x11-proto-devel libX11-devel libXft-devel libXinerama-devel libXinerama-devel'
-  pkg_install 'network-manager-applet xfce4-power-manager' # NetworkManager
+  pkg_install 'network-manager-applet' # NetworkManager
+  pkg_install "xfce4-power-manager" # 'tlp' power manager TODO
   pkg_install "libnotify-devel " # pulseaudio-libs-devel glib2-devel
   pkg_install "webkitgtk4-devel gcr-devel" # surf
 
@@ -125,7 +126,7 @@ function rocky_dwm() { # {{{2
   # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-common-1.8.5-19.el7.noarch.rpm" # just for Rocky8.5
   # pkg_install "${REPO_PATH}/dotfiles.git/linux/lightdm-gtk-1.8.5-19.el7.x86_64.rpm" # just for Rocky8.5
   pkg_install 'lightdm lightdm-gtk' # pkg_install 'gdm'
-  pkg_install 'light-locker' # TODO
+  # pkg_install 'light-locker' # TODO
   sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/linux.jpg /usr/share/backgrounds/
   # /usr/share/themes/ #/usr/share/icons/
   sudo sed -e 's|^background=.*|background=/usr/share/backgrounds/linux.jpg|g' \
@@ -145,6 +146,16 @@ function rocky_dwm() { # {{{2
   # git clone --depth 1 git://git.suckless.org/slstatus  "${REPO_PATH}/suckless.git/slstatus"
   # git clone --depth 1 git://git.suckless.org/dwmstatus "${REPO_PATH}/suckless.git/dwmstatus"
   # git clone --depth 1 git://git.suckless.org/surf      "${REPO_PATH}/suckless.git/surf"
+  # https://www.perfacilis.com/blog/systeembeheer/linux/lock-screen-after-switching-from-gdm-to-lightdm.html#:~:text=When%20switching%20from%20GDM%20to%20LightDM%2C%20the%20screen,get%20screen%20locking%20to%20work%20with%20LightDM%20again.
+  git clone --depth 1 git://git.suckless.org/slock      "${REPO_PATH}/suckless.git/slock"
+  cd "${REPO_PATH}/suckless.git/slock"
+  ln -sfT config.def.h config.h
+  sed -i -e 's#group = .*#group = "nobody"' config.h
+  # sed -i -e 's#PREFIX = .*#PREFIX = /usr'   config.mk
+  sudo cp -i ${REPO_PATH}/dotfiles.git/suckless/slock.service /etc/systemd/system/
+  sudo systemctl enable slock.service
+  sudo systemctl daemon-reload
+  # systemctl suspend # Optionally test the service
 
   # cd "${REPO_PATH}/suckless.git/dwm"
   # # sed -i -e 's#X11INC = .*#X11INC = /usr/include#g' \
@@ -160,6 +171,7 @@ function rocky_dwm() { # {{{2
   cd "${REPO_PATH}/dotfiles.git/suckless/dmenu" && sudo make clean install
   cd "${REPO_PATH}/dotfiles.git/suckless/st" && sudo make clean install
   cd "${REPO_PATH}/dotfiles.git/suckless/slstatus" && sudo make clean install
+  cd "${REPO_PATH}/suckless.git/slock" && sudo make clean install
 
   # tools
   # pkg_install "xfce4-panel"
