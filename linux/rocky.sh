@@ -295,6 +295,11 @@ function pkg_group_basic() { # {{{2
   pkg_install "firefox ffmpeg vlc" # Video
   pkg_install 'pavucontrol pulseaudio pulseaudio-module-bluetooth pulseaudio-utils' # alsa-utils alsa-firmware # Audio
   pkg_install "" # Image TODO
+  pkg_install "flameshot" # "xfce4-screenshooter xfce4-screenshooter-plugin" # screenshoter
+
+  # https://support.lenovo.com/us/en/solutions/ht037120-configuring-bluetooth-under-linux-thinkpad-t30-t40-t40p-a30p-a31p-x23-x24-x30-x31-r40
+  # http://www.bluez.org/category/release/
+  # pkg_install "bluez" # libusb-devel systemd-devel" # systemd-devel for libudev !!  # bluetooth TODO
 
   # pkg_install "yum-utils" # yumdownloader # dnf --downloadonly xxxx
   pkg_install "wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
