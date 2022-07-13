@@ -289,7 +289,7 @@ function pkg_group_basic() { # {{{2
   pkg_install "liberation-fonts liberation-fonts-common liberation-mono-fonts liberation-narrow-fonts liberation-sans-fonts liberation-serif-fonts" # Microsoft fonts
   # pkg_install "libwps libvisio" # Microsoft
 
-  pkg_install 'vim htop ranger git tig zsh tmux autojump tar tree xclip patch meld' # Base Tools
+  pkg_install 'vim htop ranger git tig zsh tmux autojump-zsh autojump tar tree xclip patch meld' # Base Tools
   pkg_install 'gcc gcc-c++ make automake autoconf cmake' # cmake3 # Base Development Tools
   pkg_install "ntfs-3g fuse3 fuse-exfat" # FileSystem
   pkg_install "firefox ffmpeg vlc" # Video
