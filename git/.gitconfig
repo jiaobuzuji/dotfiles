@@ -29,3 +29,5 @@
 	ui = true
 [push]
 	default = upstream
+[http]
+	sslverify = false

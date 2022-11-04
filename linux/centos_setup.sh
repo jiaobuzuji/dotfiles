@@ -276,6 +276,7 @@ function pkg_gcc() { # {{{2
   # sudo yum install -y centos-release-scl devtoolset-8 # error
   sudo yum install -y centos-release-scl
   sudo yum install -y devtoolset-8
+  # scl enable devtoolset-8 zsh # switch zsh to devtoolset-8
   source /opt/rh/devtoolset-8/enable # temporary
 }
 
@@ -634,8 +635,13 @@ centos_xfce
 centos_hostname
 
 mkdir -p "${HOME}/Downloads/"
-# download rpm and dependencies!!
+## download rpm and dependencies!!
 # yumdownloader meld --resolve --destdir =/home
+## install to local
+# cd tmp
+# rpm2cpio ../bison.rpm | cpio -iduvm
+# cp -rf usr/* "$HOME/.local/"
+# rm -rf *
 
 if [ $0 = "x" ]; then
   # pkg_clean
