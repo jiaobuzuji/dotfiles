@@ -180,12 +180,13 @@ function pkg_group_basic() { # {{{2
   # sudo yum groups install -y "Development Tools"
   pkg_install "gcc gcc-c++ automake autoconf cmake cmake3 wget cscope clang csh ksh libgcc libcxx" # Exuberant ctags 
   pkg_install "redhat-lsb kernel-devel openssh-server net-tools network-manager-applet"
-  pkg_install "firefox vnc bzip2 ntfs-3g tree xclip bison mlocate"
+  pkg_install "firefox vnc bzip2 tree xclip bison mlocate"
+  pkg_install "ntfs-3g exfat-utils fuse-exfat" # yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
   pkg_install "libcurl-devel libtool pkgconfig zlib-devel"
   pkg_install "ocl-icd opencl-headers" # opencl
   pkg_install "glibc.i686 zlib.i686 libXext.i686 libXtst.i686" # i686 libraries (bad ELF interpreter: No such file or directory)
   pkg_install "libgnome-devel libgnomeui-devel gtk3-devel gtk2-devel" # ui dependencies
-  pkg_install "texinfo texi2html" # zsh
+  pkg_install "autojump autojump-zsh zsh" # texinfo texi2html"
   pkg_install "libX11-devel ncurses-devel libXpm-devel libXt-devel" # vim
   pkg_install "libevent-devel" # tmux
   pkg_install "libXScrnSaver" # verdi
@@ -201,8 +202,9 @@ function pkg_group_basic() { # {{{2
   pkg_install "tcl-devel"
   # pkg_install "lua lua-devel luajit luajit-devel"
   # pkg_install "ruby ruby-devel"
-  pkg_install "python36 python36-devel" # python3-pip" # TODO CentOS 7
-  sudo ln -sf /usr/bin/python3.6 /usr/bin/python3 # TODO CentOS 7
+  # pkg_install "python36 python36-devel" # python3-pip" # TODO CentOS 7
+  # sudo ln -sf /usr/bin/python3.6 /usr/bin/python3 # TODO CentOS 7
+  pkg_install "python3 python3-devel"
 
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
   pkg_install "cjkuni-ukai-fonts " # fonts and font tools
@@ -561,9 +563,9 @@ function pkg_iptux() { # {{{2
 }
 
 function pkg_nodejs() { # {{{2
-  sudo yum install nodejs
-  sudo npm install -g n
-  sudo n lts
+  sudo yum install -y nodejs npm
+  # sudo npm install -g n
+  # sudo n lts
   # use "n" commend to select node version
 }
 
