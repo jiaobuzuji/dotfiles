@@ -35,6 +35,20 @@ function centos_mirror() { # {{{2
   else
     printf '\n' >&2
   fi
+
+  # # local mirrors
+  # mount -o loop /data/CentOS-7-x86_64-Everything-2009.iso /mnt
+  # mkdir -p /media/CentOS
+  # cp -a /mnt/* /media/CentOS
+  # sed -i -e "s#enabled=.*#enabled=0#g" /etc/yum.repos.d/CentOS-Base.repo
+  # sed -i -e "s#enabled=.*#enabled=1#g" /etc/yum.repos.d/CentOS-Media.repo
+  # cd /media/CentOS
+  # mv 6ec2bb89ebc4b716fe62ea930164b179f2cd90e1bdf1a504cdd7832153392b1e 6ec2bb89ebc4b716fe62ea930164b179f2cd90e1bdf1a504cdd7832153392b1e-filelists.sqlite.bz2
+  # mv b1b2cb9f67759ef5d143a211c2399d800fa58cf3ab12c205188e3c13d1b3d41d b1b2cb9f67759ef5d143a211c2399d800fa58cf3ab12c205188e3c13d1b3d41d-primary.sqlite.bz2
+  # mv c55e5b7bbe933fa8dac2cffca4596c265812b74ed12ef3968d487dd6eb22ad93 c55e5b7bbe933fa8dac2cffca4596c265812b74ed12ef3968d487dd6eb22ad93-c7-x86_64-comps.xml.gz
+  # mv e4e51f819c9dfc35ad68a2745f1e39020d003741cbb1346d93f776d13e44351c e4e51f819c9dfc35ad68a2745f1e39020d003741cbb1346d93f776d13e44351c-other.sqlite.bz2
+  # yum clean all
+  # yum makecache
 }
 
 function centos_xfce() { # {{{2
