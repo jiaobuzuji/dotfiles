@@ -316,6 +316,7 @@ function pkg_group_basic() { # {{{2
   # pkg_install "i3 i3lock" # window manager
   pkg_install "samba cifs-utils"
 
+  pkg_install "wireshark wireshark-gnome"
   pkg_install "dtc iverilog verilator gtkwave" # Freedom (RSIC V) && verilog
   pkg_install "java java-devel"
   pkg_install "perl perl-devel perl-Switch"
@@ -323,7 +324,6 @@ function pkg_group_basic() { # {{{2
   # pkg_install "lua lua-devel luajit luajit-devel"
   # pkg_install "ruby ruby-devel"
   # pkg_install "python36 python36-devel" # python3-pip" # TODO CentOS 7
-  # sudo ln -sf /usr/bin/python3.6 /usr/bin/python3 # TODO CentOS 7
 
   # command is not "7zip" or "p7zip", but "7za"!!
   pkg_install "unzip zip p7zip p7zip-doc p7zip-gui p7zip-plugins unar" # archive tools
