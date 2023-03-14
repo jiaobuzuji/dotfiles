@@ -208,6 +208,8 @@ lnif "${REPO_PATH}/dotfiles.git/shell/.bashrc"   "${HOME}/.bashrc"
 lnif "${REPO_PATH}/dotfiles.git/git/.gitconfig"   "${HOME}/.gitconfig"
 lnif "${REPO_PATH}/dotfiles.git/tmux/.tmux.conf"   "${HOME}/.tmux.conf"
 # lnif "${REPO_PATH}/dotfiles.git/ssh/config"   "${HOME}/.ssh/config"
+# lnif "${REPO_PATH}/vimrc.git"   "${HOME}/.vim"
+# lnif "${REPO_PATH}/fzf.git"   "${HOME}/.fzf"
 
 
 # Setup EDA tools {{{2
