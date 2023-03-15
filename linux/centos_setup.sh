@@ -215,12 +215,13 @@ function pkg_group_basic() { # {{{2
   pkg_install "dtc iverilog verilator gtkwave" # Freedom (RSIC V) && verilog
   pkg_install "java java-devel"
   pkg_install "perl perl-devel perl-Switch"
-  pkg_install "tcl-devel"
+  pkg_install "tcl-devel tk-devel tkinter python3-tkinter"
   # pkg_install "lua lua-devel luajit luajit-devel"
   # pkg_install "ruby ruby-devel"
   # pkg_install "python36 python36-devel" # python3-pip" # TODO CentOS 7
   # sudo ln -sf /usr/bin/python3.6 /usr/bin/python3 # TODO CentOS 7
   pkg_install "python3 python3-devel"
+  sudo pip3 install pandas xlrd meson dulwich # rabbitvcs for git, python read write excel, and so on
 
   pkg_install "fontconfig mkfontscale mkfontdir" # font tools
   pkg_install "cjkuni-ukai-fonts " # fonts and font tools
